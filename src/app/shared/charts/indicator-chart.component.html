@@ -1,0 +1,12 @@
+<div class="card">
+  <div class="card-body">
+    <div class="chart-wrapper" *ngIf="chartData">
+      <canvas baseChart class="chart"
+      [datasets]="chartData.data"
+      [labels]="chartData.labels"
+      [options]="barChartOptions"
+      [legend]="barChartLegend"
+      [chartType]="barChartType"></canvas>
+    </div>
+  </div>
+</div>

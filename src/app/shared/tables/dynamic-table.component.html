@@ -1,0 +1,21 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th *ngFor="let t of titles">
+        {{ t }}
+      </th>
+      <th *ngIf="viewButton"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let r of rows">
+      <td *ngFor="let c of columns">
+        <!-- {{ r[c] }} -->
+        {{ getValue(r, c) }}
+      </td>
+      <td *ngIf="viewButton">
+          <button type="button" class="btn btn-sm btn-primary" (click)="viewButtonAction(r[propertyId])"><i class="cui-note"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>

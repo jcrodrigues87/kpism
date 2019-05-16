@@ -1,0 +1,17 @@
+<table class="table table-responsive-sm table-hover table-outline mb-0 col-md-12">
+  <tbody>
+    <tr *ngFor="let resp of responsables">
+      <td class="text-center">
+        <div class="avatar">
+          <img src="assets/img/avatars/user-icon.png" class="img-avatar" >
+        </div>
+      </td>
+      <td>
+        <div>{{ resp.user.name }}</div>
+        <div class="small text-muted">
+          <span>{{ resp.user.department ? resp.user.department.name : "" }}</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

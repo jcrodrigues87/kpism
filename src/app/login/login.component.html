@@ -1,0 +1,49 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <form [formGroup]="authForm" (ngSubmit)="submitForm()">
+                  <h1>Login</h1>
+
+                  <list-errors [errors]="errors"></list-errors>
+
+                  <fieldset [disabled]="isSubmitting">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-envelope"></i></span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="E-mail" formControlName="email" autocomplete="email"
+                        required />
+                    </div>
+                  </fieldset>
+                  <fieldset [disabled]="isSubmitting">
+                    <div class="input-group mb-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-lock"></i></span>
+                      </div>
+
+                      <input type="password" class="form-control" placeholder="Senha" formControlName="password"
+                        autocomplete="current-password" required />
+                    </div>
+                  </fieldset>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="submit" class="btn btn-primary px-4">Login</button>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button type="button" class="btn btn-link px-0">Esqueceu a senha?</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

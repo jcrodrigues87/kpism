@@ -1,0 +1,89 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <!--/.col-->
+    <div class="col-sm-12">
+      <div class="card">
+        <!-- <div class="card-header">
+          <strong>Company</strong>
+          <small>Form</small>
+        </div> -->
+        <div class="card-body">
+          <div class="form-group">
+            <button type="button" class="btn btn-sm btn-dark" (click)="back()"><i class="fa fa-angle-left"></i> Voltar</button>
+          </div>
+          <list-errors [errors]="errors"></list-errors>
+
+          <form [formGroup]="userForm">
+            <fieldset [disabled]="isSubmitting">
+              <fieldset class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name">
+              </fieldset>
+              <fieldset class="form-group">
+                <label for="email">E-Mail</label>
+                <input type="text" class="form-control" id="email" placeholder="E-mail" formControlName="email">
+              </fieldset>
+              <div class="row">
+                <fieldset class="form-group col-sm-2">
+                  <label for="childOf">Departamento</label>
+                  <ng-select  [items]="departments"
+                              bindLabel="name"
+                              placeholder="Departamento"
+                              formControlName="department" >
+                  </ng-select>
+                </fieldset>
+              </div>
+              <div class="row">
+                <fieldset class="form-group col-sm-3">
+                  <label for="role">Perfil</label>
+                  <select class="form-control" id="role" formControlName="role">
+                    <option value="user">Usuário</option>
+                    <option value="supervisor">Supervisor</option>
+                    <option value="admin">Administrador</option>
+                  </select>
+                </fieldset>
+              </div>
+              <div class="row">
+                <fieldset class="form-group col-sm-2">
+                  <label for="inactive">Inativo</label>
+                  <select class="form-control" id="inactive" formControlName="inactive">
+                    <option value="false">Não</option>
+                    <option value="true">Sim</option>
+                  </select>
+                </fieldset>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-primary" (click)="submitForm()"><i class="fa fa-dot-circle-o"></i> Salvar</button>
+          <button *ngIf="user.id" class="btn btn-sm btn-danger" (click)="confirmModal.show()"><i class="fa fa-dot-circle-o"></i> Excluir</button>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
+
+<div bsModal #confirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Atenção</h4>
+        <button type="button" class="close" (click)="confirmModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Deseja relamente excluir este registro?</p>
+      </div>
+      <div class="modal-footer">
+        <fieldset [disabled]="isSubmitting">
+          <button type="button" class="btn btn-secondary" (click)="confirmModal.hide()">Não</button>
+          <button type="button" class="btn btn-primary" (click)="delete()">Sim</button>
+        </fieldset>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

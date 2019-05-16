@@ -1,0 +1,130 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <!--/.col-->
+    <div class="col-sm-12">
+      <div class="card">
+        <!-- <div class="card-header">
+          <strong>Company</strong>
+          <small>Form</small>
+        </div> -->
+        <div class="card-body">
+          <div class="form-group">
+            <button type="button" class="btn btn-sm btn-dark" (click)="back()"><i class="fa fa-angle-left"></i> Voltar</button>
+          </div>
+          <list-errors [errors]="errors"></list-errors>
+
+          <form [formGroup]="indicatorForm">
+            <fieldset [disabled]="isSubmitting">
+              <fieldset class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name">
+              </fieldset>
+              <fieldset class="form-group">
+                <label for="description">Descrição</label>
+                <input type="text" class="form-control" id="description" placeholder="Descrição" formControlName="description">
+              </fieldset>
+            </fieldset>
+            <div class="row">
+                <fieldset class="form-group col-sm-2">
+                  <label for="departments">Departamento</label>
+                  <ng-select  [items]="departments"
+                              bindLabel="name"
+                              placeholder="Departamento"
+                              formControlName="department" >
+                  </ng-select>
+                </fieldset>
+                <fieldset class="form-group col-sm-2">
+                  <label for="inactive">Tipo Cesta</label>
+                  <select class="form-control" id="basket" formControlName="basket">
+                    <option value="false">Não</option>
+                    <option value="true">Sim</option>
+                  </select>
+                </fieldset>
+              </div>
+            <div class="row">
+              <fieldset class="form-group col-sm-3">
+                <label for="role">Medida</label>
+                <select class="form-control" id="measure" formControlName="measure">
+                  <option value="R$">Reais (R$)</option>
+                  <option value="R$ MM">Milhões de Reais (R$ MM)</option>
+                  <option value="$">Dólares ($)</option>
+                  <option value="$ MM">Milhões de Dólares ($ MM)</option>
+                  <option value="%">Percentual (%)</option>
+                  <option value="Número">Número</option>
+                </select>
+              </fieldset>
+              <fieldset class="form-group col-sm-3">
+                <label for="role">Orientação</label>
+                <select class="form-control" id="orientation" formControlName="orientation">
+                  <option value="higher">Maior Melhor</option>
+                  <option value="lower">Menor Melhor</option>
+                </select>
+              </fieldset>
+              <fieldset class="form-group col-sm-3">
+                <label for="role">Tipo de Acumulado</label>
+                <select class="form-control" id="accumulatedType" formControlName="accumulatedType">
+                  <option value="sum">Somatório</option>
+                  <option value="avg">Média</option>
+                  <option value="equalsref">Igual a Perído</option>
+                </select>
+              </fieldset>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-primary" (click)="submitForm()"><i class="fa fa-dot-circle-o"></i> Salvar</button>
+          <button *ngIf="indicator.id" class="btn btn-sm btn-danger" (click)="confirmModal.show()"><i class="fa fa-dot-circle-o"></i> Excluir</button>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+
+  <div *ngIf="indicator.id" class="row">
+    <div class="col-md-12 mb-8">
+      <!-- Nav tabs -->
+      <tabset>
+        <tab>
+          <ng-template tabHeading><i class="icon-people"></i> Responsáveis</ng-template>
+          <responsables-editor [indicator]="indicator"></responsables-editor>
+        </tab>
+        <tab *ngIf="!indicator.basket">
+          <ng-template tabHeading><i class="icon-chart"></i> Previsto/Realizado</ng-template>
+          <div class="col-md-8">
+            <meterings-editor [indicator]="indicator"
+                              [showDelta]="true"
+            ></meterings-editor>
+          </div>
+        </tab>
+        <tab *ngIf="indicator.basket">
+          <ng-template tabHeading><i class="icon-chart"></i> Indicadores</ng-template>
+          <basket-items-editor [indicator]="indicator"></basket-items-editor>
+        </tab>
+      </tabset>
+    </div><!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
+
+<div bsModal #confirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Atenção</h4>
+        <button type="button" class="close" (click)="confirmModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Deseja relamente excluir este registro?</p>
+      </div>
+      <div class="modal-footer">
+        <fieldset [disabled]="isSubmitting">
+          <button type="button" class="btn btn-secondary" (click)="confirmModal.hide()">Não</button>
+          <button type="button" class="btn btn-primary" (click)="delete()">Sim</button>
+        </fieldset>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
