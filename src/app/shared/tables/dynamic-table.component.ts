@@ -18,7 +18,6 @@ export class DynamicTableComponent {
   ) { }
 
   viewButtonAction(propertyIdValue) {
-    //console.log(`${this.viewButtonRoute}/${propertyIdValue}`);
     this.router.navigateByUrl(`${this.viewButtonRoute}/${propertyIdValue}`);
   }
 
@@ -32,7 +31,12 @@ export class DynamicTableComponent {
     props = col.split('.');
 
     if (props.length === 1) 
-      return row[col];
+      if (row[col] === true)
+        return "Sim";
+      else if (row[col] === false)
+        return "Não";
+      else
+        return row[col];
     else 
       return this.getValue(row[props[0]], this.removeFist(col, '.'));
       

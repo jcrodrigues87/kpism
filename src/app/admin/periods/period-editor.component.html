@@ -3,10 +3,6 @@
     <!--/.col-->
     <div class="col-sm-12">
       <div class="card">
-        <!-- <div class="card-header">
-          <strong>Company</strong>
-          <small>Form</small>
-        </div> -->
         <div class="card-body">
           <div class="form-group">
             <button type="button" class="btn btn-sm btn-dark" (click)="back()"><i class="fa fa-angle-left"></i> Voltar</button>
@@ -28,11 +24,18 @@
                   <label for="end">Fim</label>
                   <input type="text" class="form-control" id="end" type="date" formControlName="end">
                 </fieldset>
+                <fieldset class="form-group col-sm-3">
+                  <label for="closed">Encerrado</label>
+                  <select class="form-control" id="closed" formControlName="closed">
+                    <option value="false">Não</option>
+                    <option value="true">Sim</option>
+                  </select>
+                </fieldset>
               </div>
             </fieldset>
           </form>
         </div>
-        <div class="card-footer">
+        <div class="card-footer" *ngIf="!period.closed">
           <button class="btn btn-sm btn-primary" (click)="submitForm()"><i class="fa fa-dot-circle-o"></i> Salvar</button>
           <button *ngIf="period.id" class="btn btn-sm btn-danger" (click)="confirmModal.show()"><i class="fa fa-dot-circle-o"></i> Excluir</button>
         </div>

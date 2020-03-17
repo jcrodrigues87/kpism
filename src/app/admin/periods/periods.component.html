@@ -2,9 +2,6 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <!-- <div class="card-header">
-          <i class="fa fa-align-justify"></i> Striped Table
-        </div> -->
         <div class="card-body">
           <div class="row align-items-left">
             <div class="col-6 col-sm-4 col-md mb-3 mb-xl-0 text-left">
@@ -14,8 +11,8 @@
           <p></p>
           <dynamic-table 
             [rows]="periods" 
-            [columns]="['name','begin','end']" 
-            [titles]="['Nome','Início','Fim']"
+            [columns]="['name','begin','end','closed']" 
+            [titles]="['Nome','Início','Fim','Encerrado']"
             [viewButton]="true"
             [viewButtonRoute]="'admin/periods'">
           </dynamic-table>
