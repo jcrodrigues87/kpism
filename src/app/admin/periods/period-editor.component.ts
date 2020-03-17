@@ -24,7 +24,8 @@ export class PeriodEditorComponent implements OnInit {
     this.periodForm = this.fb.group({
       name: '',
       begin: '',
-      end: ''
+      end: '',
+      closed: ''
     });
   }
 
@@ -43,13 +44,11 @@ export class PeriodEditorComponent implements OnInit {
 
     this.update(this.periodForm.value);
 
-    console.log({ period: this.period });
-
     this.periodsService.save(this.period).subscribe(
       period => {
         this.period = period;
         this.isSubmitting = false;
-        //this.router.navigateByUrl(`admin/periods/${period.id}`)
+        this.back();
       },
       err => {
         this.errors = err;
@@ -76,7 +75,6 @@ export class PeriodEditorComponent implements OnInit {
             toReturn[propName] = a[propName];
         }
     }
-
     return toReturn;
   }
 
