@@ -1,4 +1,5 @@
 import { Department } from "./departments.model";
+import { Metering } from "./meterings.model";
 
 export class Indicator {
   id: string;
@@ -10,6 +11,7 @@ export class Indicator {
   orientation: string;
   classification: string;
   limit: number;
+  metering: Array<Metering>;
   basket: boolean;
   createdAt: Date;
   updatedAt: Date;

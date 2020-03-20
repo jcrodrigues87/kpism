@@ -1,16 +1,11 @@
-import { Indicator } from "./indicators.model";
-import { Period } from "./periods.model";
-
 export class Metering {
   id: string;
-  indicator: Indicator;
-  period: Period;
-  refOrder: string;
+  refOrder: number;
   refName: string;
-  target: Number;
-  actual: Number;
-  difference: Number;
-  percent: Number;
+  target: number;
+  actual: number;
+  difference: number;
+  percent: number;
   createdAt: Date;
   updatedAt: Date;
 }

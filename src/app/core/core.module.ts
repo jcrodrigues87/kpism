@@ -17,6 +17,7 @@ import {
   ResponsablesService, 
   ProfilesService,
   MeteringsService,
+  ResetPasswordService,
   ChartDataService,
   ReferencesService,
   BasketItemsService,
@@ -43,6 +44,7 @@ import {
     BasketItemsService,
     AuthUserService,
     CurrentPeriodService,
+    ResetPasswordService,
     AuthGuard,
     NoAuthGuard,
     AdminGuard

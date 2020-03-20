@@ -13,18 +13,6 @@ export class UsersService {
     private apiService: ApiService
   ) {}
 
-  // query(config: ArticleListConfig): Observable<{articles: Article[], articlesCount: number}> {
-  //   let params: HttpParams = new HttpParams();
-
-  //   Object.keys(config.filters).forEach(key => {
-  //     params.set(key, config.filters[key]);
-  //   });
-
-  //   return this.apiService.get('/articles' + ((config.type === 'feed') ? '/feed' : ''), params).pipe(
-  //     map(data => data)
-  //   );
-  // }
-
   query(): Observable<User[]> {
     let params: HttpParams = new HttpParams();
 
@@ -57,11 +45,4 @@ export class UsersService {
     return this.apiService.delete('/users/' + id);
   }
 
-  // favorite(slug): Observable<Article> {
-  //   return this.apiService.post('/articles/' + slug + '/favorite');
-  // }
-
-  // unfavorite(slug): Observable<Article> {
-  //   return this.apiService.delete('/articles/' + slug + '/favorite');
-  // }
 }

@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Errors, AuthUser, AuthUserService } from '../core';
+import { ResetPasswordService } from '../core/services/reset-password.service';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: 'login.component.html'
+  templateUrl: 'forgot-password.component.html'
 })
-export class LoginComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit {
   errors: Errors = {errors: {}};
   isSubmitting: boolean = false;
   authForm: FormGroup;
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authservice: AuthUserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private resetPasswordService: ResetPasswordService
   ) {
     // utiliza o FormBuilder para criar o FormGroup
     this.authForm = this.fb.group({
@@ -37,20 +39,6 @@ export class LoginComponent implements OnInit {
     this.isSubmitting = true;
     this.errors = {errors: {}};
 
-    const credentials = this.authForm.value;
     
-    this.authservice.attemptAuth(credentials)
-      .subscribe(
-        data => this.router.navigateByUrl(this.return),
-        err => {
-          this.errors = err;
-          this.isSubmitting = false;
-        }
-      )
   }
-
-  forgotPassword() {
-    this.router.navigateByUrl('forgotpassword');
-  }
-
 }

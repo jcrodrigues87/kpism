@@ -7,6 +7,7 @@ import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './login/forgot-password.component';
 import { RegisterComponent } from './views/register/register.component';
 
 import { NoAuthGuard, AuthGuard } from './core';
@@ -40,12 +41,20 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'register',
-    component: RegisterComponent,
+    path: 'forgotpassword',
+    component: ForgotPasswordComponent,
+    canActivate: [ NoAuthGuard ],
     data: {
-      title: 'Register Page'
+      title: 'Forgot Password Page'
     }
   },
+  // {
+  //   path: 'register',
+  //   component: RegisterComponent,
+  //   data: {
+  //     title: 'Register Page'
+  //   }
+  // },
   {
     path: '',
     component: DefaultLayoutComponent,

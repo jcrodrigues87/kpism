@@ -41,3 +41,11 @@ Front-End:
 	Adicionado mensagem quando não existe nenhum usuário cadastrado;
 
 	Adicionado mensagem quando não existe nenhum departamento cadastrado;
+
+
+	Commit atual:
+	
+	Removido Usuários de Indicadores;
+	Corrigido aba de Previsto/Realizado em Indicadores;
+	Estabelecido limite superior para Previsto/Realizado;
+	Adicionado campo Tipo Cesta na listagem de Indicadores;

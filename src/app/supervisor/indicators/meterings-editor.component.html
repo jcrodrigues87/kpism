@@ -4,71 +4,62 @@
       <div *ngIf="errors" class="form-group row">
           <list-errors [errors]="errors"></list-errors>
       </div>
-      <div class="form-group row">
-        <div class="col-md-1">
-            <button *ngIf="period && indicator" class="btn btn-sm btn-primary" (click)="save()">Salvar</button>
-        </div>
-      </div>
     </div>
     <table class="table table-striped col-md-12">
       <thead>
         <tr>
-          <!-- <th class="text-center">#</th> -->
+          <th class="text-center">
+            <button *ngIf="indicator" class="btn btn-sm btn-primary" (click)="save()">Salvar</button>
+          </th>
           <th class="text-center">Ref.</th>
           <th class="text-center">Previsto</th>
           <th class="text-center">Realizado</th>
           <th *ngIf="showDelta" class="text-center">Desvio</th>
-          <!-- <th class="text-center" style="width: 80px">Percentual</th> -->
           <th class="text-center">Percentual</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let meter of meterings">
-          <!-- <td>{{ meter.refOrder }}</td> -->
+          <td align="center">{{ indicator.measure }}</td>
           <td>{{ meter.refName }}</td>
           <td>
             <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  {{ indicator.measure ? indicator.measure : "R$" }}
-                </span>
-              </div>
               <input  class="form-control" 
                       type="number" 
                       [(ngModel)]="meter.target" 
+                      (ngModelChange)="calc(meter)"
                       step="0.01" 
                       style="text-align: right;">
             </div>
           </td>
           <td>
             <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  {{ indicator.measure ? indicator.measure : "R$" }}
-                </span>
-              </div>
               <input  class="form-control" 
                       type="number" 
                       [(ngModel)]="meter.actual" 
+                      (ngModelChange)="calc(meter)"
                       step="0.01" 
                       style="text-align: right;">
             </div>
           </td>
-          <td *ngIf="showDelta" style="text-align: right;">{{ indicator.measure ? indicator.measure : "R$" }}&nbsp;{{ (indicator.orientation === 'higher' ? meter.actual - meter.target : meter.target - meter.actual ) | number : '1.2-2' }}
+          <td *ngIf="showDelta" style="text-align: right;">
+            {{ meter.difference | number : '1.2-2' }}
           </td>
-          <td style="text-align: right;">{{ (indicator.orientation === 'higher' ? (meter.target ? (meter.actual / meter.target) * 100 : 0) : (meter.actual ? (meter.target / meter.actual) * 100 : 0) ) | number : '1.2-2' }}&nbsp;%</td>
+          <td style="text-align: right;">
+            {{ meter.percent | number : '1.2-2' }}
+          </td>
+        </tr>
+        <tr>
+          <th class="text-center">
+            <button *ngIf="indicator" class="btn btn-sm btn-primary" (click)="save()">Salvar</button>
+          </th>
+          <th class="text-center">Ref.</th>
+          <th class="text-center">Previsto</th>
+          <th class="text-center">Realizado</th>
+          <th *ngIf="showDelta" class="text-center">Desvio</th>
+          <th class="text-center">Percentual</th>
         </tr>
       </tbody>
-      <!-- <tfoot>
-        <tr>
-          <th>Total</th>
-          <th>Ref.</th>
-          <th>Previsto</th>
-          <th>Realizado</th>
-          <th>Desvio</th>
-          <th>%</th>
-        </tr>
-      </tfoot> -->
     </table>
   </div>
 </div>

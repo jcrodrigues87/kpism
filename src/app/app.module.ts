@@ -26,6 +26,7 @@ import { DefaultLayoutComponent, MenuTogglerComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './login/forgot-password.component';
 import { RegisterComponent } from './views/register/register.component';
 
 const APP_CONTAINERS = [
@@ -70,6 +71,7 @@ import { AppRoutingModule } from './app.routing';
     P404Component,
     P500Component,
     LoginComponent,
+    ForgotPasswordComponent,
     RegisterComponent
   ],
   providers: [

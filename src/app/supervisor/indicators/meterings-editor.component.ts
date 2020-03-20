@@ -1,68 +1,40 @@
-import { Component, Input, OnInit, OnChanges } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { 
-  Indicator, 
-  MeteringsService, 
-  PeriodsService, 
-  Period, 
-  Metering, 
-  User, 
-  ProfilesService 
-} from "../../core";
+import { Indicator, IndicatorsService, Metering, } from "../../core";
 
 @Component({
   selector: 'meterings-editor',
   templateUrl: './meterings-editor.component.html'
 })
-export class MeteringsEditorComponent implements OnInit, OnChanges {
+export class MeteringsEditorComponent implements OnInit {
   @Input() indicator: Indicator;
   @Input() showDelta: Boolean;
 
   errors: Object;
   isSubmitting = false;
-  periods: Array<Period> = [];
   meterings: Array<Metering> = [];
-  users: Array<User> = [];
-  period: Period;
-  user: User;
-
+  
   constructor(
-    private meteringsServices: MeteringsService,
-    private periodsService: PeriodsService,
-    private profilesService: ProfilesService
+    private indicatorsService: IndicatorsService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.periodsService.query().subscribe(periods => {
-      this.periods = periods;
-
-      if (this.periods.length > 0) {
-        this.period = this.periods[this.periods.length - 1];
-
-        this.loadMeterings();
-      }
-    });
-  }
-
-  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-    if (this.period)
-      this.loadMeterings();
-  }
-
-  loadMeterings() {
-    this.meteringsServices.query(this.indicator.id, this.period.id).subscribe(meterings => {
-      this.meterings = meterings;
-    });
+    this.meterings = this.indicator.metering
   }
 
   save() {
     this.isSubmitting = true;
     this.errors = null;
 
-    this.meteringsServices.saveAll(this.indicator.id, this.meterings).subscribe(
-      metering => {
-        console.log({metering});
+    this.indicator.metering = this.meterings
+    console.log(this.meterings)
+    this.indicatorsService.save(this.indicator).subscribe(
+      indicator => {
+        this.indicator = indicator;
         this.isSubmitting = false;
+        this.back();
       },
       err => {
         this.errors = err;
@@ -71,20 +43,25 @@ export class MeteringsEditorComponent implements OnInit, OnChanges {
     );
   }
 
-  // remove(resp) {
-  //   this.isSubmitting = true;
-  //   this.errors = null;
-    
-  //   this.meteringsServices.destroy(resp.indicator.id, resp.period.id, resp.user.id).subscribe(
-  //     data => {
-  //       this.loadMeterings();
-  //       this.isSubmitting = false;
-  //     },
-  //     err => {
-  //       this.errors = err;
-  //       this.isSubmitting = false;
-  //     }
-  //   );
-  //   console.log(resp);
-  // }
+  calc(meter) {
+    if (meter.actual !== "" && meter.target !== "") {
+      if (this.indicator.orientation === 'higher') {
+        meter.difference = meter.actual - meter.target;
+        meter.percent = (meter.actual / meter.target) * 100;
+      } else {
+        meter.difference = meter.target - meter.actual;
+        meter.percent = (meter.target / meter.actual) * 100;
+      }
+    } else {
+      meter.difference = 0;  
+      meter.percent = 0;
+    }
+    if (meter.percent > this.indicator.limit)
+      meter.percent = this.indicator.limit;
+  }
+
+  back() {
+    this.router.navigateByUrl('supervisor/indicators');
+  }
+
 }
