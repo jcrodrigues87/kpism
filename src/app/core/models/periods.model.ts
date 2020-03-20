@@ -1,8 +1,9 @@
 export class Period {
   id: string;
   name: string;
-  begin: Date;
-  end: Date;
+  year: string;
+  companyMultiplier: number;
+  closed: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -21,12 +21,12 @@ export const navItems = [
   {
     name: 'Períodos',
     url: '/admin/periods',
-    icon: 'icon-puzzle'
+    icon: 'icon-calendar'
   },
   {
     name: 'Indicadores',
     url: '/supervisor/indicators',
-    icon: 'icon-puzzle'
+    icon: 'icon-list'
   },
 
   // {

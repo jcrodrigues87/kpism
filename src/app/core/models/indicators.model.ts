@@ -7,6 +7,10 @@ export class Indicator {
   department: Department;
   measure: string;
   accumulatedType: string;
+  orientation: string;
+  classification: string;
+  limit: number;
+  basket: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

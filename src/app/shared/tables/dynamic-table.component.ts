@@ -30,14 +30,14 @@ export class DynamicTableComponent {
 
     props = col.split('.');
 
-    if (props.length === 1) 
+    if (props.length === 1)  {
       if (row[col] === true)
         return "Sim";
       else if (row[col] === false)
         return "Não";
       else
         return row[col];
-    else 
+    } else 
       return this.getValue(row[props[0]], this.removeFist(col, '.'));
       
   }

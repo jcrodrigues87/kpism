@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { PeriodsService, Period } from "../../core";
+import { PeriodsService, Period, CurrentPeriodService } from "../../core";
 import { Router } from "@angular/router";
 
 @Component({
@@ -9,9 +9,11 @@ import { Router } from "@angular/router";
 export class PeriodsComponent implements OnInit {
 
   periods: Array<Period> = [];
+  currentPeriod: Period;
 
   constructor(
     private periodsService: PeriodsService,
+    private currentPeriodService: CurrentPeriodService,
     private router: Router
   ) {}
 
@@ -19,8 +21,14 @@ export class PeriodsComponent implements OnInit {
     this.periodsService.query().subscribe(
       data => {
         this.periods = data;
-      }
+    });
+    this.currentPeriodService.currentPeriod.subscribe(
+      data => this.reloadList(data)
     );
+  }
+
+  reloadList(data: Period): void {
+    this.currentPeriod = data;
   }
   
   addNew(): void {

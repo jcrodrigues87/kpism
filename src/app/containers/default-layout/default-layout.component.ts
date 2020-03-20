@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-//import { navItems } from './../../_nav';
-import { AuthUserService } from '../../core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { AuthUserService, Period, CurrentPeriodService, AuthUser } from '../../core';
 
 import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
+
 
 @Component({
   selector: 'app-dashboard',
@@ -15,8 +16,15 @@ export class DefaultLayoutComponent implements OnInit {
   private changes: MutationObserver;
   public element: HTMLElement = document.body;
 
+  periods: Array<Period> = [];
+  periodForm: FormGroup;
+
+  periodId: String = "";
+  user: AuthUser;
+
   constructor(
-    private authUserService: AuthUserService
+    private authUserService: AuthUserService,
+    private currentPeriodService: CurrentPeriodService
   ) {
 
     this.changes = new MutationObserver((mutations) => {
@@ -30,5 +38,24 @@ export class DefaultLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.navItems = this.authUserService.getNavItems();
+    
+    this.currentPeriodService.periods.subscribe(
+      data => {
+        this.periods = data;
+        
+        if (this.periodId === "" && this.periods && this.periods[0]) {
+          this.periodId = this.periods[0].id;
+          this.changePeriod();
+        }
+      }
+    );
+
+    this.user = this.authUserService.getCurrentAuthUser()
+  }
+  
+  changePeriod(): void {
+    this.currentPeriodService.updateCurrentPeriod(
+      this.periods.find(e => e.id === this.periodId)
+    );
   }
 }

@@ -9,13 +9,18 @@
             </div>
           </div>
           <p></p>
-          <dynamic-table 
+          <dynamic-table *ngIf="users[0]; else notShow"
             [rows]="users" 
             [columns]="['name','email','department.name','role','lastAccess']" 
             [titles]="['Nome','E-mail','Departamento','Perfil','Último Acesso']"
             [viewButton]="true"
             [viewButtonRoute]="'admin/users'">
           </dynamic-table>
+          <ng-template #notShow>
+            <hr>
+              <h4 align="center">Nenhum departamento cadastrado!</h4>
+            <hr>
+          </ng-template>
         </div>
       </div>
     </div>

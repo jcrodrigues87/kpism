@@ -1,0 +1,43 @@
+
+Front-End:
+
+	Contrato - Fazer aba para contrato.
+
+	Cesta - Indicador possui uma tabela para quando está em cesta e outra para quando não, fazendo com que o calculo no dashboard calcule sempre a tabela sem cesta.
+	
+	Login - Implementar "Esqueceu sua senha".
+	Login - Implementar "Redefinir senha".
+	Login - Aviso de usuario ou senha incorretos aparecem em ingles.
+
+	PLR - Criar interface referentes a PLR.
+
+	Indicadores - Cesta - Clicar em apagar mostra a aba daquele indicador ao lado.
+	Indicadores - Bloquear edição da opção "Cesta".
+	Indicadores - Indicador que faz parte de uma cesta pode possuir responsaveis???
+	Indicadores - Peso de cesta aceita numero negativo.
+
+	Dashboard - Varios erros na mudança de Periodo, referencia e usuario.
+	Dashboard - Referencia deveria começar com o mês atual, atualmente começa em dezembro.
+	Dashboard - Colocar embaixo da detalhação de indicadores um "Não há registro de indicadores" quando vazio.
+	Dashboard - Como vai ter muitos usuarios, separar usuarios de departamentos no filtro OU colocar departamento primeiro.
+	Dashboard - Mostrar Usuarios em ordem alfabetica???
+	Dashboard - Data em "Acumulado" comportando de forma estranha???
+	Dashboard - Tem hora que o dasboard não atualiza???
+
+	Concluido:
+
+	Período agora é definido no cabeçalho da página, estando disponível para todos os componentes através do serviço currentPeriodService;
+	Adicionado campo Encerrado em Período. Esse campo impossibilita a modificação de campos onde o período se encerrou;
+	Removido Inicio e Fim de Período, estando disponivel o campo Ano;
+	Adicionado campo Multiplicador Canex em Período;
+	Adicionado mensagem quando não existe nenhum período cadastrado;
+
+	Adicionado campos Limite Indicador e Classificação em Indicadores;
+	Removido inclusão de responsaveis de Indicadores;
+	Adicionado mensagem quando não existe nenhum indicador cadastrado;
+	
+	Removido campo Inativo de Usuários;
+	Adicionado nome do usuário no cabeçalho;
+	Adicionado mensagem quando não existe nenhum usuário cadastrado;
+
+	Adicionado mensagem quando não existe nenhum departamento cadastrado;

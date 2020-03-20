@@ -18,6 +18,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import { AppComponent } from './app.component';
 
+import { NgSelectModule } from '@ng-select/ng-select'
+
 // Import containers
 import { DefaultLayoutComponent, MenuTogglerComponent } from './containers';
 
@@ -58,7 +60,8 @@ import { AppRoutingModule } from './app.routing';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    NgSelectModule
   ],
   declarations: [
     AppComponent,

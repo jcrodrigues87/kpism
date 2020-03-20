@@ -25,7 +25,7 @@
               </fieldset>
             </fieldset>
             <div class="row">
-                <fieldset class="form-group col-sm-2">
+                <fieldset class="form-group col-sm-3">
                   <label for="departments">Departamento</label>
                   <ng-select  [items]="departments"
                               bindLabel="name"
@@ -33,7 +33,11 @@
                               formControlName="department" >
                   </ng-select>
                 </fieldset>
-                <fieldset class="form-group col-sm-2">
+                <fieldset class="form-group col-sm-3">
+                  <label for="limit">Limite Indicador</label>
+                  <input type="number" step="1" class="form-control" id="limit" formControlName="limit">
+                </fieldset>
+                <fieldset class="form-group col-sm-3">
                   <label for="inactive">Tipo Cesta</label>
                   <select class="form-control" id="basket" formControlName="basket">
                     <option value="false">Não</option>
@@ -68,6 +72,14 @@
                   <option value="equalsref">Igual a Perído</option>
                 </select>
               </fieldset>
+              <fieldset class="form-group col-sm-3">
+                <label for="role">Classificação</label>
+                <select class="form-control" id="classification" formControlName="classification">
+                  <option value="strategic">Estratégico</option>
+                  <option value="tactical">Tático</option>
+                  <option value="operational">Operacional</option>
+                </select>
+              </fieldset>
             </div>
           </form>
         </div>
@@ -85,10 +97,6 @@
     <div class="col-md-12 mb-8">
       <!-- Nav tabs -->
       <tabset>
-        <tab>
-          <ng-template tabHeading><i class="icon-people"></i> Responsáveis</ng-template>
-          <responsables-editor [indicator]="indicator"></responsables-editor>
-        </tab>
         <tab *ngIf="!indicator.basket">
           <ng-template tabHeading><i class="icon-chart"></i> Previsto/Realizado</ng-template>
           <div class="col-md-8">

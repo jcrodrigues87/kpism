@@ -17,25 +17,25 @@
               </fieldset>
               <div class="row">
                 <fieldset class="form-group col-sm-3">
-                  <label for="begin">Início</label>
-                  <input type="text" class="form-control" id="begin" type="date" formControlName="begin">
+                  <label for="year">Ano</label>
+                  <input type="number" placeholder="aaaa" min="1900" max="2099" step="1" class="form-control" id="year" formControlName="year">
                 </fieldset>
                 <fieldset class="form-group col-sm-3">
-                  <label for="end">Fim</label>
-                  <input type="text" class="form-control" id="end" type="date" formControlName="end">
+                  <label for="companyMultiplier">Multiplicador Canex</label>
+                  <input type="number" step="1" placeholder="0" class="form-control" id="companyMultiplier" formControlName="companyMultiplier">
                 </fieldset>
-                <fieldset class="form-group col-sm-3">
+                <fieldset class="form-group col-sm-3" *ngIf="isNew">
                   <label for="closed">Encerrado</label>
                   <select class="form-control" id="closed" formControlName="closed">
-                    <option value="false">Não</option>
-                    <option value="true">Sim</option>
+                    <option [ngValue]=false>Não</option>
+                    <option [ngValue]=true>Sim</option>
                   </select>
                 </fieldset>
               </div>
             </fieldset>
           </form>
         </div>
-        <div class="card-footer" *ngIf="!period.closed">
+        <div class="card-footer">
           <button class="btn btn-sm btn-primary" (click)="submitForm()"><i class="fa fa-dot-circle-o"></i> Salvar</button>
           <button *ngIf="period.id" class="btn btn-sm btn-danger" (click)="confirmModal.show()"><i class="fa fa-dot-circle-o"></i> Excluir</button>
         </div>

@@ -13,7 +13,7 @@ export class ApiService {
   ) {}
 
   private formatErrors(error: any) {
-    return  throwError(error.error);
+    return throwError(error.error);
   }
 
   post(path: string, body: Object = {}): Observable<any> {

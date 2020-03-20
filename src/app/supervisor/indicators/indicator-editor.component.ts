@@ -28,10 +28,12 @@ export class IndicatorEditorComponent implements OnInit {
       name: '',
       description: '',
       department: '',
-      basket: '',
+      limit: '',
+      basket: false,
       measure: '',
       accumulatedType: '',
-      orientation: ''
+      orientation: '',
+      classification: '',
     });
   }
 
@@ -54,13 +56,11 @@ export class IndicatorEditorComponent implements OnInit {
 
     this.update(this.indicatorForm.value);
 
-    console.log({ indicator: this.indicator });
-
     this.indicatorsService.save(this.indicator).subscribe(
       indicator => {
         this.indicator = indicator;
         this.isSubmitting = false;
-        //this.router.navigateByUrl(`admin/indicators/${indicator.id}`)
+        this.back();
       },
       err => {
         this.errors = err;

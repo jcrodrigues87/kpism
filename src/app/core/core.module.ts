@@ -19,7 +19,8 @@ import {
   MeteringsService,
   ChartDataService,
   ReferencesService,
-  BasketItemsService
+  BasketItemsService,
+  CurrentPeriodService
 } from "./services";
 
 @NgModule({
@@ -41,6 +42,7 @@ import {
     ResponsablesService,
     BasketItemsService,
     AuthUserService,
+    CurrentPeriodService,
     AuthGuard,
     NoAuthGuard,
     AdminGuard

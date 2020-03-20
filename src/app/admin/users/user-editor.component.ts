@@ -28,7 +28,6 @@ export class UserEditorComponent implements OnInit {
       email: '',
       department: '',
       role: '',
-      inactive: ''
     });
   }
 
@@ -55,7 +54,7 @@ export class UserEditorComponent implements OnInit {
       user => {
         this.user = user;
         this.isSubmitting = false;
-        //this.router.navigateByUrl(`admin/users/${user.id}`)
+        this.back();
       },
       err => {
         this.errors = err;

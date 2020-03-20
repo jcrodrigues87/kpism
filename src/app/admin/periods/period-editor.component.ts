@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormGroup, FormBuilder } from "@angular/forms";
 
-import { Period, PeriodsService } from "../../core";
+import { Period, PeriodsService, CurrentPeriodService } from "../../core";
 
 @Component({
   templateUrl: './period-editor.component.html'
@@ -12,26 +12,29 @@ export class PeriodEditorComponent implements OnInit {
   periodForm: FormGroup;
   errors: Object = {};
   isSubmitting = false;
+  isNew: Boolean = true;
 
   public confirmModal: any;
 
   constructor(
     private periodsService: PeriodsService,
+    private currentPeriodService: CurrentPeriodService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router
   ) {
     this.periodForm = this.fb.group({
       name: '',
-      begin: '',
-      end: '',
-      closed: ''
+      year: '',
+      companyMultiplier: 0,
+      closed: false
     });
   }
 
   ngOnInit(): void {
     this.route.data.subscribe(
       (data: { period: Period }) => {
+        this.isNew = data.period.name == undefined ? false : true;
         this.period = data.period;
         this.periodForm.patchValue(data.period);
       }
@@ -48,6 +51,7 @@ export class PeriodEditorComponent implements OnInit {
       period => {
         this.period = period;
         this.isSubmitting = false;
+        this.currentPeriodService.reloadPeriods();
         this.back();
       },
       err => {

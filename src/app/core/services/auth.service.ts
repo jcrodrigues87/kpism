@@ -54,29 +54,29 @@ export class AuthUserService {
         {
           name: 'Usuarios',
           url: '/admin/users',
-          icon: 'icon-puzzle'
+          icon: 'icon-user'
         },
         {
           name: 'Departamentos',
           url: '/admin/departments',
-          icon: 'icon-puzzle'
+          icon: 'icon-briefcase'
         },
         {
           name: 'Períodos',
           url: '/admin/periods',
-          icon: 'icon-puzzle'
+          icon: 'icon-calendar'
         },
         {
           name: 'Indicadores',
           url: '/supervisor/indicators',
-          icon: 'icon-puzzle'
+          icon: 'icon-list'
         }]);
       else if (user.role === 'supervisor') {
         this.navItensSubject.next([
           {
             name: 'Dashboard',
-            icon: 'icon-speedometer',
-            url: '/dashboard'
+            url: '/dashboard',
+            icon: 'icon-speedometer'
           },
           {
             title: true,
@@ -84,15 +84,15 @@ export class AuthUserService {
           },
           {
             name: 'Indicadores',
-            url: '/supervisor/indicators',
-            icon: 'icon-puzzle'
+            icon: 'icon-list',
+            url: '/supervisor/indicators'            
           }]);
       } else {
         this.navItensSubject.next([
           {
             name: 'Dashboard',
-            icon: 'icon-speedometer',
-            url: '/dashboard'
+            url: '/dashboard',
+            icon: 'icon-speedometer'
           }]);
       }
   }

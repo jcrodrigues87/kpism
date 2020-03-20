@@ -62,6 +62,7 @@ export class DepartmentEditorComponent implements OnInit {
       department => {
         this.department = department;
         this.isSubmitting = false;
+        this.back();
       },
       err => {
         this.errors = err;

@@ -15,3 +15,4 @@ export * from './meterings.service';
 export * from './chart-data.service';
 export * from './references.service';
 export * from './basket-items.service';
+export * from './current-period.service';
