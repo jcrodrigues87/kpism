@@ -35,6 +35,10 @@ Front-End:
 	Adicionado campos Limite Indicador e Classificação em Indicadores;
 	Removido inclusão de responsaveis de Indicadores;
 	Adicionado mensagem quando não existe nenhum indicador cadastrado;
+	Removido Usuários de Indicadores;
+	Corrigido aba de Previsto/Realizado em Indicadores;
+	Estabelecido limite superior para Previsto/Realizado;
+	Adicionado campo Tipo Cesta na listagem de Indicadores;
 	
 	Removido campo Inativo de Usuários;
 	Adicionado nome do usuário no cabeçalho;
@@ -44,8 +48,8 @@ Front-End:
 
 
 	Commit atual:
+
+	Adicionado componente Esqueceu sua senha;
+	Adicionado componente Redefinição de senha;
 	
-	Removido Usuários de Indicadores;
-	Corrigido aba de Previsto/Realizado em Indicadores;
-	Estabelecido limite superior para Previsto/Realizado;
-	Adicionado campo Tipo Cesta na listagem de Indicadores;
+	

@@ -8,6 +8,7 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './login/forgot-password.component';
+import { ResetPasswordComponent } from './login/reset-password.component';
 import { RegisterComponent } from './views/register/register.component';
 
 import { NoAuthGuard, AuthGuard } from './core';
@@ -46,6 +47,14 @@ export const routes: Routes = [
     canActivate: [ NoAuthGuard ],
     data: {
       title: 'Forgot Password Page'
+    }
+  },
+  {
+    path: 'resetpassword',
+    component: ResetPasswordComponent,
+    canActivate: [ NoAuthGuard ],
+    data: {
+      title: 'Reset Password Page'
     }
   },
   // {

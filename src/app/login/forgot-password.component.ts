@@ -1,44 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Errors, AuthUser, AuthUserService } from '../core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+import { Errors } from '../core';
 import { ResetPasswordService } from '../core/services/reset-password.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'forgot-password.component.html'
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent {
   errors: Errors = {errors: {}};
   isSubmitting: boolean = false;
-  authForm: FormGroup;
-  user: AuthUser;
-  return: string;
-
-  public confirmModal: any;
+  emailForm: FormGroup;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
-    private authservice: AuthUserService,
+    private resetPasswordService: ResetPasswordService,
     private fb: FormBuilder,
-    private resetPasswordService: ResetPasswordService
   ) {
-    // utiliza o FormBuilder para criar o FormGroup
-    this.authForm = this.fb.group({
-      'email': ['', Validators.required],
-      'password': ['', Validators.required]
-    });
-  }
-
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => this.return = params['return'] || '/');
-  }
+      this.emailForm = this.fb.group({
+        email: ''
+      });
+    }
 
   submitForm() {
     this.isSubmitting = true;
-    this.errors = {errors: {}};
+    this.errors = {errors: {}};    
 
-    
+    this.resetPasswordService.forgotPassword(this.emailForm.value).subscribe(
+      data => {
+        this.isSubmitting = false;
+        this.router.navigateByUrl('resetpassword');
+      },
+      err => {
+        this.errors = err;
+        console.log(err)
+        this.isSubmitting = false;
+      }
+    );
   }
 }

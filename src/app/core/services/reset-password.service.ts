@@ -11,8 +11,13 @@ export class ResetPasswordService {
     private apiService: ApiService
   ) {}
 
-  resetPassword() {
-    return this.apiService.put('/auth/forgot_password', { email: this.email }).pipe(
+  forgotPassword(value) {
+    return this.apiService.post('/auth/forgot_password', value)
+  }
+
+  resetPassword(value) {
+    console.log(value)
+    return this.apiService.post('/auth/reset_password', value).pipe(
       map(data => data.email)
     );
   }
