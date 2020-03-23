@@ -30,7 +30,6 @@ export class UsersService {
   save(user: User): Observable<User> {
     // if is updating
     if (user.id) {
-      console.log('put');
       return this.apiService.put('/users/' + user.id, { user: user }).pipe(
         map(data => data.user)
       );

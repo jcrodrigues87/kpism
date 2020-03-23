@@ -11,8 +11,8 @@
           <p></p>
           <dynamic-table *ngIf="indicators[0]; else notShow"
             [rows]="indicators" 
-            [columns]="['name','description','measure']" 
-            [titles]="['Nome','Descrição','Medida']"
+            [columns]="['name','description','measure','basket']" 
+            [titles]="['Nome','Descrição','Medida', 'Cesta']"
             [viewButton]="true"
             [viewButtonRoute]="'supervisor/indicators'">
           </dynamic-table>

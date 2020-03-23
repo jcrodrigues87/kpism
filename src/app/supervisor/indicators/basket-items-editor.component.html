@@ -4,23 +4,25 @@
       <div class="row">
         <table class="table table-responsive-sm table-hover table-outline mb-0 col-md-12">
           <tbody>
-            <tr *ngFor="let bask of basketItens" 
-                class="normalIndicador"
-                [ngClass]="{ 'selectedIndicator': selectedItem && bask.id === selectedItem.id }"
-                (click)="select(bask)"
+            <tr *ngFor="let item of basket.indicators" 
             >
+            <!-- <tr *ngFor="let item of basketItems" 
+                class="normalIndicador"
+                [ngClass]="{ 'selectedIndicator': selectedItem && item.id === selectedItem.id }"
+                (click)="select(item)"
+            > -->
               <td class="text-center">
                 <div class="small text-muted">Peso</div>
-                <strong>{{ bask.weight }}</strong>
+                <strong>{{ item.weight }}</strong>
               </td>
               <td>
-                <div>{{ bask.indicator.name }}</div>
+                <div>{{ item.indicator.name }}</div>
                 <div class="small text-muted">
-                  <span>{{ bask.indicator.description }}</span>
+                  <span>{{ item.indicator.description }}</span>
                 </div>
               </td>
               <td class="text-center">
-                <button class="btn btn-sm btn-danger" (click)="remove(bask)"><i class="fa fa-trash-o"></i> </button>
+                <button class="btn btn-sm btn-danger" (click)="remove(item.indicator._id)"><i class="fa fa-trash-o"></i> </button>
               </td>
             </tr>
           </tbody>
@@ -51,11 +53,11 @@
         </div>
         <div class="col-md-1">
           <button *ngIf="inputedIndicator && inputedWeight" class="btn btn-sm btn-primary" (click)="add()"><i class="fa fa-plus"></i></button>
-        </div>
+        </div> 
       </div>
     </div>
-  </div>
-  <div class="col-md-6">
+  </div> 
+  <!-- <div class="col-md-6">
     <div *ngIf="!selectedItem">
       <br>
       <h2 class="text-center">Selecione um item ao lado</h2>
@@ -88,5 +90,5 @@
       >
       </meterings-editor>
     </div>
-  </div>
+  </div> -->
 </div>

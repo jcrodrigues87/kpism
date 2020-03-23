@@ -16,7 +16,6 @@ export class ResetPasswordService {
   }
 
   resetPassword(value) {
-    console.log(value)
     return this.apiService.post('/auth/reset_password', value).pipe(
       map(data => data.email)
     );

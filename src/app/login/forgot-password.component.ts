@@ -35,7 +35,6 @@ export class ForgotPasswordComponent {
       },
       err => {
         this.errors = err;
-        console.log(err)
         this.isSubmitting = false;
       }
     );

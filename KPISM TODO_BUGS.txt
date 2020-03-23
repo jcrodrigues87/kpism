@@ -43,13 +43,13 @@ Front-End:
 	Removido campo Inativo de Usuários;
 	Adicionado nome do usuário no cabeçalho;
 	Adicionado mensagem quando não existe nenhum usuário cadastrado;
+	Adicionado componente Esqueceu sua senha;
+	Adicionado componente Redefinição de senha;
 
 	Adicionado mensagem quando não existe nenhum departamento cadastrado;
 
 
 	Commit atual:
 
-	Adicionado componente Esqueceu sua senha;
-	Adicionado componente Redefinição de senha;
-	
-	
+	Corrigido exibição de indicadores da cesta;
+	Corrigido remoção de indicadores da cesta;

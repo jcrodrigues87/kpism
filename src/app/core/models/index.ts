@@ -9,4 +9,5 @@ export * from './meterings.model';
 export * from './chart-data.model';
 export * from './references.model';
 export * from './indicators-filter.model';
+export * from './baskets.model';
 export * from './basket-items.model';

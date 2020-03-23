@@ -29,7 +29,6 @@ export class MeteringsEditorComponent implements OnInit {
     this.errors = null;
 
     this.indicator.metering = this.meterings
-    console.log(this.meterings)
     this.indicatorsService.save(this.indicator).subscribe(
       indicator => {
         this.indicator = indicator;
