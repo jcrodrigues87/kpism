@@ -12,7 +12,7 @@
             <button type="button" class="btn btn-sm btn-dark" (click)="back()"><i class="fa fa-angle-left"></i> Voltar</button>
           </div>
           <list-errors [errors]="errors"></list-errors>
-
+          <div *ngIf="message" class="alert alert-success" role="alert" ><button class="btn btn-sm" (click)="closeMessage()"><i class="fa fa-times"></i></button>{{ message }}</div>
           <form [formGroup]="indicatorForm">
             <fieldset [disabled]="isSubmitting">
               <fieldset class="form-group">

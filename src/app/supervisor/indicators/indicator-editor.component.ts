@@ -12,6 +12,7 @@ export class IndicatorEditorComponent implements OnInit {
   indicatorForm: FormGroup;
   errors: Object = {};
   isSubmitting = false;
+  message: string;
 
   departments: Array<Department> = [];
 
@@ -60,7 +61,7 @@ export class IndicatorEditorComponent implements OnInit {
       indicator => {
         this.indicator = indicator;
         this.isSubmitting = false;
-        this.back();
+        this.message = "Salvo com sucesso!"
       },
       err => {
         this.errors = err;
@@ -71,6 +72,10 @@ export class IndicatorEditorComponent implements OnInit {
 
   back() {
     this.router.navigateByUrl('supervisor/indicators');
+  }
+
+  closeMessage() {
+    this.message = undefined;
   }
 
   modified(a, b): any {

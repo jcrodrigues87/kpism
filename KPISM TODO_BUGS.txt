@@ -39,6 +39,8 @@ Front-End:
 	Corrigido aba de Previsto/Realizado em Indicadores;
 	Estabelecido limite superior para Previsto/Realizado;
 	Adicionado campo Tipo Cesta na listagem de Indicadores;
+	Corrigido exibição de indicadores da cesta;
+	Corrigido remoção de indicadores da cesta;
 	
 	Removido campo Inativo de Usuários;
 	Adicionado nome do usuário no cabeçalho;
@@ -51,5 +53,9 @@ Front-End:
 
 	Commit atual:
 
-	Corrigido exibição de indicadores da cesta;
-	Corrigido remoção de indicadores da cesta;
+	Corrigido inclusão de cesta;
+	Corrigido seleção de indicador na cesta;
+	Corrigido atualização de peso de indicador da cesta;
+	Corrigido atualização das metricas de indicadorda cesta;
+	
+	Adicionado mensagem de salvo com sucesso;

@@ -4,7 +4,7 @@ import { BasketItem } from './basket-items.model';
 export class Basket {
   id: string;
   indicatorRef: Indicator;
-  indicators: Array<BasketItem>;
+  basketItems: Array<BasketItem>;
   createdAt: Date;
   updatedAt: Date;
 }

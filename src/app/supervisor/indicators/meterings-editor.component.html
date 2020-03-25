@@ -4,6 +4,7 @@
       <div *ngIf="errors" class="form-group row">
           <list-errors [errors]="errors"></list-errors>
       </div>
+      <div *ngIf="message" class="alert alert-success" role="alert" ><button class="btn btn-sm" (click)="closeMessage()"><i class="fa fa-times"></i></button>{{ message }}</div>
     </div>
     <table class="table table-striped col-md-12">
       <thead>
@@ -19,7 +20,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let meter of meterings">
+        <tr *ngFor="let meter of indicator.metering">
           <td align="center">{{ indicator.measure }}</td>
           <td>{{ meter.refName }}</td>
           <td>

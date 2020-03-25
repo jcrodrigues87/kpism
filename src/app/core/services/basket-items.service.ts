@@ -15,14 +15,17 @@ export class BasketItemsService {
   
   get(indicatorRefId): Observable<Basket> {
     let params: HttpParams = new HttpParams();
-
     return this.apiService.get('/baskets/' + indicatorRefId, params).pipe(
       map(data => data.basket)
     );
   }
   
-  put(indicatorRefId, indicators: Array<BasketItem>): Observable<BasketItem> {
-    return this.apiService.put('/baskets/' + indicatorRefId, { indicators: indicators }).pipe(
+  put(indicatorRefId, basketItems: Array<BasketItem>): Observable<BasketItem> {
+    for (var i = 0; i < basketItems.length; i++) {  
+      // @ts-ignore
+      basketItems[i].indicator = basketItems[i].indicator.id; // BasketItem have an entire indicator, but API just receive the indicator ID
+    }
+    return this.apiService.put('/baskets/' + indicatorRefId, { basketItems: basketItems }).pipe(
       map(data => data.basket)
     );
   }
@@ -30,8 +33,6 @@ export class BasketItemsService {
   destroy(indicatorRefId, indicatorId): Observable<any> {
     return this.apiService.delete('/baskets/' + indicatorRefId + '/' + indicatorId);
   }
-
-
 
   set(indicatorRefId, indicatorId, weight): Observable<BasketItem> {
     return this.apiService.post('/indicators/' + indicatorRefId + '/basketItems/' + indicatorId + '/' + weight).pipe(

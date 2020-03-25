@@ -3,7 +3,7 @@ import { Indicator } from "./indicators.model";
 export class BasketItem {
   id: string;
   indicator: Indicator;
-  weight: Number;
+  weight: number;
   createdAt: Date;
   updatedAt: Date;
 }

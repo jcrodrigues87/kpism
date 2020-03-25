@@ -7,33 +7,28 @@ import { Indicator, IndicatorsService, Metering, } from "../../core";
   selector: 'meterings-editor',
   templateUrl: './meterings-editor.component.html'
 })
-export class MeteringsEditorComponent implements OnInit {
+export class MeteringsEditorComponent {
   @Input() indicator: Indicator;
   @Input() showDelta: Boolean;
 
   errors: Object;
   isSubmitting = false;
   meterings: Array<Metering> = [];
+  message: string;
   
   constructor(
     private indicatorsService: IndicatorsService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.meterings = this.indicator.metering
-  }
-
   save() {
     this.isSubmitting = true;
     this.errors = null;
-
-    this.indicator.metering = this.meterings
     this.indicatorsService.save(this.indicator).subscribe(
       indicator => {
         this.indicator = indicator;
         this.isSubmitting = false;
-        this.back();
+        this.message = "Salvo com sucesso!";
       },
       err => {
         this.errors = err;
@@ -61,6 +56,10 @@ export class MeteringsEditorComponent implements OnInit {
 
   back() {
     this.router.navigateByUrl('supervisor/indicators');
+  }
+
+  closeMessage() {
+    this.message = undefined;
   }
 
 }
