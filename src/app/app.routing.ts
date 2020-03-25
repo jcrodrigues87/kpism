@@ -77,6 +77,10 @@ export const routes: Routes = [
         loadChildren: './dashboard/dashboard.module#DashboardModule'
       },
       {
+        path: 'plr',
+        loadChildren: './plr/plr.module#PlrModule'
+      },
+      {
         path: 'admin',
         loadChildren: './admin/admin.module#AdminModule'
       },

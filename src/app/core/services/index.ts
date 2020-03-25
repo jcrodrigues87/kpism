@@ -7,6 +7,7 @@ export * from './no-auth-guard.service';
 export * from './users.service';
 export * from './departments.service';
 export * from './indicators.service';
+export * from './contracts.service';
 export * from './supervisor-guard.service';
 export * from './periods.service';
 export * from './responsables.service';

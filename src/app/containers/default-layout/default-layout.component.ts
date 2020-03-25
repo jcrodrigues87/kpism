@@ -2,10 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AuthUserService, Period, CurrentPeriodService, AuthUser } from '../../core';
 
-import { Observable } from "rxjs";
-import { map, take } from "rxjs/operators";
-
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'

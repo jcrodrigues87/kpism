@@ -5,6 +5,11 @@ export const navItems = [
     url: '/dashboard'
   },
   {
+    name: 'P.L.R',
+    url: '/plr',
+    icon: 'icon-list'
+  },
+  {
     title: true,
     name: 'Cadastros'
   },
@@ -26,6 +31,11 @@ export const navItems = [
   {
     name: 'Indicadores',
     url: '/supervisor/indicators',
+    icon: 'icon-list'
+  },
+  {
+    name: 'Contratos',
+    url: '/supervisor/contracts',
     icon: 'icon-list'
   },
 

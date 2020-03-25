@@ -48,11 +48,16 @@ export class AuthUserService {
           url: '/dashboard'
         },
         {
+          name: 'P.L.R.',
+          icon: 'icon-badge',
+          url: '/plr'
+        },
+        {
           title: true,
           name: 'Cadastros'
         },
         {
-          name: 'Usuarios',
+          name: 'Usuários',
           url: '/admin/users',
           icon: 'icon-user'
         },
@@ -70,13 +75,24 @@ export class AuthUserService {
           name: 'Indicadores',
           url: '/supervisor/indicators',
           icon: 'icon-list'
-        }]);
+        },
+        {
+          name: 'Contratos',
+          url: '/supervisor/contracts',
+          icon: 'icon-note'
+        }
+        ]);
       else if (user.role === 'supervisor') {
         this.navItensSubject.next([
           {
             name: 'Dashboard',
             url: '/dashboard',
             icon: 'icon-speedometer'
+          },
+          {
+            name: 'P.L.R',
+            icon: 'icon-badge',
+            url: '/plr'
           },
           {
             title: true,
@@ -86,14 +102,26 @@ export class AuthUserService {
             name: 'Indicadores',
             icon: 'icon-list',
             url: '/supervisor/indicators'            
-          }]);
+          },
+          {
+            name: 'Contratos',
+            url: '/supervisor/contracts',
+            icon: 'icon-note'
+          }
+        ]);
       } else {
         this.navItensSubject.next([
           {
             name: 'Dashboard',
             url: '/dashboard',
             icon: 'icon-speedometer'
-          }]);
+          },
+          {
+            name: 'P.L.R',
+            icon: 'icon-badge',
+            url: '/plr'
+          }
+        ]);
       }
   }
 

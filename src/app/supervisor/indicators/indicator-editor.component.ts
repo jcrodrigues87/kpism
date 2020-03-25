@@ -10,13 +10,13 @@ import { Indicator, IndicatorsService, DepartmentsService, Department } from "..
 export class IndicatorEditorComponent implements OnInit {
   indicator: Indicator = {} as Indicator;
   indicatorForm: FormGroup;
-  errors: Object = {};
-  isSubmitting = false;
-  message: string;
-
   departments: Array<Department> = [];
 
   public confirmModal: any;
+
+  errors: Object = {};
+  isSubmitting = false;
+  message: string;
 
   constructor(
     private indicatorsService: IndicatorsService,

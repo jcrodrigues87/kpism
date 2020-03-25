@@ -41,6 +41,11 @@ Front-End:
 	Adicionado campo Tipo Cesta na listagem de Indicadores;
 	Corrigido exibição de indicadores da cesta;
 	Corrigido remoção de indicadores da cesta;
+	Corrigido inclusão de cesta;
+	Corrigido seleção de indicador na cesta;
+	Corrigido atualização de peso de indicador da cesta;
+	Corrigido atualização das metricas de indicadorda cesta;
+	Adicionado mensagem de salvo com sucesso;
 	
 	Removido campo Inativo de Usuários;
 	Adicionado nome do usuário no cabeçalho;
@@ -53,9 +58,8 @@ Front-End:
 
 	Commit atual:
 
-	Corrigido inclusão de cesta;
-	Corrigido seleção de indicador na cesta;
-	Corrigido atualização de peso de indicador da cesta;
-	Corrigido atualização das metricas de indicadorda cesta;
-	
-	Adicionado mensagem de salvo com sucesso;
+	Adicionado menu Contratos;
+	Adicionado modelo de Contrato;
+	Adicionado serviço de Contrato;
+	Adicionado valores da PLR em Contrato;
+	Adicionado menu da PLR;

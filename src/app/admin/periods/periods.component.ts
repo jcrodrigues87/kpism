@@ -9,7 +9,6 @@ import { Router } from "@angular/router";
 export class PeriodsComponent implements OnInit {
 
   periods: Array<Period> = [];
-  currentPeriod: Period;
 
   constructor(
     private periodsService: PeriodsService,
@@ -22,13 +21,6 @@ export class PeriodsComponent implements OnInit {
       data => {
         this.periods = data;
     });
-    this.currentPeriodService.currentPeriod.subscribe(
-      data => this.reloadList(data)
-    );
-  }
-
-  reloadList(data: Period): void {
-    this.currentPeriod = data;
   }
   
   addNew(): void {
