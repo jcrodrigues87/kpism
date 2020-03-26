@@ -22,8 +22,9 @@
   <tabset *ngIf="selectedUser">
     <tab>
       <ng-template tabHeading><i class="icon-chart"></i> Indicadores</ng-template>
-      <contract-indicator [user]="selectedUser"
-                           [currentPeriod]="currentPeriod">
+      <contract-indicator [contract]="contract"
+                          [user]="selectedUser"
+                          [currentPeriod]="currentPeriod">
       </contract-indicator>
     </tab>
 

@@ -1,4 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 import { Period } from '../models';
 import { BehaviorSubject } from 'rxjs';
 import { PeriodsService } from './periods.service';
@@ -12,18 +13,21 @@ export class CurrentPeriodService {
     periods = this.currentPeriodsListSubject.asObservable();
 
     constructor (
-        private periodsService: PeriodsService
+        private periodsService: PeriodsService,
+        private router: Router
     ) {
         this.reloadPeriods();
     }
 
     reloadPeriods(): void {
         this.periodsService.query().subscribe(data => {
+            this.router.navigateByUrl('dashboard');
             this.currentPeriodsListSubject.next(data);
           });
     }
     
     updateCurrentPeriod(period: Period): void {
+        this.router.navigateByUrl('dashboard');
         this.currentPeriodSubject.next(period);
     }
     

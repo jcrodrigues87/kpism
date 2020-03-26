@@ -17,6 +17,7 @@ export class IndicatorEditorComponent implements OnInit {
   errors: Object = {};
   isSubmitting = false;
   message: string;
+  new: boolean = false;
 
   constructor(
     private indicatorsService: IndicatorsService,
@@ -42,6 +43,10 @@ export class IndicatorEditorComponent implements OnInit {
     this.route.data.subscribe(
       (data: { indicator: Indicator }) => {
         this.indicator = data.indicator;
+
+        if (this.indicator.id)
+          this.new = true;
+
         this.indicatorForm.patchValue(data.indicator);
 
         this.departmentsService.query().subscribe(departments => {

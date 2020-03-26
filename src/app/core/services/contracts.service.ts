@@ -7,12 +7,15 @@ import { map } from "rxjs/operators";
 import { ApiService } from "./api.service";
 import { CurrentPeriodService } from "./current-period.service";
 import { Contract, Period } from "../models";
+import { ContractIndicator } from '../models/contract-indicators.model';
 
 @Injectable()
 export class ContractsService {
 
   currentPeriod: Period;
   observableContract: Observable<Contract>;
+  observableContractIndicators: Observable<ContractIndicator[]>;
+  observableContractIndicator: Observable<ContractIndicator>;
 
   constructor(
     private apiService: ApiService,
@@ -41,38 +44,36 @@ export class ContractsService {
     return this.observableContract
   }
 
-  // queryIndicators(contractId): Observable<Array<ContractIndicator>> {
+  queryIndicators(contractId): Observable<ContractIndicator[]> {
+    let params: HttpParams = new HttpParams();
+    this.currentPeriodService.currentPeriod.subscribe(
+      data => {
+        this.currentPeriod = data;
+        this.observableContractIndicators = this.apiService.get('/contract_indicators/' + contractId, params).pipe(
+          map(data => data.contract_indicators)
+        );
+      }
+    );
+    return this.observableContractIndicators;
+  }
 
-  // }
+  saveIndicator(contractId, indicatorId, weight): Observable<ContractIndicator> {
+    this.observableContractIndicator = this.apiService.post('/contract_indicators/' + contractId + '/' + indicatorId + '/' + weight).pipe(
+      map(data => data.contract_indicator)
+    );
+    return this.observableContractIndicator;
+  }
 
-  // save(indicator: Indicator): Observable<Indicator> {
-  //   this.currentPeriodService.currentPeriod.subscribe(
-  //     data => {
-  //       this.currentPeriod = data;
-    
-  //       // if is updating
-  //       if (indicator.id) {
-  //         this.observableIndicator = this.apiService.put('/indicators/' + this.currentPeriod.id + '/' + indicator.id, { indicator: indicator }).pipe(
-  //           map(data => data.indicator)
-  //         );
-  //       } else { // if is creating
-  //         this.observableIndicator = this.apiService.post('/indicators/' + this.currentPeriod.id, { indicator: indicator }).pipe(
-  //           map(data => data.indicator)
-  //         );
-  //       }
+  updateIndicator(contractId, indicatorId, weight): Observable<ContractIndicator> {
+    this.observableContractIndicator = this.apiService.put('/contract_indicators/' + contractId + '/' + indicatorId + '/' + weight).pipe(
+      map(data => data.contract_indicator)
+    );
+    return this.observableContractIndicator;
+  }
 
-  //     });
-  //   return this.observableIndicator;
-  // }
-
-  // destroy(id): Observable<any> {
-  //   this.currentPeriodService.currentPeriod.subscribe(
-  //     data => {
-  //       this.currentPeriod = data;
-  //       this.observableIndicator = this.apiService.delete('/indicators/' + this.currentPeriod.id + '/' + id);
-  //     }
-  //   );
-  //   return this.observableIndicator;
-  // }
+  deleteIndicator(contractId, indicatorId): Observable<ContractIndicator> {
+    this.observableContractIndicator = this.apiService.delete('/contract_indicators/' + contractId + '/' + indicatorId)
+    return this.observableContractIndicator;
+  }
 
 }

@@ -1,6 +1,8 @@
 
 Front-End:
 
+	Usuario - Usuario inativo aparecendo em periodo aberto;
+
 	Contrato - Fazer aba para contrato.
 
 	Cesta - Indicador possui uma tabela para quando está em cesta e outra para quando não, fazendo com que o calculo no dashboard calcule sempre a tabela sem cesta.
@@ -11,9 +13,7 @@ Front-End:
 
 	PLR - Criar interface referentes a PLR.
 
-	Indicadores - Cesta - Clicar em apagar mostra a aba daquele indicador ao lado.
 	Indicadores - Bloquear edição da opção "Cesta".
-	Indicadores - Indicador que faz parte de uma cesta pode possuir responsaveis???
 	Indicadores - Peso de cesta aceita numero negativo.
 
 	Dashboard - Varios erros na mudança de Periodo, referencia e usuario.
@@ -23,6 +23,7 @@ Front-End:
 	Dashboard - Mostrar Usuarios em ordem alfabetica???
 	Dashboard - Data em "Acumulado" comportando de forma estranha???
 	Dashboard - Tem hora que o dasboard não atualiza???
+	Dashboard - As vezes departamento do usuario não aparece;
 
 	Concluido:
 
@@ -55,11 +56,17 @@ Front-End:
 
 	Adicionado mensagem quando não existe nenhum departamento cadastrado;
 
-
-	Commit atual:
-
 	Adicionado menu Contratos;
 	Adicionado modelo de Contrato;
 	Adicionado serviço de Contrato;
 	Adicionado valores da PLR em Contrato;
+	
 	Adicionado menu da PLR;
+
+
+	Commit atual:
+
+	Adicionado componente para adicionar indicadores;
+	Alterado comportamento de Periodo atual, quando Periodo atual mudar, pagina é encaminhada para dashboard;
+	Adicionado mensagens a cesta quando vazia;
+	

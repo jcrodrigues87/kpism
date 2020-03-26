@@ -1,49 +1,28 @@
 <div class="animated fadeIn">
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12" *ngIf="user && (user.role == 'admin' || user.role == 'supervisor')">
       <div class="card">
         <div class="card-body">
-          <!-- <list-errors [errors]="errors"></list-errors> -->
           <div class="row">
-            <!-- <fieldset [disabled]="isSubmitting"> -->
-              <label class="col-md-1 col-form-label" style="text-align: right">Período</label>
-              <div class="col-md-2">
-                <ng-select  [items]="periods"
-                            bindLabel="name"
-                            placeholder="Período"
-                            [(ngModel)]="period"
-                            (change)="loadReferences()" >
-                </ng-select>
-              </div>
-              <label class="col-md-1 col-form-label" style="text-align: right">Ref</label>
-              <div class="col-md-2">
-                <ng-select  [items]="references"
-                            bindLabel="refName"
-                            placeholder="Referência"
-                            [(ngModel)]="reference"
-                            (change)="loadMeterings()" >
-                </ng-select>
-              </div>
-              <!-- <label class="col-md-1 col-form-label" style="text-align: right">Usuário</label>
-              <div class="col-md-2">
-                <ng-select  [items]="users"
-                            bindLabel="name"
-                            placeholder="Usuário"
-                            [(ngModel)]="user"
-                            (change)="loadIndicators()" > 
-                </ng-select>
-              </div> -->
-              <label class="col-md-2 col-form-label" style="text-align: right">Usuário/Departamento</label>
-              <div class="col-md-2">
-                <ng-select  [items]="indicatorsFilter"
-                            bindLabel="name"
-                            placeholder="Usuário/Departamento"
-                            groupBy="type"
-                            [(ngModel)]="indicatorFilter"
-                            (change)="loadIndicators()" >
-                </ng-select>
-              </div>
-            <!-- </fieldset> -->
+            <label class="col-md-2 col-form-label" style="text-align: right">Referência</label>
+            <div class="col-md-2">
+              <ng-select  [items]="references"
+                          bindLabel="refName"
+                          placeholder="Referência"
+                          [(ngModel)]="reference"
+                          (change)="loadMeterings()" >
+              </ng-select>
+            </div>
+            <label class="col-md-3 col-form-label" style="text-align: right">Usuário/Departamento</label>
+            <div class="col-md-4">
+              <ng-select  [items]="indicatorsFilter"
+                          bindLabel="name"
+                          placeholder="Usuário/Departamento"
+                          groupBy="type"
+                          [(ngModel)]="indicatorFilter"
+                          (change)="loadIndicators()" >
+              </ng-select>
+            </div>
           </div>
         </div>
       </div>

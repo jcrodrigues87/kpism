@@ -37,11 +37,19 @@
                   <label for="limit">Limite Indicador</label>
                   <input type="number" step="1" class="form-control" id="limit" formControlName="limit">
                 </fieldset>
-                <fieldset class="form-group col-sm-3">
+                <fieldset class="form-group col-sm-3" *ngIf="!new">
                   <label for="inactive">Tipo Cesta</label>
                   <select class="form-control" id="basket" formControlName="basket">
                     <option [ngValue]=false>Não</option>
                     <option [ngValue]=true>Sim</option>
+                  </select>
+                </fieldset>
+                <fieldset class="form-group col-sm-3">
+                  <label for="role">Classificação</label>
+                  <select class="form-control" id="classification" formControlName="classification">
+                    <option value="strategic">Estratégico</option>
+                    <option value="tactical">Tático</option>
+                    <option value="operational">Operacional</option>
                   </select>
                 </fieldset>
               </div>
@@ -70,14 +78,6 @@
                   <option value="sum">Somatório</option>
                   <option value="avg">Média</option>
                   <option value="equalsref">Igual a Perído</option>
-                </select>
-              </fieldset>
-              <fieldset class="form-group col-sm-3">
-                <label for="role">Classificação</label>
-                <select class="form-control" id="classification" formControlName="classification">
-                  <option value="strategic">Estratégico</option>
-                  <option value="tactical">Tático</option>
-                  <option value="operational">Operacional</option>
                 </select>
               </fieldset>
             </div>

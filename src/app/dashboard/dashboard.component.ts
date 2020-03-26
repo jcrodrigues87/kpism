@@ -12,7 +12,8 @@ import {
   ReferencesService,
   MeteringsService,
   IndicatorFilter,
-  DepartmentsService
+  DepartmentsService,
+  AuthUser
 } from '../core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -31,6 +32,8 @@ export class DashboardComponent implements OnInit {
   indicator: Indicator;
   period: Period;
   reference: Reference;
+
+  user: AuthUser = undefined;
 
   refValues = {};
   accValues = {};
@@ -51,9 +54,28 @@ export class DashboardComponent implements OnInit {
     private modalService: BsModalService,
     private authService: AuthUserService,
     private departmentsService: DepartmentsService
-  ) {}
+  ) {
+    this.references = [
+      {refName: 'Janeiro', refOrder: '1'},
+      {refName: 'Fevereiro', refOrder: '2'},
+      {refName: 'Março', refOrder: '3'},
+      {refName: 'Abril', refOrder: '4'},
+      {refName: 'Maio', refOrder: '5'},
+      {refName: 'Junho', refOrder: '6'},
+      {refName: 'Julho', refOrder: '7'},
+      {refName: 'Agosto', refOrder: '8'},
+      {refName: 'Setembro', refOrder: '9'},
+      {refName: 'Outubro', refOrder: '10'},
+      {refName: 'Novembro', refOrder: '11'},
+      {refName: 'Dezembro', refOrder: '12'},
+    ]
+
+  }
 
   ngOnInit(): void {
+    this.user = this.authService.getCurrentAuthUser();
+    console.log(this.user)
+
     this.periodsService.query().subscribe(periods => {
       this.periods = periods;
       
@@ -72,6 +94,7 @@ export class DashboardComponent implements OnInit {
       this.loadFilters();
 
       let toSet: IndicatorFilter = new IndicatorFilter();
+      console.log(toSet)
 
       toSet.id = user.id;
       toSet.name = user.name;

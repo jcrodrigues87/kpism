@@ -128,19 +128,6 @@ export class BasketItemsEditorComponent implements OnInit {
         this.isSubmitting = false;
       }
     );
-
-
-
-
-
-  //   this.basketItemsService.set(this.indicator.id,this.selectedItem.indicator.id,this.selectedWeight).subscribe(
-  //     basketItem => {
-  //       this.selectedItem.weight = basketItem.weight;
-  //       this.selectedWeight = basketItem.weight;
-
-  //       this.loadBasket();
-  //     }
-  //   );
   }
 
 }

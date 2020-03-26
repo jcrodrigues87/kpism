@@ -1,1 +1,101 @@
-teste
+<div class="row">
+  <div class="col-md-6">
+    <div class="card-body">
+      <div class="row">
+        <div *ngIf="(contractIndicators == undefined || contractIndicators.length == 0)">
+          <h3 class="text-center">Nenhum indicador cadastrado</h3>
+        </div>
+        <table class="table table-responsive-sm table-hover table-outline mb-0 col-md-12">
+          <tbody>
+            <!-- <tr *ngFor="let item of contractIndicators" 
+            > -->
+            <tr *ngFor="let item of contractIndicators" 
+                class="normalIndicador"
+                [ngClass]="{ 'selectedIndicator': selectedItem && item.id === selectedItem.id }"
+                (click)="select(item)"
+            >
+              <td class="text-center">
+                <div class="small text-muted">Peso</div>
+                <strong>{{ item.weight }}</strong>
+              </td>
+              <td>
+                <div>{{ item.indicator.name }}</div>
+                <div class="small text-muted">
+                  <span>{{ item.indicator.description }}</span>
+                </div>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-danger" (click)="remove(item.indicator.id)"><i class="fa fa-trash-o"></i> </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table *ngIf="totalWeight" class="table table-responsive-sm table-hover table-outline mb-0 col-md-12">
+          <tbody>
+            <tr>
+              <td colspan='3' class="text-center">
+                <div class="small text-muted">Peso Total</div>
+                <strong>{{ totalWeight }}</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br *ngIf="errors">
+      <div *ngIf="errors" class="row">
+          <list-errors [errors]="errors"></list-errors>
+      </div>
+      <br>
+      <form [formGroup]="indicatorForm">
+        <div class="row">
+          <label class="col-md-2 col-form-label" for="manager" style="text-align: right">Indicador</label>
+          <div class="col-md-6">
+            <ng-select  [items]="indicators"
+                        bindLabel="name"
+                        placeholder="Indicador"
+                        formControlName="indicator">
+            </ng-select>
+          </div>
+          <label class="col-md-1 col-form-label" for="manager" >Peso</label>
+          <div class="col-md-2">
+            <input  class="form-control"
+                    type="number"
+                    min="0"
+                    step="1"
+                    style="text-align: right;"
+                    formControlName="weight"/>
+          </div>
+          <div class="col-md-1">
+            <button *ngIf="indicatorForm.value.indicator && indicatorForm.value.weight" class="btn btn-sm btn-primary" (click)="add()"><i class="fa fa-plus"></i></button>
+          </div> 
+        </div>
+      </form>
+    </div>
+  </div> 
+  <div *ngIf="!(contractIndicators == undefined || contractIndicators.length == 0)" class="col-md-6">
+    <div *ngIf="!selectedItem">
+      <br>
+      <h3 class="text-center">Selecione um item ao lado</h3>
+    </div>
+    <div *ngIf="selectedItem">
+      <div class="row">
+        <h4>{{ selectedItem.indicator.name }}</h4>
+      </div>
+      <br>
+      <div class="row">
+        <label class="col-md-2 col-form-label" for="manager" style="text-align: right" >Peso</label>
+        <div class="col-md-4">
+          <input  class="form-control"
+                  type="number"
+                  [(ngModel)]="selectedWeight"
+                  step="1"
+                  style="text-align: right;"
+          />
+        </div>
+        <div class="col-md-1">
+          <button class="btn btn-sm btn-primary" (click)="updateWeight()">Atualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
