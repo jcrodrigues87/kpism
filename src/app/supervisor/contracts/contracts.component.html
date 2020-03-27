@@ -15,6 +15,7 @@
         <div class="col-md-2">
         </div>
         <h3 *ngIf="!selectedUser" align="center">Selecione um usuário</h3>
+        <h3 *ngIf="selectedUser" align="center">{{ selectedUser.name }}</h3>
       </div>
     </div>
   </div>

@@ -7,13 +7,10 @@ Front-End:
 
 	Cesta - Indicador possui uma tabela para quando está em cesta e outra para quando não, fazendo com que o calculo no dashboard calcule sempre a tabela sem cesta.
 	
-	Login - Implementar "Esqueceu sua senha".
-	Login - Implementar "Redefinir senha".
 	Login - Aviso de usuario ou senha incorretos aparecem em ingles.
 
 	PLR - Criar interface referentes a PLR.
 
-	Indicadores - Bloquear edição da opção "Cesta".
 	Indicadores - Peso de cesta aceita numero negativo.
 
 	Dashboard - Varios erros na mudança de Periodo, referencia e usuario.
@@ -32,6 +29,7 @@ Front-End:
 	Removido Inicio e Fim de Período, estando disponivel o campo Ano;
 	Adicionado campo Multiplicador Canex em Período;
 	Adicionado mensagem quando não existe nenhum período cadastrado;
+	Alterado comportamento de Periodo atual, quando Periodo atual mudar, pagina é encaminhada para dashboard;
 
 	Adicionado campos Limite Indicador e Classificação em Indicadores;
 	Removido inclusão de responsaveis de Indicadores;
@@ -47,6 +45,7 @@ Front-End:
 	Corrigido atualização de peso de indicador da cesta;
 	Corrigido atualização das metricas de indicadorda cesta;
 	Adicionado mensagem de salvo com sucesso;
+	Adicionado mensagens a cesta quando vazia;
 	
 	Removido campo Inativo de Usuários;
 	Adicionado nome do usuário no cabeçalho;
@@ -60,13 +59,13 @@ Front-End:
 	Adicionado modelo de Contrato;
 	Adicionado serviço de Contrato;
 	Adicionado valores da PLR em Contrato;
+	Adicionado componente para adicionar indicadores;
 	
 	Adicionado menu da PLR;
 
 
 	Commit atual:
 
-	Adicionado componente para adicionar indicadores;
-	Alterado comportamento de Periodo atual, quando Periodo atual mudar, pagina é encaminhada para dashboard;
-	Adicionado mensagens a cesta quando vazia;
-	
+	Corrigido dashboard para determinado mês;
+	Adicionado um rodapé com peso total e resultado da média ponderada dos indicadores;
+	Alterado comportamento da barra de porcentagem do dashboard;

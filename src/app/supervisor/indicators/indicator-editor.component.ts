@@ -17,7 +17,7 @@ export class IndicatorEditorComponent implements OnInit {
   errors: Object = {};
   isSubmitting = false;
   message: string;
-  new: boolean = false;
+  new: boolean = true;
 
   constructor(
     private indicatorsService: IndicatorsService,
@@ -45,7 +45,7 @@ export class IndicatorEditorComponent implements OnInit {
         this.indicator = data.indicator;
 
         if (this.indicator.id)
-          this.new = true;
+          this.new = false;
 
         this.indicatorForm.patchValue(data.indicator);
 
@@ -66,6 +66,7 @@ export class IndicatorEditorComponent implements OnInit {
       indicator => {
         this.indicator = indicator;
         this.isSubmitting = false;
+        this.new = false;
         this.message = "Salvo com sucesso!"
       },
       err => {

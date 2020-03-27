@@ -1,4 +1,4 @@
 export class Reference {
-  refOrder: string;
+  refOrder: number;
   refName: string;
 }

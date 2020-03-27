@@ -47,6 +47,7 @@ import { CoreModule } from './core';
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import { AppRoutingModule } from './app.routing';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
-    NgSelectModule
+    NgSelectModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     AppComponent,

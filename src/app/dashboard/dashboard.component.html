@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
   <div class="row">
-    <div class="col-sm-12" *ngIf="user && (user.role == 'admin' || user.role == 'supervisor')">
+    <div class="col-sm-12">
       <div class="card">
         <div class="card-body">
           <div class="row">
@@ -9,19 +9,23 @@
               <ng-select  [items]="references"
                           bindLabel="refName"
                           placeholder="Referência"
+                          [clearable]="false"
                           [(ngModel)]="reference"
                           (change)="loadMeterings()" >
               </ng-select>
             </div>
-            <label class="col-md-3 col-form-label" style="text-align: right">Usuário/Departamento</label>
-            <div class="col-md-4">
-              <ng-select  [items]="indicatorsFilter"
-                          bindLabel="name"
-                          placeholder="Usuário/Departamento"
-                          groupBy="type"
-                          [(ngModel)]="indicatorFilter"
-                          (change)="loadIndicators()" >
-              </ng-select>
+            <div class='row col-md-8' *ngIf="sectionUser && (sectionUser.role == 'admin' || sectionUser.role == 'supervisor')">
+              <label class="col-md-3 col-form-label"  style="text-align: right">Usuário</label>
+              <div>
+                <ng-select  [items]="users"
+                            bindLabel="name"
+                            placeholder="Usuário"
+                            groupBy="type"
+                            [clearable]="false"
+                            [(ngModel)]="selectedUser"
+                            (change)="loadContract()" >
+                </ng-select>
+              </div>
             </div>
           </div>
         </div>
@@ -30,26 +34,30 @@
     <!--/.col-->
   </div>
   <!--/.row-->
-    <div class="col-sm-12" *ngIf="indicatorFilter && period && indicators && reference">
+    <div class="col-sm-12" *ngIf="selectedUser && reference && contract">
       <div class="card">
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <h1>{{ indicatorFilter.type === "Departamentos" ? "Departamento "  : "" }}{{ indicatorFilter.name }}</h1>
-                <h6>{{ indicatorFilter.departmentName }} </h6>
+                <h1>{{ selectedUser.name }}</h1>
+                <h6>{{ selectedUser.departmentName }} </h6>
               </div>
             </div>
             <br>
-            <table class="table table-responsive-sm table-hover table-outline mb-0">
+            <div *ngIf="(contractIndicators.length == 0)">
+              <h3 align="center">Nenhum indicador cadastrado</h3>
+            </div>
+            <table class="table table-responsive-sm table-hover table-outline mb-0" *ngIf="(contractIndicators.length != 0)">
               <thead class="thead-light">
                 <tr>
                   <th rowspan="2" class="text-center"></th>
                   <th rowspan="2" >Indicador</th>
+                  <th rowspan="2" >Peso</th>
                   <th rowspan="2" class="text-center">Orientação</th>
                   <th rowspan="2">Medida</th>
                   <th class="text-center" colspan="4">{{ reference.refName }}</th>
                   <th rowspan="2"></th>
-                  <th class="text-center" colspan="4">Acumulado {{ period.name }}</th>
+                  <th class="text-center" colspan="4">Acumulado {{ currentPeriod.name }}</th>
                   <th rowspan="2"></th>
                 </tr>
                 <tr>
@@ -64,46 +72,75 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let ind of indicators">
+                <tr *ngFor="let contractIndicator of contractIndicators">
                   <td class="text-center">
-                    <button class="btn btn-sm btn-primary" (click)="openModal(responsableModalTemplate, ind)" title="Responsáveis"><i class="icon-people"></i></button>
+                    <button class="btn btn-sm btn-primary" (click)="acordeon" title="Responsáveis"><i class="icon-list"></i></button>
                   </td>
                   <td>
-                    <div>{{ ind.name }}</div>
+                    <div>{{ contractIndicator.indicator.name }}</div>
                     <div class="small text-muted">
-                      {{ ind.description }}
+                      {{ contractIndicator.indicator.description }}
                     </div>
                   </td>
+                  <td class="text-center">{{ contractIndicator.weight }}</td>
                   <td class="text-center">
-                      <i *ngIf="ind.orientation === 'higher'" class="fa fa-arrow-up fa-lg mt-4"></i>
-                      <i *ngIf="ind.orientation !== 'higher'" class="fa fa-arrow-down fa-lg mt-4"></i>
-                      {{ ind.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
+                      <i *ngIf="contractIndicator.indicator.orientation === 'higher'" class="fa fa-arrow-up fa-lg mt-4"></i>
+                      <i *ngIf="contractIndicator.indicator.orientation !== 'higher'" class="fa fa-arrow-down fa-lg mt-4"></i>
+                      {{ contractIndicator.indicator.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
                   </td>
-                  <td class="text-center">{{ ind.measure }}</td>
-                  <td class="text-right">{{ refValues[ind.id] ? (refValues[ind.id].target | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ refValues[ind.id] ? (refValues[ind.id].actual | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ refValues[ind.id] ? (refValues[ind.id].difference | number : '1.2-2') : "..." }}</td>
+                  <td class="text-center">{{ contractIndicator.indicator.measure }}</td>
+                  <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].target | number : '1.2-2') : "..." }}</td>
+                  <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].actual | number : '1.2-2') : "..." }}</td>
+                  <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].difference | number : '1.2-2') : "..." }}</td>
                   <td>
-                      <percent-indicator [metering]="refValues[ind.id]"></percent-indicator>
-                  <td></td>
+                      <percent-indicator [percent]="contractIndicator.indicator.metering[reference.refOrder-1].percent"
+                                         [refName]="contractIndicator.indicator.metering[reference.refOrder-1].refName">
+                      </percent-indicator>
+                  </td>
+                  <!--<td></td>
                   <td class="text-right">{{ accValues[ind.id] ? (accValues[ind.id].target | number : '1.2-2') : "..." }}</td>
                   <td class="text-right">{{ accValues[ind.id] ? (accValues[ind.id].actual | number : '1.2-2') : "..." }}</td>
                   <td class="text-right">{{ accValues[ind.id] ? (accValues[ind.id].difference | number : '1.2-2') : "..." }}</td>
                   <td>
                       <percent-indicator [metering]="accValues[ind.id]"></percent-indicator>
-                  </td>
-                  <td class="text-center">
+                  </td> -->
+                  <!-- <td class="text-center">
                     <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, ind)" title="Gráfico"><i class="icon-chart"></i></button>
-                  </td>
-                </tr>
+                  </td> -->
               </tbody>
+              <thead class="thead-light">
+                <tr>
+                  <th></th>
+                  <th>Peso Total</th>
+                  <th>
+                    {{totalWeight}}
+                  </th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>Total</th>
+                  <th>
+                    <!-- {{ refResult }} -->
+                    <percent-indicator [percent]="refResult"
+                                       [refName]="reference.refName.slice(0, 3)">
+                    </percent-indicator>
+                  </th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
             </table>
           </div>
       </div>
   </div>
 </div>
 
-<ng-template #chartModalTemplate>
+<!-- <ng-template #chartModalTemplate>
   <div class="modal-header">
     <h4 class="modal-title">{{ indicator ? indicator.name : "..." }} - {{ period ? period.name : "..." }}</h4>
     <button type="button" class="close" (click)="chartModal.hide()" aria-label="Close">
@@ -126,4 +163,4 @@
   <div class="modal-body">
     <responsables-table [indicator]="indicator" [period]="period"></responsables-table>
   </div>
-</ng-template>
+</ng-template> -->
