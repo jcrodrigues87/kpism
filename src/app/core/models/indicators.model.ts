@@ -12,6 +12,7 @@ export class Indicator {
   classification: string;
   limit: number;
   metering: Array<Metering>;
+  accumulated: Metering;
   basket: boolean;
   createdAt: Date;
   updatedAt: Date;

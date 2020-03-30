@@ -34,7 +34,7 @@
     <!--/.col-->
   </div>
   <!--/.row-->
-    <div class="col-sm-12" *ngIf="selectedUser && reference && contract">
+    <div class="col-sm-14" *ngIf="selectedUser && reference && contract">
       <div class="card">
           <div class="card-body">
             <div class="row">
@@ -93,20 +93,22 @@
                   <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].actual | number : '1.2-2') : "..." }}</td>
                   <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].difference | number : '1.2-2') : "..." }}</td>
                   <td>
-                      <percent-indicator [percent]="contractIndicator.indicator.metering[reference.refOrder-1].percent"
-                                         [refName]="contractIndicator.indicator.metering[reference.refOrder-1].refName">
-                      </percent-indicator>
+                    <percent-indicator [percent]="contractIndicator.indicator.metering[reference.refOrder-1].percent"
+                                       [refName]="contractIndicator.indicator.metering[reference.refOrder-1].refName.slice(0, 3)">
+                    </percent-indicator>
                   </td>
-                  <!--<td></td>
-                  <td class="text-right">{{ accValues[ind.id] ? (accValues[ind.id].target | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ accValues[ind.id] ? (accValues[ind.id].actual | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ accValues[ind.id] ? (accValues[ind.id].difference | number : '1.2-2') : "..." }}</td>
+                  <td></td>
+                  <td class="text-right">{{ contractIndicator.indicator.accumulated ? (contractIndicator.indicator.accumulated.target | number : '1.2-2') : "..." }}</td>
+                  <td class="text-right">{{ contractIndicator.indicator.accumulated ? (contractIndicator.indicator.accumulated.actual | number : '1.2-2') : "..." }}</td>
+                  <td class="text-right">{{ contractIndicator.indicator.accumulated ? (contractIndicator.indicator.accumulated.difference | number : '1.2-2') : "..." }}</td>
                   <td>
-                      <percent-indicator [metering]="accValues[ind.id]"></percent-indicator>
-                  </td> -->
-                  <!-- <td class="text-center">
+                    <percent-indicator [percent]="contractIndicator.indicator.accumulated.percent"
+                                       [refName]="contractIndicator.indicator.accumulated.refName.slice(0, 3)">
+                    </percent-indicator>  
+                  </td>
+                  <td class="text-center">
                     <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, ind)" title="Gráfico"><i class="icon-chart"></i></button>
-                  </td> -->
+                  </td>
               </tbody>
               <thead class="thead-light">
                 <tr>

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, OnChanges } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { 
@@ -13,13 +13,15 @@ import {
   User,
   ContractsService,
   Contract,
-  ContractIndicator
+  ContractIndicator,
+  Metering
 } from '../core';
+import { reference } from '@angular/core/src/render3';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnChanges {
   periods: Array<Period> = [];
   indicator: Indicator;
   period: Period;
@@ -34,8 +36,12 @@ export class DashboardComponent implements OnInit {
   references: Array<Reference> = [];
   reference: Reference;
 
+
+  metering: Metering;
+
   totalWeight: number;
   refResult: number;
+  accumulatedResult: number;
 
 
   refValues = {};
@@ -83,13 +89,17 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+ ngOnChanges(): void {
+  this.calcAccumulated()
+ }
+
   loadContract(): void {
     this.contractService.get(this.selectedUser.id).subscribe(contract => {
       this.contract = contract;
       this.contractService.queryIndicators(this.contract.id).subscribe(contractIndicators => {
         this.contractIndicators = contractIndicators;
-        console.log(this.contractIndicators)
         this.loadMeterings();
+        
       })  
     })
   }
@@ -101,6 +111,7 @@ export class DashboardComponent implements OnInit {
       this.totalWeight += this.contractIndicators[i].weight
       this.refResult += (this.contractIndicators[i].indicator.metering[this.reference.refOrder-1].percent * this.contractIndicators[i].weight * 0.01)
     }
+    this.calcAccumulated();
     
     // if (this.indicatorFilter && this.period && this.reference) {
     //   this.refValues = {};
@@ -120,39 +131,36 @@ export class DashboardComponent implements OnInit {
     // }
   }
 
-  acordeon(): void {
-    
+  calcAccumulated(): void {
+    for (var i = 0; i < this.contractIndicators.length; i++) {
+      this.contractIndicators[i].indicator.accumulated = {id: "", refOrder: this.reference.refOrder, refName: this.reference.refName, target: 0, actual: 0, difference: 0, percent: 0, createdAt: undefined, updatedAt: undefined}
+      if (this.contractIndicators[i].indicator.accumulatedType == "sum") {
+        for (var j = 0; j < this.reference.refOrder; j++) {
+          this.contractIndicators[i].indicator.accumulated.target += this.contractIndicators[i].indicator.metering[j].target;
+          this.contractIndicators[i].indicator.accumulated.actual += this.contractIndicators[i].indicator.metering[j].actual;
+        }
+      } else if  (this.contractIndicators[i].indicator.accumulatedType == "avg") {
+        for (var j = 0; j < this.reference.refOrder; j++) {
+          this.contractIndicators[i].indicator.accumulated.target += this.contractIndicators[i].indicator.metering[j].target;
+          this.contractIndicators[i].indicator.accumulated.actual += this.contractIndicators[i].indicator.metering[j].actual;
+        }
+        this.contractIndicators[i].indicator.accumulated.target /= this.contractIndicators[i].indicator.metering[j-1].refOrder;
+        this.contractIndicators[i].indicator.accumulated.actual /= this.contractIndicators[i].indicator.metering[j-1].refOrder;
+      } else {
+        this.contractIndicators[i].indicator.accumulated = this.contractIndicators[i].indicator.metering[this.reference.refOrder-1]
+      }
+    }
+    // this.accumulatedResult = 0;
+    // for (var i = 0; i < this.contractIndicators.length; i++) {
+    //   this.contractIndicators[i].indicator.accumulated = this.metering;
+    //   console.log(this.contractIndicators[i].indicator)
+    //   console.log(this.contractIndicators[i].indicator.accumulated)
+    //   this.accumulatedResult += (this.contractIndicators[i].indicator.accumulated.percent * this.contractIndicators[i].weight * 0.01)
+    // }
   }
 
-  loadFilters(): void {
-    let temp: Array<IndicatorFilter> = [];
-
-    this.profilesService.query().subscribe(users => {
-      users.forEach(user => {
-        const filter: IndicatorFilter = new IndicatorFilter();
-  
-        filter.id = user.id;
-        filter.name = user.name;
-        filter.departmentName = user.department ? user.department.name : undefined;
-        filter.type = 'Usuários';
-  
-        temp.push(filter);
-      });
-
-      this.departmentsService.query().subscribe(department => {
-        department.forEach(department => {
-          const filter: IndicatorFilter = new IndicatorFilter();
+  acordeon(): void {
     
-          filter.id = department.id;
-          filter.name = department.name;
-          filter.type = 'Departamentos'
-    
-          temp.push(filter);
-        });
-
-        this.indicatorsFilter = temp;
-      });
-    });
   }
 
   // loadIndicators(): void {

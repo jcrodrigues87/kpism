@@ -63,9 +63,11 @@ Front-End:
 	
 	Adicionado menu da PLR;
 
-
-	Commit atual:
-
 	Corrigido dashboard para determinado mês;
 	Adicionado um rodapé com peso total e resultado da média ponderada dos indicadores;
 	Alterado comportamento da barra de porcentagem do dashboard;
+
+
+	Commit atual:
+
+	
