@@ -20,7 +20,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ProgressbarModule.forRoot(),
     ModalModule.forRoot(),
     BsDropdownModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
   ],
   declarations: [ DashboardComponent, PercentInicatorComponent ]
 })

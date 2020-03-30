@@ -14,17 +14,19 @@ import {
   ContractsService,
   Contract,
   ContractIndicator,
-  Metering
+  Metering,
+  CalcService
 } from '../core';
-import { reference } from '@angular/core/src/render3';
 
 @Component({
-  templateUrl: 'dashboard.component.html'
+  templateUrl: 'dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnChanges {
   periods: Array<Period> = [];
   indicator: Indicator;
   period: Period;
+
+  teste;
   
   currentPeriod: Period;
   sectionUser: User;
@@ -36,28 +38,30 @@ export class DashboardComponent implements OnInit, OnChanges {
   references: Array<Reference> = [];
   reference: Reference;
 
+  acordeonSelected: ContractIndicator;
+
 
   metering: Metering;
 
+  accumulated: Array<Metering> = [];
+  accumulatedResult: number;
   totalWeight: number;
   refResult: number;
-  accumulatedResult: number;
 
 
-  refValues = {};
-  accValues = {};
   meteringsLoaded: boolean = false;
   chartModal: BsModalRef | null;
   indicatorsFilter: Array<IndicatorFilter> = [];
   indicatorFilter: IndicatorFilter;
-
+  
   constructor(
     private contractService: ContractsService,
     private currentPeriodService: CurrentPeriodService,
     private profilesService: ProfilesService,
     private modalService: BsModalService,
     private authService: AuthUserService,
-    private departmentsService: DepartmentsService
+    private departmentsService: DepartmentsService,
+    private calcService: CalcService
   ) {
     this.references = [
       {refName: 'Janeiro', refOrder: 1},
@@ -90,6 +94,7 @@ export class DashboardComponent implements OnInit, OnChanges {
   }
 
  ngOnChanges(): void {
+  console.log('aaa')
   this.calcAccumulated()
  }
 
@@ -99,7 +104,6 @@ export class DashboardComponent implements OnInit, OnChanges {
       this.contractService.queryIndicators(this.contract.id).subscribe(contractIndicators => {
         this.contractIndicators = contractIndicators;
         this.loadMeterings();
-        
       })  
     })
   }
@@ -112,86 +116,58 @@ export class DashboardComponent implements OnInit, OnChanges {
       this.refResult += (this.contractIndicators[i].indicator.metering[this.reference.refOrder-1].percent * this.contractIndicators[i].weight * 0.01)
     }
     this.calcAccumulated();
-    
-    // if (this.indicatorFilter && this.period && this.reference) {
-    //   this.refValues = {};
-    //   this.accValues = {};
+  }
 
-    //   this.indicators.forEach(indicator => {
-    //     this.meteringsService.get(indicator.id, this.period.id, this.reference.refOrder).subscribe(m => {
-    //       this.refValues[indicator.id] = m;
-    //     });
-    //   });
-
-    //   this.indicators.forEach(indicator => {
-    //     this.meteringsService.getAccumulated(indicator.id, this.period.id, this.reference.refOrder).subscribe(m => {
-    //       this.accValues[indicator.id] = m;
-    //     });
-    //   });
-    // }
+  calcAccumulatedIndex(index): void {
+    this.accumulated[index] = ({id: "", refOrder: this.reference.refOrder, refName: this.reference.refName, target: 0, actual: 0, difference: 0, percent: 0, createdAt: undefined, updatedAt: undefined})
+    if (this.contractIndicators[index].indicator.accumulatedType == "sum") {
+      for (var j = 0; j < this.reference.refOrder; j++) {
+        this.accumulated[index].target += this.contractIndicators[index].indicator.metering[j].target;
+        this.accumulated[index].actual += this.contractIndicators[index].indicator.metering[j].actual;
+      }
+    } else if  (this.contractIndicators[index].indicator.accumulatedType == "avg") {
+      for (var j = 0; j < this.reference.refOrder; j++) {
+        this.accumulated[index].target += this.contractIndicators[index].indicator.metering[j].target;
+        this.accumulated[index].actual += this.contractIndicators[index].indicator.metering[j].actual;
+      }
+      this.accumulated[index].target /= this.contractIndicators[index].indicator.metering[j-1].refOrder;
+      this.accumulated[index].actual /= this.contractIndicators[index].indicator.metering[j-1].refOrder;
+    } else {
+      this.accumulated[index] = this.contractIndicators[index].indicator.metering[this.reference.refOrder-1]
+    }
+    this.accumulated[index] = this.calcService.calcPercentDifference(this.accumulated[index], this.contractIndicators[index].indicator.orientation, this.contractIndicators[index].indicator.limit)
+    console.log(this.accumulated)
+    this.calcTotalAccumulated();
   }
 
   calcAccumulated(): void {
+    this.accumulated = [];
     for (var i = 0; i < this.contractIndicators.length; i++) {
-      this.contractIndicators[i].indicator.accumulated = {id: "", refOrder: this.reference.refOrder, refName: this.reference.refName, target: 0, actual: 0, difference: 0, percent: 0, createdAt: undefined, updatedAt: undefined}
-      if (this.contractIndicators[i].indicator.accumulatedType == "sum") {
-        for (var j = 0; j < this.reference.refOrder; j++) {
-          this.contractIndicators[i].indicator.accumulated.target += this.contractIndicators[i].indicator.metering[j].target;
-          this.contractIndicators[i].indicator.accumulated.actual += this.contractIndicators[i].indicator.metering[j].actual;
-        }
-      } else if  (this.contractIndicators[i].indicator.accumulatedType == "avg") {
-        for (var j = 0; j < this.reference.refOrder; j++) {
-          this.contractIndicators[i].indicator.accumulated.target += this.contractIndicators[i].indicator.metering[j].target;
-          this.contractIndicators[i].indicator.accumulated.actual += this.contractIndicators[i].indicator.metering[j].actual;
-        }
-        this.contractIndicators[i].indicator.accumulated.target /= this.contractIndicators[i].indicator.metering[j-1].refOrder;
-        this.contractIndicators[i].indicator.accumulated.actual /= this.contractIndicators[i].indicator.metering[j-1].refOrder;
-      } else {
-        this.contractIndicators[i].indicator.accumulated = this.contractIndicators[i].indicator.metering[this.reference.refOrder-1]
-      }
+      this.accumulated.push({id: "", refOrder: this.reference.refOrder, refName: this.reference.refName, target: 0, actual: 0, difference: 0, percent: 0, createdAt: undefined, updatedAt: undefined})
+      this.calcAccumulatedIndex(i);
     }
-    // this.accumulatedResult = 0;
-    // for (var i = 0; i < this.contractIndicators.length; i++) {
-    //   this.contractIndicators[i].indicator.accumulated = this.metering;
-    //   console.log(this.contractIndicators[i].indicator)
-    //   console.log(this.contractIndicators[i].indicator.accumulated)
-    //   this.accumulatedResult += (this.contractIndicators[i].indicator.accumulated.percent * this.contractIndicators[i].weight * 0.01)
-    // }
   }
 
-  acordeon(): void {
-    
+  calcTotalAccumulated(): void {
+    this.accumulatedResult = 0;
+    for (var j = 0; j < this.accumulated.length; j++) {
+      this.accumulatedResult += (this.accumulated[j].percent * this.contractIndicators[j].weight * 0.01)
+    }
+    console.log(this.accumulatedResult)
   }
 
-  // loadIndicators(): void {
-  //   // if (this.user && this.period) 
-  //   //   this.indicatorsService.getByResponable(this.user.id,this.period.id).subscribe(indicators => {
-  //   //     this.indicators = indicators;
+  doSomething(obj) {
+    console.log(obj)
+    this.calcAccumulatedIndex(obj);
+  }
 
-  //   //     this.loadMeterings();
-  //   //   });
-  //   if (this.indicatorFilter) {
-  //     if (this.indicatorFilter.type === 'Usuários') {
-  //       if (this.period)
-  //         this.indicatorsService.getByResponable(this.indicatorFilter.id, this.period.id).subscribe(indicators => {
-  //           this.indicators = indicators;
-
-  //           this.loadMeterings();
-  //         });
-  //     }
-
-  //     if (this.indicatorFilter.type === 'Departamentos') {
-  //       if (this.period)
-  //         this.indicatorsService.getByDepartment(this.indicatorFilter.id).subscribe(indicators => {
-  //           this.indicators = indicators;
-
-  //           this.loadMeterings();
-  //         });
-  //     }
-  //   }
-  // }
-
-
+  acordeon(contractIndicator): void {
+    if (this.acordeonSelected == contractIndicator) {
+      this.acordeonSelected = undefined;
+    } else {
+      this.acordeonSelected = contractIndicator;
+    }
+  }
 
   openModal(template: TemplateRef<any>, indicator) {
     this.indicator = indicator;
@@ -200,4 +176,5 @@ export class DashboardComponent implements OnInit, OnChanges {
 
     this.chartModal = this.modalService.show(template, { class: 'modal-lg', initialState });
   }
+
 }

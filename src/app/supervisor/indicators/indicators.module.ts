@@ -12,7 +12,6 @@ import { IndicatorsComponent } from './indicators.component';
 import { IndicatorEditorComponent } from './indicator-editor.component';
 import { IndicatorResolver } from './indicator-resolver.service';
 import { ResponsablesEditorComponent } from './responsabels-editor.component';
-import { MeteringsEditorComponent } from './meterings-editor.component';
 import { BasketItemsEditorComponent } from './basket-items-editor.component';
 
 @NgModule({
@@ -29,7 +28,6 @@ import { BasketItemsEditorComponent } from './basket-items-editor.component';
     IndicatorsComponent,
     IndicatorEditorComponent,
     ResponsablesEditorComponent,
-    MeteringsEditorComponent,
     BasketItemsEditorComponent
   ],
   providers: [

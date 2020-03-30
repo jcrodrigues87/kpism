@@ -77,7 +77,7 @@
                 <select class="form-control" id="accumulatedType" formControlName="accumulatedType">
                   <option value="sum">Somatório</option>
                   <option value="avg">Média</option>
-                  <option value="equalsref">Igual a Perído</option>
+                  <option value="equalsref">Igual ao Mensal</option>
                 </select>
               </fieldset>
             </div>
@@ -98,11 +98,12 @@
       <!-- Nav tabs -->
       <tabset>
         <tab *ngIf="!indicator.basket">
-          <ng-template tabHeading><i class="icon-chart"></i> Previsto/Realizado</ng-template>
+          <ng-template tabHeading><i class="icon-chart"></i> Planejado/Realizado</ng-template>
           <div class="col-md-8">
             <meterings-editor [indicator]="indicator"
                               [showDelta]="true"
-            ></meterings-editor>
+                              [targetEdit]="true">
+            </meterings-editor>
           </div>
         </tab>
         <tab *ngIf="indicator.basket">

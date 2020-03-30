@@ -70,4 +70,13 @@ Front-End:
 
 	Commit atual:
 
+	Corrigido Previsto/Realizado de acumulado no dashboard;
+	Adicionado botão de expansão em cada indicador no dashboard;
+	Adicionado Previsto/Realizado no botão de expansão;
+	Alterado diretorio de meterings-editor.component para a pasta shared;
+	Alterado menções de Previsto/Realizado para Planejado/Realizado;
+	Adicionado serviço CalcService, responsavel por calculos;
+	Adicionado calcPercentDifference, para calcular porcentagem e desvio dos indicadores;
+	Substituido calc() de meterings para o CalcService;
+	Adicionado lembrete em meterings para quando uma modificação não ter sido salva;
 	

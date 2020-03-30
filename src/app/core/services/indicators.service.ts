@@ -48,7 +48,6 @@ export class IndicatorsService {
     this.currentPeriodService.currentPeriod.subscribe(
       data => {
         this.currentPeriod = data;
-    
         // if is updating
         if (indicator.id) {
           this.observableIndicator = this.apiService.put('/indicators/' + this.currentPeriod.id + '/' + indicator.id, { indicator: indicator }).pipe(
@@ -59,8 +58,8 @@ export class IndicatorsService {
             map(data => data.indicator)
           );
         }
-
       });
+
     return this.observableIndicator;
   }
 

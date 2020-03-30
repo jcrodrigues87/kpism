@@ -48,7 +48,7 @@
       <form [formGroup]="basketItemForm">
         <div class="row">
             <label class="col-md-2 col-form-label" for="manager" style="text-align: right">Indicador</label>
-            <div class="col-md-6">
+            <div class="col-md-7">
               <ng-select  [items]="indicators"
                           bindLabel="name"
                           placeholder="Indicador"
@@ -98,11 +98,11 @@
       </div>
       <br>
       <div class="row">
-        <h4>Previsto/Realizado</h4>
+        <h4>Planejado/Realizado</h4>
       </div>
       <meterings-editor [indicator]="selectedItem.indicator"
                         [showDelta]="false"
-      >
+                        [targetEdit]="true">
       </meterings-editor>
     </div>
   </div>

@@ -1,23 +1,27 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { Indicator, IndicatorsService, Metering, } from "../../core";
+import { Indicator, IndicatorsService, Metering, CalcService } from "../core";
 
 @Component({
   selector: 'meterings-editor',
   templateUrl: './meterings-editor.component.html'
 })
-export class MeteringsEditorComponent {
+export class MeteringsEditorComponent{
   @Input() indicator: Indicator;
-  @Input() showDelta: Boolean;
+  @Output() indicatorChange = new EventEmitter<Indicator>();
+  @Input() showDelta: boolean;
+  @Input() targetEdit: boolean;
 
   errors: Object;
   isSubmitting = false;
   meterings: Array<Metering> = [];
   message: string;
+  warning: string;
   
   constructor(
     private indicatorsService: IndicatorsService,
+    private calcService: CalcService,
     private router: Router
   ) {}
 
@@ -28,7 +32,9 @@ export class MeteringsEditorComponent {
       indicator => {
         this.indicator = indicator;
         this.isSubmitting = false;
+        this.warning = undefined;
         this.message = "Salvo com sucesso!";
+        this.indicatorChange.emit(this.indicator)
       },
       err => {
         this.errors = err;
@@ -38,28 +44,14 @@ export class MeteringsEditorComponent {
   }
 
   calc(meter) {
-    if (meter.actual !== "" && meter.target !== "") {
-      if (this.indicator.orientation === 'higher') {
-        meter.difference = meter.actual - meter.target;
-        meter.percent = (meter.actual / meter.target) * 100;
-      } else {
-        meter.difference = meter.target - meter.actual;
-        meter.percent = (meter.target / meter.actual) * 100;
-      }
-    } else {
-      meter.difference = 0;  
-      meter.percent = 0;
-    }
-    if (meter.percent > this.indicator.limit)
-      meter.percent = this.indicator.limit;
-  }
-
-  back() {
-    this.router.navigateByUrl('supervisor/indicators');
+    meter = this.calcService.calcPercentDifference(meter, this.indicator.orientation, this.indicator.limit);
+    this.message = undefined;
+    this.warning = "Modificações ainda não foram salvas!"
   }
 
   closeMessage() {
     this.message = undefined;
+    this.warning = undefined;
   }
 
 }

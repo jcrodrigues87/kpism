@@ -34,111 +34,130 @@
     <!--/.col-->
   </div>
   <!--/.row-->
-    <div class="col-sm-14" *ngIf="selectedUser && reference && contract">
-      <div class="card">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-12">
-                <h1>{{ selectedUser.name }}</h1>
-                <h6>{{ selectedUser.departmentName }} </h6>
-              </div>
-            </div>
-            <br>
-            <div *ngIf="(contractIndicators.length == 0)">
-              <h3 align="center">Nenhum indicador cadastrado</h3>
-            </div>
-            <table class="table table-responsive-sm table-hover table-outline mb-0" *ngIf="(contractIndicators.length != 0)">
-              <thead class="thead-light">
-                <tr>
-                  <th rowspan="2" class="text-center"></th>
-                  <th rowspan="2" >Indicador</th>
-                  <th rowspan="2" >Peso</th>
-                  <th rowspan="2" class="text-center">Orientação</th>
-                  <th rowspan="2">Medida</th>
-                  <th class="text-center" colspan="4">{{ reference.refName }}</th>
-                  <th rowspan="2"></th>
-                  <th class="text-center" colspan="4">Acumulado {{ currentPeriod.name }}</th>
-                  <th rowspan="2"></th>
-                </tr>
-                <tr>
-                    <th class="text-center">Planejado</th>
-                    <th class="text-center">Realizado</th>
-                    <th class="text-center">Desvio</th>
-                    <th class="text-center"></th>
-                    <th class="text-center">Planejado</th>
-                    <th class="text-center">Realizado</th>
-                    <th class="text-center">Desvio</th>
-                    <th class="text-center"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let contractIndicator of contractIndicators">
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-primary" (click)="acordeon" title="Responsáveis"><i class="icon-list"></i></button>
-                  </td>
-                  <td>
-                    <div>{{ contractIndicator.indicator.name }}</div>
-                    <div class="small text-muted">
-                      {{ contractIndicator.indicator.description }}
-                    </div>
-                  </td>
-                  <td class="text-center">{{ contractIndicator.weight }}</td>
-                  <td class="text-center">
-                      <i *ngIf="contractIndicator.indicator.orientation === 'higher'" class="fa fa-arrow-up fa-lg mt-4"></i>
-                      <i *ngIf="contractIndicator.indicator.orientation !== 'higher'" class="fa fa-arrow-down fa-lg mt-4"></i>
-                      {{ contractIndicator.indicator.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
-                  </td>
-                  <td class="text-center">{{ contractIndicator.indicator.measure }}</td>
-                  <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].target | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].actual | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].difference | number : '1.2-2') : "..." }}</td>
-                  <td>
-                    <percent-indicator [percent]="contractIndicator.indicator.metering[reference.refOrder-1].percent"
-                                       [refName]="contractIndicator.indicator.metering[reference.refOrder-1].refName.slice(0, 3)">
-                    </percent-indicator>
-                  </td>
-                  <td></td>
-                  <td class="text-right">{{ contractIndicator.indicator.accumulated ? (contractIndicator.indicator.accumulated.target | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ contractIndicator.indicator.accumulated ? (contractIndicator.indicator.accumulated.actual | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ contractIndicator.indicator.accumulated ? (contractIndicator.indicator.accumulated.difference | number : '1.2-2') : "..." }}</td>
-                  <td>
-                    <percent-indicator [percent]="contractIndicator.indicator.accumulated.percent"
-                                       [refName]="contractIndicator.indicator.accumulated.refName.slice(0, 3)">
-                    </percent-indicator>  
-                  </td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, ind)" title="Gráfico"><i class="icon-chart"></i></button>
-                  </td>
-              </tbody>
-              <thead class="thead-light">
-                <tr>
-                  <th></th>
-                  <th>Peso Total</th>
-                  <th>
-                    {{totalWeight}}
-                  </th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th>Total</th>
-                  <th>
-                    <!-- {{ refResult }} -->
-                    <percent-indicator [percent]="refResult"
-                                       [refName]="reference.refName.slice(0, 3)">
-                    </percent-indicator>
-                  </th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-            </table>
+  <div class="col-sm-14" *ngIf="selectedUser && reference && contract">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>{{ selectedUser.name }}</h1>
+            <h6>{{ selectedUser.departmentName }} </h6>
           </div>
+        </div>
+        <br>
+        <div *ngIf="(contractIndicators.length == 0)">
+          <h3 align="center">Nenhum indicador cadastrado</h3>
+        </div>
+        <table class="table table-responsive-sm table-hover table-outline mb-0" *ngIf="(contractIndicators.length != 0)">
+          <thead class="thead-light">
+            <tr>
+              <th rowspan="2" class="text-center"></th>
+              <th rowspan="2" >Indicador</th>
+              <th rowspan="2" >Peso</th>
+              <th rowspan="2" class="text-center">Orientação</th>
+              <th rowspan="2">Medida</th>
+              <th class="text-center" colspan="4">{{ reference.refName }}</th>
+              <th rowspan="2"></th>
+              <th class="text-center" colspan="4">Acumulado {{ currentPeriod.name }}</th>
+              <th rowspan="2"></th>
+            </tr>
+            <tr>
+                <th class="text-center">Planejado</th>
+                <th class="text-center">Realizado</th>
+                <th class="text-center">Desvio</th>
+                <th class="text-center"></th>
+                <th class="text-center">Planejado</th>
+                <th class="text-center">Realizado</th>
+                <th class="text-center">Desvio</th>
+                <th class="text-center"></th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let contractIndicator of contractIndicators; let index = index">
+            <tr>
+              <td class="text-center">
+                <button class="btn btn-sm btn-primary" (click)="acordeon(contractIndicator)" title="Responsáveis"><i class="icon-list"></i></button>
+              </td>
+              <td>
+                <div>{{ contractIndicator.indicator.name }}</div>
+                <div class="small text-muted">
+                  {{ contractIndicator.indicator.description }}
+                </div>
+              </td>
+              <td class="text-center">{{ contractIndicator.weight }}</td>
+              <td class="text-center">
+                  <i *ngIf="contractIndicator.indicator.orientation === 'higher'" class="fa fa-arrow-up fa-lg mt-4"></i>
+                  <i *ngIf="contractIndicator.indicator.orientation !== 'higher'" class="fa fa-arrow-down fa-lg mt-4"></i>
+                  {{ contractIndicator.indicator.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
+              </td>
+              <td class="text-center">{{ contractIndicator.indicator.measure }}</td>
+              <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].target | number : '1.2-2') : "..." }}</td>
+              <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].actual | number : '1.2-2') : "..." }}</td>
+              <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].difference | number : '1.2-2') : "..." }}</td>
+              <td>
+                <percent-indicator [percent]="contractIndicator.indicator.metering[reference.refOrder-1].percent"
+                                   [refName]="contractIndicator.indicator.metering[reference.refOrder-1].refName.slice(0, 3)">
+                </percent-indicator>
+              </td>
+              <td></td>
+              <td class="text-right">{{ accumulated[index] ? (accumulated[index].target | number : '1.2-2') : "..." }}</td>
+              <td class="text-right">{{ accumulated[index] ? (accumulated[index].actual | number : '1.2-2') : "..." }}</td>
+              <td class="text-right">{{ accumulated[index] ? (accumulated[index].difference | number : '1.2-2') : "..." }}</td>
+              <td>
+                <percent-indicator [percent]="accumulated[index].percent"
+                                   [refName]="accumulated[index].refName.slice(0, 3)">
+                </percent-indicator>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, ind)" title="Gráfico"><i class="icon-chart"></i></button>
+              </td>       
+            </tr>
+            <tr *ngIf="contractIndicator == acordeonSelected">
+              <td></td>
+              <td></td>
+              <td colspan="11">
+                <meterings-editor (indicatorChange)="doSomething(index)"
+                                  [(indicator)]="contractIndicator.indicator"
+                                  [showDelta]="true"
+                                  [targetEdit]="false">
+                </meterings-editor>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+          <thead class="thead-light">
+            <tr>
+              <th></th>
+              <th>Peso Total</th>
+              <th>
+                {{totalWeight}}
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>Total</th>
+              <th>
+                <!-- {{ refResult }} -->
+                <percent-indicator [percent]="refResult"
+                                    [refName]="reference.refName.slice(0, 3)">
+                </percent-indicator>
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>Total</th>
+              <th>
+                <!-- {{ accumulatedResult }} -->
+                <percent-indicator [percent]="accumulatedResult"
+                                    [refName]="reference.refName.slice(0, 3)">
+                </percent-indicator></th>
+              <th></th>
+            </tr>
+            
+          </thead>
+        </table>
       </div>
+    </div>
   </div>
 </div>
 

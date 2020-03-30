@@ -22,7 +22,8 @@ import {
   ChartDataService,
   ReferencesService,
   BasketItemsService,
-  CurrentPeriodService
+  CurrentPeriodService,
+  CalcService
 } from "./services";
 
 @NgModule({
@@ -49,7 +50,8 @@ import {
     ResetPasswordService,
     AuthGuard,
     NoAuthGuard,
-    AdminGuard
+    AdminGuard,
+    CalcService
   ]
 })
 export class CoreModule { }

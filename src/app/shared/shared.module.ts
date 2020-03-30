@@ -8,6 +8,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import { ListErrorsComponent } from "./list-errors.component";
 import { MessageAlertComponent } from "./message-alert.component";
+import { MeteringsEditorComponent } from "./meterings-editor.component";
 import { DynamicTableComponent, ResponsablesTableComponent } from './tables';
 import { IndicatorChartComponent } from './charts';
 
@@ -26,7 +27,8 @@ import { IndicatorChartComponent } from './charts';
     MessageAlertComponent,
     DynamicTableComponent,
     IndicatorChartComponent,
-    ResponsablesTableComponent
+    ResponsablesTableComponent,
+    MeteringsEditorComponent
   ],
   exports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { IndicatorChartComponent } from './charts';
     MessageAlertComponent,
     DynamicTableComponent,
     IndicatorChartComponent,
-    ResponsablesTableComponent
+    ResponsablesTableComponent,
+    MeteringsEditorComponent
   ]
 })
 export class SharedModule {
