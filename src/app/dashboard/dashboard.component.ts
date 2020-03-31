@@ -94,7 +94,6 @@ export class DashboardComponent implements OnInit, OnChanges {
   }
 
  ngOnChanges(): void {
-  console.log('aaa')
   this.calcAccumulated()
  }
 
@@ -136,7 +135,6 @@ export class DashboardComponent implements OnInit, OnChanges {
       this.accumulated[index] = this.contractIndicators[index].indicator.metering[this.reference.refOrder-1]
     }
     this.accumulated[index] = this.calcService.calcPercentDifference(this.accumulated[index], this.contractIndicators[index].indicator.orientation, this.contractIndicators[index].indicator.limit)
-    console.log(this.accumulated)
     this.calcTotalAccumulated();
   }
 
@@ -153,11 +151,9 @@ export class DashboardComponent implements OnInit, OnChanges {
     for (var j = 0; j < this.accumulated.length; j++) {
       this.accumulatedResult += (this.accumulated[j].percent * this.contractIndicators[j].weight * 0.01)
     }
-    console.log(this.accumulatedResult)
   }
 
   doSomething(obj) {
-    console.log(obj)
     this.calcAccumulatedIndex(obj);
   }
 
@@ -168,6 +164,8 @@ export class DashboardComponent implements OnInit, OnChanges {
       this.acordeonSelected = contractIndicator;
     }
   }
+
+
 
   openModal(template: TemplateRef<any>, indicator) {
     this.indicator = indicator;

@@ -28,7 +28,7 @@ export class MeteringsEditorComponent{
   save() {
     this.isSubmitting = true;
     this.errors = null;
-    this.indicatorsService.save(this.indicator).subscribe(
+    this.indicatorsService.saveMetering(this.indicator).subscribe(
       indicator => {
         this.indicator = indicator;
         this.isSubmitting = false;

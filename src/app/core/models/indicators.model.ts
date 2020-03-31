@@ -5,6 +5,8 @@ export class Indicator {
   id: string;
   name: string;
   description: string;
+  equation: string;
+  evaluation: string;
   department: Department;
   measure: string;
   accumulatedType: string;

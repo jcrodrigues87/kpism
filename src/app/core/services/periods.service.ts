@@ -21,6 +21,14 @@ export class PeriodsService {
     );
   }
 
+  queryActive(): Observable<Period[]> {
+    let params: HttpParams = new HttpParams();
+
+    return this.apiService.get('/periods', params).pipe(
+      map(data => data.periods.filter(period => period.inactive ? false : true))
+    );
+  }
+
   get(id): Observable<Period> {
     return this.apiService.get('/periods/' + id).pipe(
       map(data => data.period)

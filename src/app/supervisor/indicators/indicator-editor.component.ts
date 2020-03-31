@@ -29,6 +29,8 @@ export class IndicatorEditorComponent implements OnInit {
     this.indicatorForm = this.fb.group({
       name: '',
       description: '',
+      equation: '',
+      evaluation: '',
       department: '',
       limit: '',
       basket: false,

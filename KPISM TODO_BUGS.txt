@@ -1,12 +1,10 @@
 
 Front-End:
 
+	Não pode deixar colocar vazio em planejado/realizado;
+
 	Usuario - Usuario inativo aparecendo em periodo aberto;
 
-	Contrato - Fazer aba para contrato.
-
-	Cesta - Indicador possui uma tabela para quando está em cesta e outra para quando não, fazendo com que o calculo no dashboard calcule sempre a tabela sem cesta.
-	
 	Login - Aviso de usuario ou senha incorretos aparecem em ingles.
 
 	PLR - Criar interface referentes a PLR.
@@ -30,7 +28,6 @@ Front-End:
 	Adicionado campo Multiplicador Canex em Período;
 	Adicionado mensagem quando não existe nenhum período cadastrado;
 	Alterado comportamento de Periodo atual, quando Periodo atual mudar, pagina é encaminhada para dashboard;
-
 	Adicionado campos Limite Indicador e Classificação em Indicadores;
 	Removido inclusão de responsaveis de Indicadores;
 	Adicionado mensagem quando não existe nenhum indicador cadastrado;
@@ -46,30 +43,21 @@ Front-End:
 	Corrigido atualização das metricas de indicadorda cesta;
 	Adicionado mensagem de salvo com sucesso;
 	Adicionado mensagens a cesta quando vazia;
-	
 	Removido campo Inativo de Usuários;
 	Adicionado nome do usuário no cabeçalho;
 	Adicionado mensagem quando não existe nenhum usuário cadastrado;
 	Adicionado componente Esqueceu sua senha;
 	Adicionado componente Redefinição de senha;
-
 	Adicionado mensagem quando não existe nenhum departamento cadastrado;
-
 	Adicionado menu Contratos;
 	Adicionado modelo de Contrato;
 	Adicionado serviço de Contrato;
 	Adicionado valores da PLR em Contrato;
 	Adicionado componente para adicionar indicadores;
-	
 	Adicionado menu da PLR;
-
 	Corrigido dashboard para determinado mês;
 	Adicionado um rodapé com peso total e resultado da média ponderada dos indicadores;
 	Alterado comportamento da barra de porcentagem do dashboard;
-
-
-	Commit atual:
-
 	Corrigido Previsto/Realizado de acumulado no dashboard;
 	Adicionado botão de expansão em cada indicador no dashboard;
 	Adicionado Previsto/Realizado no botão de expansão;
@@ -79,4 +67,14 @@ Front-End:
 	Adicionado calcPercentDifference, para calcular porcentagem e desvio dos indicadores;
 	Substituido calc() de meterings para o CalcService;
 	Adicionado lembrete em meterings para quando uma modificação não ter sido salva;
+
+
+	Commit atual:
+
+	Atualizado formula de Planejado/Realizado;
+	Corrigido problema que mostrava periodos inativos;
+	Adicionado Equação (equation) e Metodo de Aferição (evaluation) em indicadores;
+	Adicionado ao dashboard Descrição, Equação e Aferição;
+
+	
 	

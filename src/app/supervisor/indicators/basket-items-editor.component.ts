@@ -99,7 +99,6 @@ export class BasketItemsEditorComponent implements OnInit {
 
   select(basketItem): void {
     if (!this.selectedItem || basketItem.id !== this.selectedItem.id) {
-      
       this.selectedItem = basketItem;
       this.selectedWeight = basketItem.weight;
     }

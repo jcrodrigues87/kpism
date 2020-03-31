@@ -59,7 +59,19 @@ export class IndicatorsService {
           );
         }
       });
+    return this.observableIndicator;
+  }
 
+  saveMetering(indicator: Indicator): Observable<Indicator> {
+    this.currentPeriodService.currentPeriod.subscribe(
+      data => {
+        this.currentPeriod = data;
+        if (indicator.id) {
+          this.observableIndicator = this.apiService.put('/indicators/meterings/' + this.currentPeriod.id + '/' + indicator.id, { meterings: indicator.metering }).pipe(
+            map(data => data.indicator)
+          );
+        }
+      });
     return this.observableIndicator;
   }
 

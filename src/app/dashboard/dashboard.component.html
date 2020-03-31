@@ -58,7 +58,6 @@
               <th class="text-center" colspan="4">{{ reference.refName }}</th>
               <th rowspan="2"></th>
               <th class="text-center" colspan="4">Acumulado {{ currentPeriod.name }}</th>
-              <th rowspan="2"></th>
             </tr>
             <tr>
                 <th class="text-center">Planejado</th>
@@ -72,20 +71,17 @@
             </tr>
           </thead>
           <tbody *ngFor="let contractIndicator of contractIndicators; let index = index">
-            <tr>
+            <tr (click)="acordeon(contractIndicator)">
               <td class="text-center">
-                <button class="btn btn-sm btn-primary" (click)="acordeon(contractIndicator)" title="Responsáveis"><i class="icon-list"></i></button>
-              </td>
+                <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, ind)" title="Gráfico"><i class="icon-chart"></i></button>
+              </td>   
               <td>
                 <div>{{ contractIndicator.indicator.name }}</div>
-                <div class="small text-muted">
-                  {{ contractIndicator.indicator.description }}
-                </div>
               </td>
               <td class="text-center">{{ contractIndicator.weight }}</td>
               <td class="text-center">
-                  <i *ngIf="contractIndicator.indicator.orientation === 'higher'" class="fa fa-arrow-up fa-lg mt-4"></i>
-                  <i *ngIf="contractIndicator.indicator.orientation !== 'higher'" class="fa fa-arrow-down fa-lg mt-4"></i>
+                  <i *ngIf="contractIndicator.indicator.orientation === 'higher'" class="fa fa-arrow-up fa-lg"></i>
+                  <i *ngIf="contractIndicator.indicator.orientation !== 'higher'" class="fa fa-arrow-down fa-lg"></i>
                   {{ contractIndicator.indicator.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
               </td>
               <td class="text-center">{{ contractIndicator.indicator.measure }}</td>
@@ -106,22 +102,32 @@
                                    [refName]="accumulated[index].refName.slice(0, 3)">
                 </percent-indicator>
               </td>
-              <td class="text-center">
-                <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, ind)" title="Gráfico"><i class="icon-chart"></i></button>
-              </td>       
+    
             </tr>
             <tr *ngIf="contractIndicator == acordeonSelected">
-              <td></td>
-              <td></td>
-              <td colspan="11">
+              <td colspan="7">
                 <meterings-editor (indicatorChange)="doSomething(index)"
                                   [(indicator)]="contractIndicator.indicator"
                                   [showDelta]="true"
                                   [targetEdit]="false">
                 </meterings-editor>
               </td>
-              <td></td>
-              <td></td>
+              <td colspan="8" class="align-top">
+                <table class="table table-responsive-sm table-hover table-outline mb-0">
+                  <tr>
+                    <td>Descrição</td>
+                    <td>{{ contractIndicator.indicator.description }}</td>
+                  </tr>
+                  <tr>
+                    <td>Equação</td>
+                    <td>{{ contractIndicator.indicator.equation }}</td>
+                  </tr>
+                  <tr>
+                    <td>Instrumento de Aferição</td>
+                    <td>{{ contractIndicator.indicator.evaluation }}</td>
+                  </tr>
+                </table>
+              </td>
             </tr>
           </tbody>
           <thead class="thead-light">
@@ -151,7 +157,6 @@
                 <percent-indicator [percent]="accumulatedResult"
                                     [refName]="reference.refName.slice(0, 3)">
                 </percent-indicator></th>
-              <th></th>
             </tr>
             
           </thead>

@@ -20,7 +20,7 @@ export class CurrentPeriodService {
     }
 
     reloadPeriods(): void {
-        this.periodsService.query().subscribe(data => {
+        this.periodsService.queryActive().subscribe(data => {
             this.router.navigateByUrl('dashboard');
             this.currentPeriodsListSubject.next(data);
           });
