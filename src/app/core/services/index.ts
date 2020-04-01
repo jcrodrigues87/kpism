@@ -14,7 +14,6 @@ export * from './responsables.service';
 export * from './profiles.service';
 export * from './meterings.service';
 export * from './reset-password.service';
-export * from './chart-data.service';
 export * from './references.service';
 export * from './basket-items.service';
 export * from './current-period.service';

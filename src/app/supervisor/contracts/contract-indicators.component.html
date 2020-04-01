@@ -1,6 +1,7 @@
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-8">
     <div class="card-body">
+      
       <div class="row">
         <div *ngIf="(contractIndicators == undefined || contractIndicators.length == 0)">
           <h3 class="text-center">Nenhum indicador cadastrado</h3>
@@ -41,11 +42,13 @@
           </tbody>
         </table>
       </div>
+
       <br *ngIf="errors">
       <div *ngIf="errors" class="row">
           <list-errors [errors]="errors"></list-errors>
       </div>
       <br>
+
       <form [formGroup]="indicatorForm">
         <div class="row">
           <label class="col-md-2 col-form-label" for="manager" style="text-align: right">Indicador</label>
@@ -70,16 +73,18 @@
           </div> 
         </div>
       </form>
+      
     </div>
   </div> 
-  <div *ngIf="!(contractIndicators == undefined || contractIndicators.length == 0)" class="col-md-6">
+
+  <div *ngIf="!(contractIndicators == undefined || contractIndicators.length == 0)" class="col-md-4">
     <div *ngIf="!selectedItem">
       <br>
       <h3 class="text-center">Selecione um item ao lado</h3>
     </div>
     <div *ngIf="selectedItem">
       <div class="row">
-        <h4>{{ selectedItem.indicator.name }}</h4>
+        <h6>{{ selectedItem.indicator.name }}</h6>
       </div>
       <br>
       <div class="row">
@@ -98,4 +103,5 @@
       </div>
     </div>
   </div>
+
 </div>

@@ -2,11 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 
 import { 
   Indicator, 
-  MeteringsService, 
   Period,
-  Metering,
-  ChartData,
-  ChartDataService,
   ResponsablesService,
   Responsable
 } from "../../core";

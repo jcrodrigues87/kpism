@@ -48,10 +48,13 @@ export class BasketItemsEditorComponent implements OnInit {
           this.indicators = indicators.filter(
             e => {
               let toReturn = true;
-              if (e.id === this.indicator.id)
+              if (e.id === this.indicator.id) // verify if indicator is already in the contract 
                 return false;
+              if (e.basket) { // verify if indicator is a basket, baskets can't be inside baskets
+                toReturn = false;
+              }
               this.basket.basketItems.forEach(i => {
-                if (i.indicator.id === e.id) {
+                if (i.indicator.id === e.id) { 
                   toReturn = false;
                 }
               });

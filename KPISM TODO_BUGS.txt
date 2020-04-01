@@ -1,24 +1,36 @@
 
 Front-End:
 
-	Não pode deixar colocar vazio em planejado/realizado;
+	TODO:
 
-	Usuario - Usuario inativo aparecendo em periodo aberto;
+	Adicionar mensagem quando receber um acesso negado;
 
-	Login - Aviso de usuario ou senha incorretos aparecem em ingles.
-
+	Periodo - Tratar quando não existe nenhum periodo cadastrado / selecionado;
+	Periodo - Abrir no ano corrente, se existir;
+	Login - Aviso de usuario ou senha incorretos aparecem em ingles;
 	PLR - Criar interface referentes a PLR.
-
 	Indicadores - Peso de cesta aceita numero negativo.
-
-	Dashboard - Varios erros na mudança de Periodo, referencia e usuario.
-	Dashboard - Referencia deveria começar com o mês atual, atualmente começa em dezembro.
-	Dashboard - Colocar embaixo da detalhação de indicadores um "Não há registro de indicadores" quando vazio.
-	Dashboard - Como vai ter muitos usuarios, separar usuarios de departamentos no filtro OU colocar departamento primeiro.
-	Dashboard - Mostrar Usuarios em ordem alfabetica???
-	Dashboard - Data em "Acumulado" comportando de forma estranha???
-	Dashboard - Tem hora que o dasboard não atualiza???
+	Indicadores - Não pode deixar colocar vazio em planejado/realizado;
+	Indicadores - Não deixar peso passar de 100 na cesta;
+	Indicadores - Fazer filtro para indicadores Cesta e Normal. Talvez um novo tipo (faz parte de cesta)?
+	Indicadores - Fazer filtro por departamento;
+	Contrato - Não deixar peso passar de 100;
+	Contrato - Fazer filtro por departamento;
+	Contrato - Usuario inativo aparecento em contratos;
+ 	Dashboard - Referencia deveria começar com o mês atual, atualmente começa em janeiro.
+	Dashboard - Mostrar Usuarios em ordem alfabetica;
 	Dashboard - As vezes departamento do usuario não aparece;
+
+
+	Frontend Commit atual:
+
+	Calculo de acumulado movido para CalcService;
+	Bloqueado inserção de cestas dentro de cesta;
+	Adicionado filtro em dashboard para não mostrar usuarios inativos em periodos abertos;
+	Adicionado filtro em contrato para não mostrar usuarios inativos em periodos abertos;
+	Corrigido Graficos em dashboard;
+	Removido chartService;
+
 
 	Concluido:
 
@@ -67,14 +79,7 @@ Front-End:
 	Adicionado calcPercentDifference, para calcular porcentagem e desvio dos indicadores;
 	Substituido calc() de meterings para o CalcService;
 	Adicionado lembrete em meterings para quando uma modificação não ter sido salva;
-
-
-	Commit atual:
-
 	Atualizado formula de Planejado/Realizado;
 	Corrigido problema que mostrava periodos inativos;
 	Adicionado Equação (equation) e Metodo de Aferição (evaluation) em indicadores;
 	Adicionado ao dashboard Descrição, Equação e Aferição;
-
-	
-	

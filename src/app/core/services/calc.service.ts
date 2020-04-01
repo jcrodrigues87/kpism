@@ -32,4 +32,28 @@ export class CalcService {
     return meter
   }
 
+  calcAccumulated(indicatorList, reference): Array<Metering> { // receive an i and an accumulated list and calc the result
+    var accumulated: Array<Metering> = [];
+    for (var i = 0; i < indicatorList.length; i++) {
+      accumulated.push({id: "", refOrder: reference.refOrder, refName: reference.refName, target: 0, actual: 0, difference: 0, percent: 0, createdAt: undefined, updatedAt: undefined})
+      if (indicatorList[i].indicator.accumulatedType == "sum") {
+        for (var j = 0; j < reference.refOrder; j++) {
+          accumulated[i].target += indicatorList[i].indicator.metering[j].target;
+          accumulated[i].actual += indicatorList[i].indicator.metering[j].actual;
+        }
+      } else if  (indicatorList[i].indicator.accumulatedType == "avg") {
+        for (var j = 0; j < reference.refOrder; j++) {
+          accumulated[i].target += indicatorList[i].indicator.metering[j].target;
+          accumulated[i].actual += indicatorList[i].indicator.metering[j].actual;
+        }
+        accumulated[i].target /= indicatorList[i].indicator.metering[j-1].refOrder;
+        accumulated[i].actual /= indicatorList[i].indicator.metering[j-1].refOrder;
+      } else {
+        accumulated[i] = indicatorList[i].indicator.metering[reference.refOrder-1]
+      }
+      accumulated[i] = this.calcPercentDifference(accumulated[i], indicatorList[i].indicator.orientation, indicatorList[i].indicator.limit)
+    }
+    return accumulated;
+  }
+
 }

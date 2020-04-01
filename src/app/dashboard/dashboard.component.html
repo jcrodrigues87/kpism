@@ -20,7 +20,6 @@
                 <ng-select  [items]="users"
                             bindLabel="name"
                             placeholder="Usuário"
-                            groupBy="type"
                             [clearable]="false"
                             [(ngModel)]="selectedUser"
                             (change)="loadContract()" >
@@ -39,7 +38,12 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-12">
-            <h1>{{ selectedUser.name }}</h1>
+            <table class="table table-borderless">
+              <tr>
+                <td><h1>{{ selectedUser.name }}</h1></td>
+                <td align="center"><h1>{{ reference.refName }}</h1></td>
+              </tr>
+            </table>
             <h6>{{ selectedUser.departmentName }} </h6>
           </div>
         </div>
@@ -48,6 +52,8 @@
           <h3 align="center">Nenhum indicador cadastrado</h3>
         </div>
         <table class="table table-responsive-sm table-hover table-outline mb-0" *ngIf="(contractIndicators.length != 0)">
+        
+          <!-- Header -->
           <thead class="thead-light">
             <tr>
               <th rowspan="2" class="text-center"></th>
@@ -70,10 +76,12 @@
                 <th class="text-center"></th>
             </tr>
           </thead>
+
+          <!-- Body -->
           <tbody *ngFor="let contractIndicator of contractIndicators; let index = index">
             <tr (click)="acordeon(contractIndicator)">
               <td class="text-center">
-                <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, ind)" title="Gráfico"><i class="icon-chart"></i></button>
+                <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, contractIndicator.indicator)" title="Gráfico"><i class="icon-chart"></i></button>
               </td>   
               <td>
                 <div>{{ contractIndicator.indicator.name }}</div>
@@ -102,34 +110,108 @@
                                    [refName]="accumulated[index].refName.slice(0, 3)">
                 </percent-indicator>
               </td>
-    
             </tr>
-            <tr *ngIf="contractIndicator == acordeonSelected">
-              <td colspan="7">
-                <meterings-editor (indicatorChange)="doSomething(index)"
-                                  [(indicator)]="contractIndicator.indicator"
-                                  [showDelta]="true"
-                                  [targetEdit]="false">
-                </meterings-editor>
-              </td>
-              <td colspan="8" class="align-top">
-                <table class="table table-responsive-sm table-hover table-outline mb-0">
-                  <tr>
-                    <td>Descrição</td>
-                    <td>{{ contractIndicator.indicator.description }}</td>
+            
+            <!-- acordeon -->
+            <ng-container *ngIf="contractIndicator == acordeonSelected && !contractIndicator.indicator.basket">
+              <tr class="animated fadeIn">
+                <td colspan="7">
+                  <meterings-editor (indicatorChange)="meteringChanged(index)"
+                                    [(indicator)]="contractIndicator.indicator"
+                                    [showDelta]="true"
+                                    [targetEdit]="false">
+                  </meterings-editor>
+                </td>
+                <td colspan="7" class="align-top">
+                  <table class="table table-responsive-sm table-hover table-outline mb-0">
+                    <tr>
+                      <td>Descrição</td>
+                      <td>{{ contractIndicator.indicator.description }}</td>
+                    </tr>
+                    <tr>
+                      <td>Equação</td>
+                      <td>{{ contractIndicator.indicator.equation }}</td>
+                    </tr>
+                    <tr>
+                      <td>Instrumento de Aferição</td>
+                      <td>{{ contractIndicator.indicator.evaluation }}</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </ng-container>
+
+            <!-- Basket -->
+            <ng-container *ngIf="contractIndicator == acordeonSelected && contractIndicator.indicator.basket">
+              <tr class="animated fadeIn" bgcolor="#d9d9d9"><td colspan="15"></td></tr>
+              <ng-container *ngFor="let basketItem of basket.basketItems; let indexBasket = index">
+                <tr class="animated fadeIn" (click)="acordeonBasket(basketItem)">
+                  <td class="text-center">
+                    
+                  </td>   
+                  <td>
+                    <div>{{ basketItem.indicator.name }}</div>
+                  </td>
+                  <td class="text-center">{{ basketItem.weight }}</td>
+                  <td class="text-center">
+                      <i *ngIf="basketItem.indicator.orientation === 'higher'" class="fa fa-arrow-up fa-lg"></i>
+                      <i *ngIf="basketItem.indicator.orientation !== 'higher'" class="fa fa-arrow-down fa-lg"></i>
+                      {{ basketItem.indicator.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
+                  </td>
+                  <td class="text-center">{{ basketItem.indicator.measure }}</td>
+                  <td class="text-right">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].target | number : '1.2-2') : "..." }}</td>
+                  <td class="text-right">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].actual | number : '1.2-2') : "..." }}</td>
+                  <td class="text-right">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].difference | number : '1.2-2') : "..." }}</td>
+                  <td>
+                    <percent-indicator [percent]="basketItem.indicator.metering[reference.refOrder-1].percent"
+                                      [refName]="basketItem.indicator.metering[reference.refOrder-1].refName.slice(0, 3)">
+                    </percent-indicator>
+                  </td>
+                  <td></td>
+                  <td class="text-right">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].target | number : '1.2-2') : "..." }}</td>
+                  <td class="text-right">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].actual | number : '1.2-2') : "..." }}</td>
+                  <td class="text-right">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].difference | number : '1.2-2') : "..." }}</td>
+                  <td>
+                    <percent-indicator [percent]="basketAccumulated[indexBasket].percent"
+                                       [refName]="basketAccumulated[indexBasket].refName.slice(0, 3)">
+                    </percent-indicator>
+                  </td>
+                </tr>
+                <ng-container *ngIf="basketItem == acordeonBasketSelected">
+                  <tr class="animated fadeIn">
+                    <td colspan="7">
+                      <meterings-editor (indicatorChange)="meteringChangedBasket(indexBasket)"
+                                        [(indicator)]="basketItem.indicator"
+                                        [showDelta]="true"
+                                        [targetEdit]="false">
+                      </meterings-editor>
+                    </td>
+                    <td colspan="8" class="align-top">
+                      <table class="table table-responsive-sm table-hover table-outline mb-0">
+                        <tr>
+                          <td>Descrição</td>
+                          <td>{{ basketItem.indicator.description }}</td>
+                        </tr>
+                        <tr>
+                          <td>Equação</td>
+                          <td>{{ basketItem.indicator.equation }}</td>
+                        </tr>
+                        <tr>
+                          <td>Instrumento de Aferição</td>
+                          <td>{{ basketItem.indicator.evaluation }}</td>
+                        </tr>
+                      </table>
+                    </td>
                   </tr>
-                  <tr>
-                    <td>Equação</td>
-                    <td>{{ contractIndicator.indicator.equation }}</td>
-                  </tr>
-                  <tr>
-                    <td>Instrumento de Aferição</td>
-                    <td>{{ contractIndicator.indicator.evaluation }}</td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+                </ng-container>
+
+              </ng-container>
+              <tr class="animated fadeIn" bgcolor="#d9d9d9"><td colspan="15"></td></tr>
+            </ng-container>
+
           </tbody>
+          
+          <!-- Footer -->
           <thead class="thead-light">
             <tr>
               <th></th>
@@ -166,20 +248,20 @@
   </div>
 </div>
 
-<!-- <ng-template #chartModalTemplate>
+<ng-template #chartModalTemplate>
   <div class="modal-header">
-    <h4 class="modal-title">{{ indicator ? indicator.name : "..." }} - {{ period ? period.name : "..." }}</h4>
+    <h4 class="modal-title">{{ indicator ? indicator.name : "..." }} - {{ currentPeriod ? currentPeriod.name : "..." }}</h4>
     <button type="button" class="close" (click)="chartModal.hide()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <indicator-chart [indicator]="indicator" [period]="period"></indicator-chart>
+    <indicator-chart [indicator]="indicator"></indicator-chart>
   </div>
 </ng-template>
 
 
-<ng-template #responsableModalTemplate>
+<!--<ng-template #responsableModalTemplate>
   <div class="modal-header">
     <h4 class="modal-title">Responsáveis {{ indicator ? indicator.name : "..." }} - {{ period ? period.name : "..." }}</h4>
     <button type="button" class="close" (click)="chartModal.hide()" aria-label="Close">

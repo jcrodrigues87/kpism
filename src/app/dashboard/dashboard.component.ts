@@ -7,52 +7,43 @@ import {
   Reference,
   AuthUserService,
   ProfilesService,
-  IndicatorFilter,
-  DepartmentsService,
   CurrentPeriodService,
   User,
   ContractsService,
   Contract,
   ContractIndicator,
   Metering,
-  CalcService
+  CalcService,
+  BasketItemsService,
+  Basket,
+  BasketItem
 } from '../core';
 
 @Component({
   templateUrl: 'dashboard.component.html',
 })
-export class DashboardComponent implements OnInit, OnChanges {
-  periods: Array<Period> = [];
+export class DashboardComponent implements OnInit {
   indicator: Indicator;
   period: Period;
-
-  teste;
-  
   currentPeriod: Period;
   sectionUser: User;
   selectedUser: User;
   users: Array<User> = [];
   contract: Contract;
   contractIndicators: Array<ContractIndicator> = [];
-  indicators: Array<Indicator> = [];
   references: Array<Reference> = [];
   reference: Reference;
-
   acordeonSelected: ContractIndicator;
-
-
-  metering: Metering;
+  chartModal: BsModalRef | null;
 
   accumulated: Array<Metering> = [];
   accumulatedResult: number;
   totalWeight: number;
   refResult: number;
 
-
-  meteringsLoaded: boolean = false;
-  chartModal: BsModalRef | null;
-  indicatorsFilter: Array<IndicatorFilter> = [];
-  indicatorFilter: IndicatorFilter;
+  basket: Basket = {} as Basket;
+  acordeonBasketSelected: BasketItem;
+  basketAccumulated: Array<Metering> = [];
   
   constructor(
     private contractService: ContractsService,
@@ -60,7 +51,7 @@ export class DashboardComponent implements OnInit, OnChanges {
     private profilesService: ProfilesService,
     private modalService: BsModalService,
     private authService: AuthUserService,
-    private departmentsService: DepartmentsService,
+    private basketItemsService: BasketItemsService,
     private calcService: CalcService
   ) {
     this.references = [
@@ -88,14 +79,22 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.reference = this.references[0];
         this.loadContract();
         this.profilesService.query().subscribe(users => {
-          this.users = users;
+          this.users = users.filter(
+            e => {
+              let toReturn = true;
+              if (e.inactive && !this.currentPeriod.closed)
+                return false;
+              return toReturn;
+          });
         });
       });
   }
 
- ngOnChanges(): void {
-  this.calcAccumulated()
- }
+  openModal(template: TemplateRef<any>, indicator) {
+    this.indicator = indicator;
+    const initialState = { indicator: indicator };
+    this.chartModal = this.modalService.show(template, { class: 'modal-lg', initialState });
+  }
 
   loadContract(): void {
     this.contractService.get(this.selectedUser.id).subscribe(contract => {
@@ -112,49 +111,11 @@ export class DashboardComponent implements OnInit, OnChanges {
     this.refResult = 0;
     for (var i = 0; i < this.contractIndicators.length; i++) {
       this.totalWeight += this.contractIndicators[i].weight
-      this.refResult += (this.contractIndicators[i].indicator.metering[this.reference.refOrder-1].percent * this.contractIndicators[i].weight * 0.01)
     }
+    this.calcTotalReference();
     this.calcAccumulated();
-  }
-
-  calcAccumulatedIndex(index): void {
-    this.accumulated[index] = ({id: "", refOrder: this.reference.refOrder, refName: this.reference.refName, target: 0, actual: 0, difference: 0, percent: 0, createdAt: undefined, updatedAt: undefined})
-    if (this.contractIndicators[index].indicator.accumulatedType == "sum") {
-      for (var j = 0; j < this.reference.refOrder; j++) {
-        this.accumulated[index].target += this.contractIndicators[index].indicator.metering[j].target;
-        this.accumulated[index].actual += this.contractIndicators[index].indicator.metering[j].actual;
-      }
-    } else if  (this.contractIndicators[index].indicator.accumulatedType == "avg") {
-      for (var j = 0; j < this.reference.refOrder; j++) {
-        this.accumulated[index].target += this.contractIndicators[index].indicator.metering[j].target;
-        this.accumulated[index].actual += this.contractIndicators[index].indicator.metering[j].actual;
-      }
-      this.accumulated[index].target /= this.contractIndicators[index].indicator.metering[j-1].refOrder;
-      this.accumulated[index].actual /= this.contractIndicators[index].indicator.metering[j-1].refOrder;
-    } else {
-      this.accumulated[index] = this.contractIndicators[index].indicator.metering[this.reference.refOrder-1]
-    }
-    this.accumulated[index] = this.calcService.calcPercentDifference(this.accumulated[index], this.contractIndicators[index].indicator.orientation, this.contractIndicators[index].indicator.limit)
-    this.calcTotalAccumulated();
-  }
-
-  calcAccumulated(): void {
-    this.accumulated = [];
-    for (var i = 0; i < this.contractIndicators.length; i++) {
-      this.accumulated.push({id: "", refOrder: this.reference.refOrder, refName: this.reference.refName, target: 0, actual: 0, difference: 0, percent: 0, createdAt: undefined, updatedAt: undefined})
-      this.calcAccumulatedIndex(i);
-    }
-  }
-
-  calcTotalAccumulated(): void {
-    this.accumulatedResult = 0;
-    for (var j = 0; j < this.accumulated.length; j++) {
-      this.accumulatedResult += (this.accumulated[j].percent * this.contractIndicators[j].weight * 0.01)
-    }
-  }
-
-  doSomething(obj) {
-    this.calcAccumulatedIndex(obj);
+    this.acordeonSelected = undefined;
+    this.acordeonBasketSelected = undefined;
   }
 
   acordeon(contractIndicator): void {
@@ -162,17 +123,68 @@ export class DashboardComponent implements OnInit, OnChanges {
       this.acordeonSelected = undefined;
     } else {
       this.acordeonSelected = contractIndicator;
+      if (this.acordeonSelected.indicator.basket) {
+        this.basketItemsService.get(this.acordeonSelected.indicator.id).subscribe(data => {
+          this.basket = data;
+          this.calcBasketAccumulated();
+        });
+      }
     }
   }
 
+  meteringChanged() {
+    this.calcTotalReference();
+    this.calcAccumulated();
+    this.calcTotalAccumulated();
+    this.acordeonSelected = undefined;
+  }
 
+  calcTotalReference(): void { // calc total percent of indicators
+    this.refResult = 0
+    for (var i = 0; i < this.contractIndicators.length; i++) {
+      this.refResult += (this.contractIndicators[i].indicator.metering[this.reference.refOrder-1].percent * this.contractIndicators[i].weight * 0.01)
+    } 
+  }
 
-  openModal(template: TemplateRef<any>, indicator) {
-    this.indicator = indicator;
+  //
+  // Accumulated
+  //
 
-    const initialState = { indicator: indicator, period: this.period };
+  calcAccumulated(): void {
+    this.accumulated = this.calcService.calcAccumulated(this.contractIndicators, this.reference);
+    this.calcTotalAccumulated();
+  }
 
-    this.chartModal = this.modalService.show(template, { class: 'modal-lg', initialState });
+  calcTotalAccumulated(): void { // calc total percent of accumulated
+    this.accumulatedResult = 0;
+    for (var j = 0; j < this.accumulated.length; j++) {
+      this.accumulatedResult += (this.accumulated[j].percent * this.contractIndicators[j].weight * 0.01)
+    }
+  }
+
+  //
+  // Basket Functions
+  //
+
+  acordeonBasket(basketItem): void {
+    if (this.acordeonBasketSelected == basketItem) {
+      this.acordeonBasketSelected = undefined;
+    } else {
+      this.acordeonBasketSelected = basketItem;
+    }
+  }
+
+  meteringChangedBasket() {
+    this.loadContract();
+    this.calcBasketAccumulated();
+    this.calcAccumulated();
+    this.calcTotalReference();
+    this.calcTotalAccumulated();
+    this.acordeonBasketSelected = undefined;
+  }
+
+  calcBasketAccumulated(): void {
+    this.basketAccumulated = this.calcService.calcAccumulated(this.basket.basketItems, this.reference);
   }
 
 }

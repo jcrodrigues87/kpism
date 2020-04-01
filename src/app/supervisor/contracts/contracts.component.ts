@@ -34,13 +34,21 @@ export class ContractsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profilesService.query().subscribe(data => {
-      this.users = data; 
-    });
     this.currentPeriodService.currentPeriod.subscribe(
       data => {
         this.currentPeriod = data;
+        this.profilesService.query().subscribe(users => {
+          this.users = users.filter(
+            e => {
+              let toReturn = true;
+              if (e.inactive && !this.currentPeriod.closed)
+                return false;
+              return toReturn;
+          });; 
+        });
     });
+    
+    
   }
 
   loadContract() {

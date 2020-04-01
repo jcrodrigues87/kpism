@@ -50,10 +50,10 @@ export class ContractIndicatorComponent implements OnChanges {
         }
         this.indicatorsService.query().subscribe(indicators => {
           this.indicators = indicators.filter(
-            e => {
+            e => {              
               let toReturn = true;
               this.contractIndicators.forEach(i => {
-                if (i.indicator.id === e.id) {
+                if (i.indicator.id === e.id) { // verify if indicator is already in the contract 
                   toReturn = false;
                 }
               });
