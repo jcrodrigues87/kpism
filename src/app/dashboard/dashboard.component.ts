@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, OnChanges } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { 
@@ -24,7 +24,6 @@ import {
 })
 export class DashboardComponent implements OnInit {
   indicator: Indicator;
-  period: Period;
   currentPeriod: Period;
   sectionUser: User;
   selectedUser: User;

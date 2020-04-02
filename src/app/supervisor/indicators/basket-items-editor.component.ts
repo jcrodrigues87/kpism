@@ -21,6 +21,8 @@ export class BasketItemsEditorComponent implements OnInit {
   inputedWeight: number = 0;
   totalWeight : number = 0;
 
+  warning: string;
+
   constructor (
     private indicatorsService: IndicatorsService,
     private basketItemsService: BasketItemsService,
@@ -68,11 +70,16 @@ export class BasketItemsEditorComponent implements OnInit {
   add(): void {
     this.isSubmitting = true;
     this.errors = null;
+    if (this.basketItemForm.value.weight + this.totalWeight > 100) {
+      this.warning = "Peso não pode ultrapassar 100!"
+      return;
+    }
     this.basket.basketItems.push(this.basketItemForm.value)
     this.basketItemsService.put(this.indicator.id, this.basket.basketItems).subscribe(
       basketItem => {
         this.basketItemForm.reset();
         this.loadBasket();
+        this.warning = undefined;
         this.isSubmitting = false;
       },
       err => {
@@ -86,11 +93,11 @@ export class BasketItemsEditorComponent implements OnInit {
   remove(indicatorId): void {
     this.isSubmitting = true;
     this.errors = [];
-
     this.basketItemsService.destroy(this.indicator.id, indicatorId).subscribe(
       data => {
         this.selectedItem = undefined;
         this.loadBasket();
+        this.warning = undefined;
         this.isSubmitting = false;
       },
       err => {
@@ -109,6 +116,10 @@ export class BasketItemsEditorComponent implements OnInit {
 
   updateWeight(): void {
     var temp: number;
+    if (this.selectedWeight + this.totalWeight - this.selectedItem.weight > 100) {
+      this.warning = "Peso não pode ultrapassar 100!"
+      return;
+    }
     for (var i = 0; i < this.basket.basketItems.length; i++) {
       if (this.basket.basketItems[i].indicator.id == this.selectedItem.indicator.id) {
         temp = this.basket.basketItems[i].weight; 
@@ -116,10 +127,10 @@ export class BasketItemsEditorComponent implements OnInit {
         break;
       }
     }
-
     this.basketItemsService.put(this.indicator.id, this.basket.basketItems).subscribe(
       basketItem => {
         this.loadBasket();
+        this.warning = undefined;
         this.selectedItem = undefined;
         this.isSubmitting = false;
       },
@@ -130,6 +141,10 @@ export class BasketItemsEditorComponent implements OnInit {
         this.isSubmitting = false;
       }
     );
+  }
+
+  closeMessage() {
+    this.warning = undefined;
   }
 
 }

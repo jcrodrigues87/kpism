@@ -28,7 +28,7 @@ export class ContractsService {
         this.currentPeriod = data;
         this.observableContract = this.apiService.get('/contracts/' + userId + '/' + this.currentPeriod.id).pipe(
           map(data => data.contract));
-        }
+      }
     );
     return this.observableContract
   }

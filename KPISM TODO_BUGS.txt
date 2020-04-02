@@ -6,30 +6,26 @@ Front-End:
 	Adicionar mensagem quando receber um acesso negado;
 
 	Periodo - Tratar quando não existe nenhum periodo cadastrado / selecionado;
-	Periodo - Abrir no ano corrente, se existir;
 	Login - Aviso de usuario ou senha incorretos aparecem em ingles;
-	PLR - Criar interface referentes a PLR.
 	Indicadores - Peso de cesta aceita numero negativo.
-	Indicadores - Não pode deixar colocar vazio em planejado/realizado;
-	Indicadores - Não deixar peso passar de 100 na cesta;
 	Indicadores - Fazer filtro para indicadores Cesta e Normal. Talvez um novo tipo (faz parte de cesta)?
 	Indicadores - Fazer filtro por departamento;
-	Contrato - Não deixar peso passar de 100;
 	Contrato - Fazer filtro por departamento;
 	Contrato - Usuario inativo aparecento em contratos;
  	Dashboard - Referencia deveria começar com o mês atual, atualmente começa em janeiro.
 	Dashboard - Mostrar Usuarios em ordem alfabetica;
-	Dashboard - As vezes departamento do usuario não aparece;
 
 
 	Frontend Commit atual:
 
-	Calculo de acumulado movido para CalcService;
-	Bloqueado inserção de cestas dentro de cesta;
-	Adicionado filtro em dashboard para não mostrar usuarios inativos em periodos abertos;
-	Adicionado filtro em contrato para não mostrar usuarios inativos em periodos abertos;
-	Corrigido Graficos em dashboard;
-	Removido chartService;
+	Adicionado tabela da P.L.R.;
+	Adicionado inputs para alteração dos campos da P.L.R.;
+	Dashboard abre no ultimo período cadastrado;
+	Adicionado mensagem ao se deixar um campo vazio em meterings;
+	Adicionado mensagem em contratos ao tentar adicionar/alterar indicador cuja soma do peso ultrapasse 100;
+	Adicionado mensagem em cesta ao tentar adicionar/alterar indicador cuja soma do peso ultrapasse 100;
+	Corrigido problema que fazia com que departamento do usuario não aparecece no dashboard;
+	Removido menções a responsaveis (Responsables-Editor, ResponsablesService);
 
 
 	Concluido:
@@ -83,3 +79,9 @@ Front-End:
 	Corrigido problema que mostrava periodos inativos;
 	Adicionado Equação (equation) e Metodo de Aferição (evaluation) em indicadores;
 	Adicionado ao dashboard Descrição, Equação e Aferição;
+	Calculo de acumulado movido para CalcService;
+	Bloqueado inserção de cestas dentro de cesta;
+	Adicionado filtro em dashboard para não mostrar usuarios inativos em periodos abertos;
+	Adicionado filtro em contrato para não mostrar usuarios inativos em periodos abertos;
+	Corrigido Graficos em dashboard;
+	Removido chartService;

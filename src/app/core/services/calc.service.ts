@@ -1,9 +1,15 @@
 import { Injectable } from "@angular/core";
 
-import { Metering } from "../models";
+import { Metering, ContractIndicator, Reference } from "../models";
+import { ContractsService } from './contracts.service';
+import { reference } from '@angular/core/src/render3';
 
 @Injectable()
 export class CalcService {
+
+  constructor(
+    private contractService: ContractsService,
+  ) {}
   
   calcPercentDifference(meter, orientation, limit): Metering {
     if (meter.actual !== "" && meter.target !== "") {
@@ -32,7 +38,7 @@ export class CalcService {
     return meter
   }
 
-  calcAccumulated(indicatorList, reference): Array<Metering> { // receive an i and an accumulated list and calc the result
+  calcAccumulated(indicatorList, reference): Array<Metering> { // receive an indicator list and a reference and calc the result
     var accumulated: Array<Metering> = [];
     for (var i = 0; i < indicatorList.length; i++) {
       accumulated.push({id: "", refOrder: reference.refOrder, refName: reference.refName, target: 0, actual: 0, difference: 0, percent: 0, createdAt: undefined, updatedAt: undefined})
@@ -54,6 +60,17 @@ export class CalcService {
       accumulated[i] = this.calcPercentDifference(accumulated[i], indicatorList[i].indicator.orientation, indicatorList[i].indicator.limit)
     }
     return accumulated;
+  }
+
+  calcQuantitative(indicatorList): number { // receive an user and return the quantitative (final result of accumulated) 
+    var accumulated: Array<Metering> = [];
+    var accumulatedResult = 0;
+    var reference = {refName: 'Dezembro', refOrder: 12};
+    accumulated = this.calcAccumulated(indicatorList, reference)
+    for (var j = 0; j < accumulated.length; j++) {
+      accumulatedResult += (accumulated[j].percent * indicatorList[j].weight * 0.01)
+    }
+    return accumulatedResult;
   }
 
 }

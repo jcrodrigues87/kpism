@@ -16,7 +16,7 @@
             </div>
             <div class='row col-md-8' *ngIf="sectionUser && (sectionUser.role == 'admin' || sectionUser.role == 'supervisor')">
               <label class="col-md-3 col-form-label"  style="text-align: right">Usuário</label>
-              <div>
+              <div class="col-md-6">
                 <ng-select  [items]="users"
                             bindLabel="name"
                             placeholder="Usuário"
@@ -38,19 +38,15 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-12">
-            <table class="table table-borderless">
-              <tr>
-                <td><h1>{{ selectedUser.name }}</h1></td>
-                <td align="center"><h1>{{ reference.refName }}</h1></td>
-              </tr>
-            </table>
-            <h6>{{ selectedUser.departmentName }} </h6>
+            <h1>{{ selectedUser.name }}</h1>
+            <h6>{{ selectedUser.department.name }} </h6>
           </div>
         </div>
         <br>
         <div *ngIf="(contractIndicators.length == 0)">
           <h3 align="center">Nenhum indicador cadastrado</h3>
         </div>
+        {{teste}}
         <table class="table table-responsive-sm table-hover table-outline mb-0" *ngIf="(contractIndicators.length != 0)">
         
           <!-- Header -->
@@ -259,16 +255,3 @@
     <indicator-chart [indicator]="indicator"></indicator-chart>
   </div>
 </ng-template>
-
-
-<!--<ng-template #responsableModalTemplate>
-  <div class="modal-header">
-    <h4 class="modal-title">Responsáveis {{ indicator ? indicator.name : "..." }} - {{ period ? period.name : "..." }}</h4>
-    <button type="button" class="close" (click)="chartModal.hide()" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <responsables-table [indicator]="indicator" [period]="period"></responsables-table>
-  </div>
-</ng-template> -->

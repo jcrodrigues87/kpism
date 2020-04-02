@@ -40,7 +40,7 @@ export class DefaultLayoutComponent implements OnInit {
         this.periods = data;
         
         if (this.periodId === "" && this.periods && this.periods[0]) {
-          this.periodId = this.periods[0].id;
+          this.periodId = this.periods[this.periods.length-1].id;
           this.changePeriod();
         }
       }

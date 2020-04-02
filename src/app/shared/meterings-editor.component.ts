@@ -28,6 +28,13 @@ export class MeteringsEditorComponent{
   save() {
     this.isSubmitting = true;
     this.errors = null;
+    for (var i = 0; i < this.indicator.metering.length; i++) {
+      if (this.indicator.metering[i].actual == undefined || this.indicator.metering[i].target == undefined) {
+        this.message = undefined;
+        this.warning = "Preencha todos os campos!"
+        return;
+      }
+    }
     this.indicatorsService.saveMetering(this.indicator).subscribe(
       indicator => {
         this.indicator = indicator;

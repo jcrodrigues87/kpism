@@ -11,7 +11,6 @@ import { IndicatorsRouting } from './indicators-routing.module';
 import { IndicatorsComponent } from './indicators.component';
 import { IndicatorEditorComponent } from './indicator-editor.component';
 import { IndicatorResolver } from './indicator-resolver.service';
-import { ResponsablesEditorComponent } from './responsabels-editor.component';
 import { BasketItemsEditorComponent } from './basket-items-editor.component';
 
 @NgModule({
@@ -27,7 +26,6 @@ import { BasketItemsEditorComponent } from './basket-items-editor.component';
   declarations: [
     IndicatorsComponent,
     IndicatorEditorComponent,
-    ResponsablesEditorComponent,
     BasketItemsEditorComponent
   ],
   providers: [

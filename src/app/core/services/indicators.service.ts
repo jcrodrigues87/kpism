@@ -85,27 +85,4 @@ export class IndicatorsService {
     return this.observableIndicator;
   }
 
-    getByResponable(userId,periodId): Observable<Indicator[]> {
-    const params = {}
-
-    params['type'] = 'byResponsable';
-    params['periodId'] = periodId;
-    params['userId'] = userId;
-
-    return this.apiService.get('/indicators', new HttpParams({ fromObject: params })).pipe(
-      map(data => data.indicators)
-    )
-  }
-
-  getByDepartment(departmentId): Observable<Indicator[]> {
-    const params = {}
-
-    params['type'] = 'byDepartment';
-    params['departmentId'] = departmentId;
-
-    return this.apiService.get('/indicators', new HttpParams({ fromObject: params })).pipe(
-      map(data => data.indicators)
-    )
-  }
-
 }

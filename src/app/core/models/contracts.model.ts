@@ -8,7 +8,9 @@ export class Contract {
   proportionalPeriod: number;
   bonus: number;
   qualitative: number;
+  qualitativeWeight: number;
   quantitative: number;
+  quantitativeWeight: number;
   resultContract: number;
   plr: number;
   tax: number;

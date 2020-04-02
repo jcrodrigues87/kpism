@@ -22,6 +22,7 @@ export class ContractIndicatorComponent implements OnChanges {
   errors: Object = {};
   isSubmitting = false; 
   message: string;
+  warning: string;
 
   constructor(
     private indicatorsService: IndicatorsService,
@@ -67,11 +68,16 @@ export class ContractIndicatorComponent implements OnChanges {
   add(): void {
     this.isSubmitting = true;
     this.errors = null;
+    if (this.indicatorForm.value.weight + this.totalWeight > 100) {
+      this.warning = "Peso não pode ultrapassar 100!"
+      return;
+    }
     this.contractService.saveIndicator(this.contract.id, this.indicatorForm.value.indicator.id, this.indicatorForm.value.weight).subscribe(
       data => {
         this.indicatorForm.reset();
         this.reload();
         this.selectedItem = undefined;
+        this.warning = undefined;
         this.isSubmitting = false;
       },
       err => {
@@ -90,13 +96,19 @@ export class ContractIndicatorComponent implements OnChanges {
 
   closeMessage() {
     this.message = undefined;
+    this.warning = undefined;
   }
 
   updateWeight(): void {
+    if (this.selectedWeight + (this.totalWeight - this.selectedItem.weight) > 100) {
+      this.warning = "Peso não pode ultrapassar 100!"
+      return;
+    }
     this.contractService.updateIndicator(this.selectedItem.contract, this.selectedItem.indicator.id, this.selectedWeight).subscribe(
       data => {
         this.reload();
         this.selectedItem = undefined;
+        this.warning = undefined;
         this.isSubmitting = false;
       },
       err => {
@@ -112,6 +124,7 @@ export class ContractIndicatorComponent implements OnChanges {
       data => {
         this.reload();
         this.selectedItem = undefined;
+        this.warning = undefined;
         this.isSubmitting = false;
       },
       err => {

@@ -28,8 +28,9 @@ export class ContractsComponent implements OnInit {
       salary: '',
       proportionalPeriod: '',
       bonus: '',
-      quantitative: '',
       qualitative: '',
+      qualitativeWeight: '',
+      quantitativeWeight: '',
     }); 
   }
 
@@ -47,8 +48,6 @@ export class ContractsComponent implements OnInit {
           });; 
         });
     });
-    
-    
   }
 
   loadContract() {
