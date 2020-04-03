@@ -41,6 +41,7 @@ export class UserEditorComponent implements OnInit {
 
     this.departmentsService.query().subscribe(departments => {
       this.departments = departments;
+      this.departments.sort((a,b)=>a.name.localeCompare(b.name))
     });
   }
 

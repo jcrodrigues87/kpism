@@ -43,12 +43,14 @@ export class DepartmentEditorComponent implements OnInit {
 
         this.departmentsService.query().pipe(map(dep => dep.filter(d => d.id !== data.department.id))).subscribe(departments => {
           this.departments = departments;
+          this.departments.sort((a,b)=>a.name.localeCompare(b.name))
         });
       }
     );
 
     this.usersService.query().subscribe(users => {
       this.users = users;
+      this.users.sort((a,b)=>a.name.localeCompare(b.name))
     });
   }
 

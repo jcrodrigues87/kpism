@@ -40,7 +40,13 @@ export class DefaultLayoutComponent implements OnInit {
         this.periods = data;
         
         if (this.periodId === "" && this.periods && this.periods[0]) {
+          var year = new Date().getFullYear();
           this.periodId = this.periods[this.periods.length-1].id;
+          for (var i = 0; i < this.periods.length; i++) {
+            if (year == +this.periods[i].year) {
+              this.periodId = this.periods[i].id;
+            }
+          }
           this.changePeriod();
         }
       }

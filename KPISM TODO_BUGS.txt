@@ -6,26 +6,26 @@ Front-End:
 	Adicionar mensagem quando receber um acesso negado;
 
 	Periodo - Tratar quando não existe nenhum periodo cadastrado / selecionado;
-	Login - Aviso de usuario ou senha incorretos aparecem em ingles;
-	Indicadores - Peso de cesta aceita numero negativo.
+	Erro - Fazer tratamento de erros, mensagens aparecem em ingles, não mostra nada em 403 e 500;
 	Indicadores - Fazer filtro para indicadores Cesta e Normal. Talvez um novo tipo (faz parte de cesta)?
 	Indicadores - Fazer filtro por departamento;
 	Contrato - Fazer filtro por departamento;
-	Contrato - Usuario inativo aparecento em contratos;
- 	Dashboard - Referencia deveria começar com o mês atual, atualmente começa em janeiro.
-	Dashboard - Mostrar Usuarios em ordem alfabetica;
 
 
 	Frontend Commit atual:
 
-	Adicionado tabela da P.L.R.;
-	Adicionado inputs para alteração dos campos da P.L.R.;
-	Dashboard abre no ultimo período cadastrado;
-	Adicionado mensagem ao se deixar um campo vazio em meterings;
-	Adicionado mensagem em contratos ao tentar adicionar/alterar indicador cuja soma do peso ultrapasse 100;
-	Adicionado mensagem em cesta ao tentar adicionar/alterar indicador cuja soma do peso ultrapasse 100;
-	Corrigido problema que fazia com que departamento do usuario não aparecece no dashboard;
-	Removido menções a responsaveis (Responsables-Editor, ResponsablesService);
+	Chefe de departamento consegue ver o dashboard de todos os usuarios de seu departamento;
+	Dashboard inicia no ano corrente;
+	Referencia do dashboard inicia em dezembro para anos passados, mês atual no ano corrente e janeiro para anos futuros;
+	Adicionado ordem alfabetica no select de usuarios a dashboard;
+	Adicionado ordem alfabetica no select de usuarios a plr;
+	Adicionado ordem alfabetica no select de departamentos a users-editor;
+	Adicionado ordem alfabetica no select de gerente e filho a departments-editor;
+	Adicionado ordem alfabetica no select de departamentos a indicators-editor;
+	Adicionado ordem alfabetica no select de inidcadores a basket-items-editor;
+	Adicionado ordem alfabetica no select de usuarios a contracts;
+	Adicionado ordem alfabetica no select de indicadores a contract-indicators;
+
 
 
 	Concluido:
@@ -85,3 +85,12 @@ Front-End:
 	Adicionado filtro em contrato para não mostrar usuarios inativos em periodos abertos;
 	Corrigido Graficos em dashboard;
 	Removido chartService;
+	Adicionado tabela da P.L.R.;
+	Adicionado inputs para alteração dos campos da P.L.R.;
+	Dashboard abre no ultimo período cadastrado;
+	Adicionado mensagem ao se deixar um campo vazio em meterings;
+	Adicionado mensagem em contratos ao tentar adicionar/alterar indicador cuja soma do peso ultrapasse 100;
+	Adicionado mensagem em cesta ao tentar adicionar/alterar indicador cuja soma do peso ultrapasse 100;
+	Corrigido problema que fazia com que departamento do usuario não aparecece no dashboard;
+	Removido menções a responsaveis (Responsables-Editor, ResponsablesService);
+	Removido menções a Serviço de metas (MeteringsService)

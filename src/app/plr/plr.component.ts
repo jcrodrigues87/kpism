@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 
-import { Period, User, CurrentPeriodService, ProfilesService, AuthUserService, ContractsService, Contract, CalcService } from '../core';
+import { Period, User, CurrentPeriodService, ProfilesService, AuthUserService, ContractsService, Contract, CalcService, DepartmentsService } from '../core';
 
 @Component({
   templateUrl: 'plr.component.html'
@@ -15,13 +15,15 @@ export class PlrComponent implements OnInit, OnChanges {
   plr = 0;
   remunerationSalary = 0;
   companyMultiplier = 0
+  showDepartmentUsers: boolean = false;
 
   constructor(
     private currentPeriodService: CurrentPeriodService,
     private profilesService: ProfilesService,
     private authService: AuthUserService,
     private contractService: ContractsService,
-    private calcService: CalcService
+    private calcService: CalcService,
+    private departmentService: DepartmentsService
   ) {}
 
   ngOnInit(): void {
@@ -31,13 +33,24 @@ export class PlrComponent implements OnInit, OnChanges {
         this.companyMultiplier = this.currentPeriod.companyMultiplier;
         this.sectionUser = this.authService.getCurrentUserProfile();
         this.selectedUser = this.sectionUser;
-        this.profilesService.query().subscribe(users => {
-          this.users = users.filter(
-            e => {
-              let toReturn = true;
-              if (e.inactive && !this.currentPeriod.closed)
-                return false;
-              return toReturn;
+        this.departmentService.get(this.sectionUser.department.id).subscribe(department => {
+          this.showDepartmentUsers = false;
+          if (department.manager.id == this.selectedUser.id) {
+            this.showDepartmentUsers = true;
+          }
+          this.profilesService.query().subscribe(users => {
+            this.users = users.filter(
+              e => {
+                let toReturn = true;
+                if (e.inactive && !this.currentPeriod.closed)
+                  return false;
+                if (this.sectionUser.role == 'user') {
+                  if (!e.department || e.department.id != department.id)
+                    return false;
+                }
+                return toReturn;
+            });
+            this.users.sort((a,b)=>a.name.localeCompare(b.name))
           });
         });
         this.loadContract();

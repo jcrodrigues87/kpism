@@ -9,10 +9,10 @@
         </div>
         <table class="table table-responsive-sm table-hover table-outline mb-0 col-md-12">
           <tbody>
-            <tr *ngFor="let item of basket.basketItems" 
+            <tr *ngFor="let item of basket.basketItems; let index = index" 
                 class="normalIndicador"
                 [ngClass]="{ 'selectedIndicator': selectedItem && item.id === selectedItem.id }"
-                (click)="select(item)"
+                (click)="select(item, index)"
             >
               <td class="text-center">
                 <div class="small text-muted">Peso</div>

@@ -16,7 +16,8 @@ import {
   CalcService,
   BasketItemsService,
   Basket,
-  BasketItem
+  BasketItem,
+  DepartmentsService
 } from '../core';
 
 @Component({
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit {
   reference: Reference;
   acordeonSelected: ContractIndicator;
   chartModal: BsModalRef | null;
+  showDepartmentUsers: boolean = false;
 
   accumulated: Array<Metering> = [];
   accumulatedResult: number;
@@ -51,7 +53,8 @@ export class DashboardComponent implements OnInit {
     private modalService: BsModalService,
     private authService: AuthUserService,
     private basketItemsService: BasketItemsService,
-    private calcService: CalcService
+    private calcService: CalcService,
+    private departmentService: DepartmentsService
   ) {
     this.references = [
       {refName: 'Janeiro', refOrder: 1},
@@ -70,22 +73,40 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    var date = new Date();
     this.currentPeriodService.currentPeriod.subscribe(
       data => {
         this.currentPeriod = data;
         this.sectionUser = this.authService.getCurrentUserProfile();
         this.selectedUser = this.sectionUser;
-        this.reference = this.references[0];
+        if (+this.currentPeriod.year == date.getFullYear()) {
+          this.reference = this.references[date.getMonth()]
+        } else if (this.currentPeriod.closed || +this.currentPeriod.year < date.getFullYear()) {
+          this.reference = this.references[11];
+        } else {
+          this.reference = this.references[0];
+        }
+        this.departmentService.get(this.sectionUser.department.id).subscribe(department => {
+          this.showDepartmentUsers = false;
+          if (department.manager.id == this.selectedUser.id) {
+            this.showDepartmentUsers = true;
+          }
+          this.profilesService.query().subscribe(users => {
+            this.users = users.filter(
+              e => {
+                let toReturn = true;
+                if (e.inactive && !this.currentPeriod.closed)
+                  return false;
+                if (this.sectionUser.role == 'user') {
+                  if (!e.department || e.department.id != department.id)
+                    return false;
+                }    
+                  return toReturn;
+            });
+            this.users.sort((a,b)=>a.name.localeCompare(b.name))
+          }); 
+        })
         this.loadContract();
-        this.profilesService.query().subscribe(users => {
-          this.users = users.filter(
-            e => {
-              let toReturn = true;
-              if (e.inactive && !this.currentPeriod.closed)
-                return false;
-              return toReturn;
-          });
-        });
       });
   }
 

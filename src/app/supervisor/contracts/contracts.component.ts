@@ -45,7 +45,8 @@ export class ContractsComponent implements OnInit {
               if (e.inactive && !this.currentPeriod.closed)
                 return false;
               return toReturn;
-          });; 
+          });
+          this.users.sort((a,b)=>a.name.localeCompare(b.name))
         });
     });
   }

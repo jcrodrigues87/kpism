@@ -17,6 +17,7 @@ export class BasketItemsEditorComponent implements OnInit {
 
   selectedItem: BasketItem;
   selectedWeight: number = 0;
+  selectedIndex: number = 0;
   inputedIndicator: Indicator;
   inputedWeight: number = 0;
   totalWeight : number = 0;
@@ -61,8 +62,8 @@ export class BasketItemsEditorComponent implements OnInit {
                 }
               });
               return toReturn;
-            }
-          );
+            });
+          this.indicators.sort((a,b)=>a.name.localeCompare(b.name))
         });
       });
   }
@@ -107,10 +108,11 @@ export class BasketItemsEditorComponent implements OnInit {
     );
   }
 
-  select(basketItem): void {
+  select(basketItem, index): void {
     if (!this.selectedItem || basketItem.id !== this.selectedItem.id) {
       this.selectedItem = basketItem;
       this.selectedWeight = basketItem.weight;
+      this.selectedIndex = index;
     }
   }
 
@@ -120,23 +122,26 @@ export class BasketItemsEditorComponent implements OnInit {
       this.warning = "Peso não pode ultrapassar 100!"
       return;
     }
-    for (var i = 0; i < this.basket.basketItems.length; i++) {
-      if (this.basket.basketItems[i].indicator.id == this.selectedItem.indicator.id) {
-        temp = this.basket.basketItems[i].weight; 
-        this.basket.basketItems[i].weight = this.selectedWeight;
-        break;
-      }
-    }
+    // for (var i = 0; i < this.basket.basketItems.length; i++) {
+    //   if (this.basket.basketItems[i].indicator.id == this.selectedItem.indicator.id) {
+    //     temp = this.basket.basketItems[i].weight; 
+    //     this.basket.basketItems[i].weight = this.selectedWeight;
+    //     break;
+    //   }
+    // }
+    this.basket.basketItems[this.selectedIndex].weight = this.selectedWeight;
     this.basketItemsService.put(this.indicator.id, this.basket.basketItems).subscribe(
       basketItem => {
+        console.log('aa')
         this.loadBasket();
         this.warning = undefined;
         this.selectedItem = undefined;
         this.isSubmitting = false;
       },
       err => {
+        console.log('bb')
         this.errors = err;
-        this.basket.basketItems[i].weight = temp;
+        this.basket.basketItems[this.selectedIndex].weight = temp;
         this.selectedItem = undefined;
         this.isSubmitting = false;
       }

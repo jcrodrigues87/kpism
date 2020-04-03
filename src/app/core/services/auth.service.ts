@@ -142,7 +142,7 @@ export class AuthUserService {
     let toReturn: User = new User();
     toReturn.id = this.getCurrentAuthUser().id;
     toReturn.name = this.getCurrentAuthUser().name;
-    toReturn.department = { name: this.getCurrentAuthUser().department } as Department;
+    toReturn.department = this.getCurrentAuthUser().department;
     toReturn.role = this.getCurrentAuthUser().role;
     return toReturn;
   }

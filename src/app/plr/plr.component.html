@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-sm-12">
-      <div class="card" *ngIf="sectionUser && (sectionUser.role == 'admin' || sectionUser.role == 'supervisor')">
+      <div class="card" *ngIf="(sectionUser && (sectionUser.role == 'admin' || sectionUser.role == 'supervisor')) || showDepartmentUsers">
         <div class="card-body">
           <div class="row">
             <div class='row col-md-8'>
@@ -28,7 +28,7 @@
         <div class="row">
           <div class="col-md-12">
             <h1>{{ selectedUser.name }}</h1>
-            <h6>{{ selectedUser.department.name }} </h6>
+            <h6 *ngIf="selectedUser.department">{{ selectedUser.department.name }} </h6>
           </div>
         </div>
         <br>

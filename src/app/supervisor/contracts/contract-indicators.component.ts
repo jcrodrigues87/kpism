@@ -59,8 +59,8 @@ export class ContractIndicatorComponent implements OnChanges {
                 }
               });
               return toReturn;
-            }
-          );
+            });
+            this.indicators.sort((a,b)=>a.name.localeCompare(b.name))
         });
     });
   }
