@@ -7,6 +7,16 @@
             <div class="col-6 col-sm-4 col-md mb-3 mb-xl-0 text-left">
               <button class="btn btn-sm btn-primary" (click)="addNew()"><i class="fa fa-dot-circle-o"></i> Novo</button>
             </div>
+            <div class="input-group col-6 col-sm-4 col-md mb-3 mb-xl-0 text-left" 
+                 ngbPopover="Busque por qualquer campo do período. Encerrado (Sim: true / Não: false)" 
+                 placement="bottom"
+                 triggers="mouseenter:mouseleave"
+                 container="body">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-magnifier"></i></span>
+              </div>
+              <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Pesquisar Período">
+            </div>
           </div>
           <p></p>
           <dynamic-table *ngIf="periods[0]; else notShow"
@@ -14,7 +24,8 @@
             [columns]="['name','year','companyMultiplier','closed']" 
             [titles]="['Nome','Ano','Multiplicador Canex','Encerrado']"
             [viewButton]="true"
-            [viewButtonRoute]="'admin/periods'">
+            [viewButtonRoute]="'admin/periods'"
+            [filterText]="searchText">
           </dynamic-table>
           <ng-template #notShow>
             <hr>

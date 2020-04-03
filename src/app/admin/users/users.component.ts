@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
 export class UsersComponent implements OnInit {
 
   users: Array<User> = [];
+  searchText: String;
 
   constructor(
     private usersService: UsersService,

@@ -9,10 +9,10 @@ import { Router } from "@angular/router";
 export class PeriodsComponent implements OnInit {
 
   periods: Array<Period> = [];
+  searchText: String;
 
   constructor(
     private periodsService: PeriodsService,
-    private currentPeriodService: CurrentPeriodService,
     private router: Router
   ) {}
 

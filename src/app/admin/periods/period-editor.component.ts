@@ -91,7 +91,10 @@ export class PeriodEditorComponent implements OnInit {
     this.errors = {};
 
     this.periodsService.destroy(this.period.id).subscribe(
-      data => this.back(),
+      data => {
+        this.currentPeriodService.reloadPeriods();
+        this.back();
+      },
       err => {
         this.errors = err;
         this.isSubmitting = false;

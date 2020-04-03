@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
 import { AuthUserService, Period, CurrentPeriodService, AuthUser } from '../../core';
 
 @Component({
@@ -7,7 +8,7 @@ import { AuthUserService, Period, CurrentPeriodService, AuthUser } from '../../c
   templateUrl: './default-layout.component.html'
 })
 export class DefaultLayoutComponent implements OnInit {
-  public navItems; //= navItems;
+  public navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement = document.body;
@@ -15,6 +16,7 @@ export class DefaultLayoutComponent implements OnInit {
   periods: Array<Period> = [];
   periodForm: FormGroup;
 
+  period: Period;
   periodId: String = "";
   user: AuthUser;
 
@@ -39,12 +41,12 @@ export class DefaultLayoutComponent implements OnInit {
       data => {
         this.periods = data;
         
-        if (this.periodId === "" && this.periods && this.periods[0]) {
+        if (this.period == undefined && this.periods && this.periods[0]) {
           var year = new Date().getFullYear();
-          this.periodId = this.periods[this.periods.length-1].id;
+          this.period = this.periods[this.periods.length-1];
           for (var i = 0; i < this.periods.length; i++) {
             if (year == +this.periods[i].year) {
-              this.periodId = this.periods[i].id;
+              this.period = this.periods[i];
             }
           }
           this.changePeriod();
@@ -57,7 +59,7 @@ export class DefaultLayoutComponent implements OnInit {
   
   changePeriod(): void {
     this.currentPeriodService.updateCurrentPeriod(
-      this.periods.find(e => e.id === this.periodId)
+      this.periods.find(e => e.id === this.period.id)
     );
   }
 }

@@ -10,6 +10,7 @@ export class IndicatorsComponent implements OnInit {
 
   indicators: Array<Indicator> = [];
   currentPeriod: Period;
+  searchText: String;
 
   constructor(
     private indicatorsService: IndicatorsService,

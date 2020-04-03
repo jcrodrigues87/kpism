@@ -3,6 +3,11 @@ Front-End:
 
 	TODO:
 
+	trocar ponto por virgula;
+	Centralizar;
+	Fechar periodo mensal;
+	nivel de bonus em função do cargo;
+
 	Adicionar mensagem quando receber um acesso negado;
 
 	Periodo - Tratar quando não existe nenhum periodo cadastrado / selecionado;
@@ -14,18 +19,12 @@ Front-End:
 
 	Frontend Commit atual:
 
-	Chefe de departamento consegue ver o dashboard de todos os usuarios de seu departamento;
-	Dashboard inicia no ano corrente;
-	Referencia do dashboard inicia em dezembro para anos passados, mês atual no ano corrente e janeiro para anos futuros;
-	Adicionado ordem alfabetica no select de usuarios a dashboard;
-	Adicionado ordem alfabetica no select de usuarios a plr;
-	Adicionado ordem alfabetica no select de departamentos a users-editor;
-	Adicionado ordem alfabetica no select de gerente e filho a departments-editor;
-	Adicionado ordem alfabetica no select de departamentos a indicators-editor;
-	Adicionado ordem alfabetica no select de inidcadores a basket-items-editor;
-	Adicionado ordem alfabetica no select de usuarios a contracts;
-	Adicionado ordem alfabetica no select de indicadores a contract-indicators;
-
+	Corrigido problema ao se alterar item da cesta com periodo fechado;
+	Adicionado filtro de busca em usuario;
+	Adicionado filtro de busca em departamento;
+	Adicionado filtro de busca em periodo;
+	Adicionado filtro de busca em indicador;
+	Removido menções a indicator-filter;
 
 
 	Concluido:
@@ -94,3 +93,14 @@ Front-End:
 	Corrigido problema que fazia com que departamento do usuario não aparecece no dashboard;
 	Removido menções a responsaveis (Responsables-Editor, ResponsablesService);
 	Removido menções a Serviço de metas (MeteringsService)
+	Chefe de departamento consegue ver o dashboard de todos os usuarios de seu departamento;
+	Dashboard inicia no ano corrente;
+	Referencia do dashboard inicia em dezembro para anos passados, mês atual no ano corrente e janeiro para anos futuros;
+	Adicionado ordem alfabetica no select de usuarios a dashboard;
+	Adicionado ordem alfabetica no select de usuarios a plr;
+	Adicionado ordem alfabetica no select de departamentos a users-editor;
+	Adicionado ordem alfabetica no select de gerente e filho a departments-editor;
+	Adicionado ordem alfabetica no select de departamentos a indicators-editor;
+	Adicionado ordem alfabetica no select de inidcadores a basket-items-editor;
+	Adicionado ordem alfabetica no select de usuarios a contracts;
+	Adicionado ordem alfabetica no select de indicadores a contract-indicators;

@@ -132,16 +132,15 @@ export class BasketItemsEditorComponent implements OnInit {
     this.basket.basketItems[this.selectedIndex].weight = this.selectedWeight;
     this.basketItemsService.put(this.indicator.id, this.basket.basketItems).subscribe(
       basketItem => {
-        console.log('aa')
         this.loadBasket();
         this.warning = undefined;
         this.selectedItem = undefined;
         this.isSubmitting = false;
       },
       err => {
-        console.log('bb')
         this.errors = err;
         this.basket.basketItems[this.selectedIndex].weight = temp;
+        this.loadBasket();
         this.selectedItem = undefined;
         this.isSubmitting = false;
       }

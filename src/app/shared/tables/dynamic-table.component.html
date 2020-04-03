@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let r of rows">
+    <tr *ngFor="let r of rows | filter:filterText">
       <td *ngFor="let c of columns">
         <!-- {{ r[c] }} -->
         {{ getValue(r, c) }}

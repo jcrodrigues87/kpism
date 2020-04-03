@@ -12,6 +12,7 @@ export class DynamicTableComponent {
   @Input() viewButton: boolean = false;
   @Input() viewButtonRoute: string;
   @Input() propertyId: string = 'id';
+  @Input() filterText: String;
 
   constructor(
     private router: Router

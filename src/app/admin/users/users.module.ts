@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -17,6 +18,7 @@ import { UserResolver } from './user-resolver.service';
     FormsModule,
     NgSelectModule,
     SharedModule,
+    NgbModule,
     UsersRouting,
     ModalModule.forRoot()
   ],

@@ -21,9 +21,9 @@ export class CurrentPeriodService {
 
     reloadPeriods(): void {
         this.periodsService.queryActive().subscribe(data => {
-            this.router.navigateByUrl('dashboard');
             this.currentPeriodsListSubject.next(data);
-          });
+            this.router.navigateByUrl('dashboard');
+        });
     }
     
     updateCurrentPeriod(period: Period): void {

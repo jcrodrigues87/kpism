@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -16,6 +17,7 @@ import { BasketItemsEditorComponent } from './basket-items-editor.component';
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     FormsModule,
     NgSelectModule,
     TabsModule,
