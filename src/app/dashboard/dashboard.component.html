@@ -1,4 +1,4 @@
-<div class="animated fadeIn">
+<div class="animated fadeIn" *ngIf="currentPeriod.id">
   <div class="row">
     <div class="col-sm-12">
       <div class="card">
@@ -33,6 +33,20 @@
     <!--/.col-->
   </div>
   <!--/.row-->
+  <div class="col-sm-14" *ngIf="selectedUser && reference && !contract">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>{{ selectedUser.name }}</h1>
+            <h6 *ngIf="selectedUser.department">{{ selectedUser.department.name }} </h6>
+          </div>
+        </div>
+        <br>
+        <h3 align="center">Contrato inexistente</h3>
+      </div>
+    </div>
+  </div>
   <div class="col-sm-14" *ngIf="selectedUser && reference && contract">
     <div class="card">
       <div class="card-body">
@@ -116,7 +130,8 @@
                                     [(indicator)]="contractIndicator.indicator"
                                     [showDelta]="true"
                                     [targetEdit]="false"
-                                    [actualEditNumber]="currentPeriod.closedMonth">
+                                    [actualEditNumber]="currentPeriod.closedMonth"
+                                    [currentPeriod]="currentPeriod">
                   </meterings-editor>
                 </td>
                 <td colspan="7" class="align-top">
@@ -181,7 +196,8 @@
                                         [(indicator)]="basketItem.indicator"
                                         [showDelta]="true"
                                         [targetEdit]="false"
-                                        [actualEditNumber]="currentPeriod.closedMonth">
+                                        [actualEditNumber]="currentPeriod.closedMonth"
+                                        [currentPeriod]="currentPeriod">
                       </meterings-editor>
                     </td>
                     <td colspan="8" class="align-top">

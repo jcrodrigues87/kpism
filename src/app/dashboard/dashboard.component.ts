@@ -90,27 +90,10 @@ export class DashboardComponent implements OnInit {
         } else {
           this.reference = this.references[0];
         }
-        this.departmentService.get(this.sectionUser.department.id).subscribe(department => {
-          this.showDepartmentUsers = false;
-          if (department.manager.id == this.selectedUser.id) {
-            this.showDepartmentUsers = true;
-          }
-          this.profilesService.query().subscribe(users => {
-            this.users = users.filter(
-              e => {
-                let toReturn = true;
-                if (e.inactive && !this.currentPeriod.closed)
-                  return false;
-                if (this.sectionUser.role == 'user') {
-                  if (!e.department || e.department.id != department.id)
-                    return false;
-                }    
-                  return toReturn;
-            });
-            this.users.sort((a,b)=>a.name.localeCompare(b.name))
-          }); 
-        })
-        this.loadContract();
+        if (this.currentPeriod.id) {
+          this.loadUsers();
+          this.loadContract();
+        }
       });
   }
 
@@ -120,13 +103,46 @@ export class DashboardComponent implements OnInit {
     this.chartModal = this.modalService.show(template, { class: 'modal-lg', initialState });
   }
 
+  loadUsers(): void {
+    if (this.sectionUser.department) {
+      this.departmentService.get(this.sectionUser.department.id).subscribe(department => {
+        this.showDepartmentUsers = false;
+        if (department.manager && department.manager.id == this.selectedUser.id) {
+          this.showDepartmentUsers = true;
+        }
+        this.profilesService.query().subscribe(users => {
+          console.log(users)
+          this.users = users.filter(
+            e => {
+              let toReturn = true;
+              if (e.inactive && !this.currentPeriod.closed)
+                return false;
+              if (this.sectionUser.role == 'user') {
+                if (!e.department || e.department.id != department.id)
+                  return false;
+              }    
+                return toReturn;
+          });
+          this.users.sort((a,b)=>a.name.localeCompare(b.name))
+        }); 
+      })
+    } else if (this.selectedUser.role == "admin") {
+      this.profilesService.query().subscribe(users => {
+        this.users = users;
+      });
+      this.users.sort((a,b)=>a.name.localeCompare(b.name))
+    }
+  }
+
   loadContract(): void {
     this.contractService.get(this.selectedUser.id).subscribe(contract => {
       this.contract = contract;
-      this.contractService.queryIndicators(this.contract.id).subscribe(contractIndicators => {
-        this.contractIndicators = contractIndicators;
-        this.loadMeterings();
-      })  
+      if (contract) {
+        this.contractService.queryIndicators(this.contract.id).subscribe(contractIndicators => {
+          this.contractIndicators = contractIndicators;
+          this.loadMeterings();
+        })  
+      }
     })
   }
 

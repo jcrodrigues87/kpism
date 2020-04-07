@@ -1,32 +1,27 @@
 
 Front-End:
-
-	Mensagens de erro: Traduzir no front ou no back;
-	Como pegar statusCode;
 	
 	TODO:
 
-
-
-	Fechar periodo mensal;
-
-	Adicionar mensagem quando receber um acesso negado;
-
-	Periodo - Tratar quando não existe nenhum periodo cadastrado / selecionado;
-	Erro - Fazer tratamento de erros, mensagens aparecem em ingles, não mostra nada em 403 e 500;
+	Não deixar usuario inativo usar "Esqueceu sua senha";
+	grafico não começa de 0, fazendo as vezes com que algum indicador não apareça;
+	Ordenar dynamic table;
+	usuario não consegue dar update metering;
+	Mes sem meta;
+	Tokens expirou a cada 1 dia?????    CONFERIR
+	Supervisor não abre todos os usuarios no dashboard;
 
 	Frontend Commit atual:
 
-	Adicionado grafico a itens da cesta;
-	Adicionado tax em periodo para gerenciar imposto de renda na plr;
-	Definido nome de cargos em bônus da P.L.R.;
-	Adicionado número de dependentes a contrato;
-	Adicionado calculo do imposto de renda na P.L.R;
-	Alterado padrão de decimais para 'br' em pipes;
-	Aumentado input de indicadores em contrato;
-	Adicionado mês encerrado em periodos;
-	Adicionado icone de periodo encerrado no header;
-	Campos em metering-editor de meses encerrados desabilitados;
+	Corrigido problema que gerava erro ao se atualizar a página;
+	Corrigido problema de acesso ao Id de departamento em dashboard e PLR;
+	Adicionado card de contrato inexistente quando periodo está fechado em Dashboard, PLR e contratos;
+	Adicionado alerta em period-editor. Alterações em periodo devem ser feitas somente com o sistema sem usuarios;
+	Corrigido problema quando não existe período. Agora Dashboard, PLR, Indicador e Contrato não mostram nada;
+	Removido opções de alteração de contratos em periodos encerrados;
+	Removido opções de alteração de indicadores em periodos encerrados;
+	Removido opções de alteração do dashboard em periodos encerrados;
+
 
 	Concluido:
 
@@ -111,3 +106,13 @@ Front-End:
 	Adicionado filtro de busca em periodo;
 	Adicionado filtro de busca em indicador;
 	Removido menções a indicator-filter;
+	Adicionado grafico a itens da cesta;
+	Adicionado tax em periodo para gerenciar imposto de renda na plr;
+	Definido nome de cargos em bônus da P.L.R.;
+	Adicionado número de dependentes a contrato;
+	Adicionado calculo do imposto de renda na P.L.R;
+	Alterado padrão de decimais para 'br' em pipes;
+	Aumentado input de indicadores em contrato;
+	Adicionado mês encerrado em periodos;
+	Adicionado icone de periodo encerrado no header;
+	Campos em metering-editor de meses encerrados desabilitados;

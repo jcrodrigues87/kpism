@@ -1,4 +1,4 @@
-<div class="animated fadeIn">
+<div class="animated fadeIn" *ngIf="currentPeriod.id">
   <div class="card">
     <div class="card-body">
       <div class="row">
@@ -20,7 +20,22 @@
     </div>
   </div>
   
-  <tabset *ngIf="selectedUser">
+  <div class="col-sm-14" *ngIf="selectedUser && !contract">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>{{ selectedUser.name }}</h1>
+            <h6 *ngIf="selectedUser.department">{{ selectedUser.department.name }} </h6>
+          </div>
+        </div>
+        <br>
+        <h3 align="center">Contrato inexistente</h3>
+      </div>
+    </div>
+  </div>
+  
+  <tabset *ngIf="selectedUser && contract">
     <tab>
       <ng-template tabHeading><i class="icon-chart"></i> Indicadores</ng-template>
       <contract-indicator [contract]="contract"
@@ -71,7 +86,7 @@
           </fieldset>
         </div>
       </form>
-      <div class="card-footer">
+      <div class="card-footer" *ngIf="!currentPeriod.closed">
         <button class="btn btn-sm btn-primary" (click)="submitForm()"><i class="fa fa-dot-circle-o"></i> Salvar</button>
       </div>
     </tab>

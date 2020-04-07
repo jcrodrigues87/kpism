@@ -42,6 +42,8 @@ export class ContractIndicatorComponent implements OnChanges {
   }
 
   reload() {
+    this.indicatorForm.reset();
+    this.warning = undefined;
     this.contractService.queryIndicators(this.contract.id).subscribe(
       data => {
         this.contractIndicators = data;

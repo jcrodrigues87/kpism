@@ -72,6 +72,10 @@ export class PeriodEditorComponent implements OnInit {
     this.errors = {};
     this.update(this.periodForm.value);
     this.period.tax = this.taxes;
+    if (this.isNew) {
+      this.period.closedMonth = 0;
+      this.period.closed = false;
+    }
 
     this.periodsService.save(this.period).subscribe(
       period => {

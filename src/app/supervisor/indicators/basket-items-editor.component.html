@@ -25,7 +25,7 @@
                 </div>
               </td>
               <td class="text-center">
-                <button class="btn btn-sm btn-danger" (click)="remove(item.indicator.id)"><i class="fa fa-trash-o"></i> </button>
+                <button *ngIf="!currentPeriod.closed" class="btn btn-sm btn-danger" (click)="remove(item.indicator.id)"><i class="fa fa-trash-o"></i> </button>
               </td>
             </tr>
             
@@ -47,7 +47,7 @@
           <list-errors [errors]="errors"></list-errors>
       </div>
       <br>
-      <form [formGroup]="basketItemForm">
+      <form [formGroup]="basketItemForm" *ngIf="!currentPeriod.closed">
         <div class="row">
             <label class="col-md-2 col-form-label" for="manager" style="text-align: right">Indicador</label>
             <div class="col-md-6">
@@ -83,7 +83,7 @@
         <h4>{{ selectedItem.indicator.name }}</h4>
       </div>
       <br>
-      <div class="row">
+      <div class="row" *ngIf="!currentPeriod.closed">
         <label class="col-md-2 col-form-label" for="manager" style="text-align: right" >Peso</label>
         <div class="col-md-4">
           <input  class="form-control"
@@ -104,7 +104,8 @@
       </div>
       <meterings-editor [indicator]="selectedItem.indicator"
                         [showDelta]="false"
-                        [targetEdit]="true">
+                        [targetEdit]="true"
+                        [currentPeriod]="currentPeriod">
       </meterings-editor>
     </div>
   </div>

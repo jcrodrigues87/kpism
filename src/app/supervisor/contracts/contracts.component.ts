@@ -54,16 +54,11 @@ export class ContractsComponent implements OnInit {
 
   loadContract() {
     if (this.selectedUser) {
-      this.currentPeriodService.currentPeriod.subscribe(
+      this.contractService.get(this.selectedUser.id).subscribe(
         data => {
-          this.currentPeriod = data;
-          if (this.selectedUser) {
-            this.contractService.get(this.selectedUser.id).subscribe(
-              data => {
-                this.contract = data;
-                this.plrForm.patchValue(data);
-            });
-          }
+          this.contract = data;
+          if (this.contract)
+            this.plrForm.patchValue(data);
       });
     }
   }

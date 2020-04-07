@@ -11,7 +11,7 @@
       <thead>
         <tr>
           <th class="text-center">
-            <button *ngIf="indicator" class="btn btn-sm btn-primary" (click)="save()">Salvar</button>
+            <button *ngIf="indicator && !currentPeriod.closed" class="btn btn-sm btn-primary" (click)="save()">Salvar</button>
           </th>
           <th class="text-center">Ref.</th>
           <th class="text-center">Planejado</th>
@@ -27,7 +27,7 @@
           <td>
             <div class="input-group">
               <input  class="form-control" 
-                      [readonly]="!targetEdit"
+                      [readonly]="targetReadonly()"
                       type="number" 
                       [(ngModel)]="meter.target" 
                       (ngModelChange)="calc(meter)"
@@ -38,7 +38,7 @@
           <td>
             <div class="input-group">
               <input  class="form-control" 
-                      [readonly]="actualEdit(index)"
+                      [readonly]="actualReadonly(index)"
                       type="number" 
                       [(ngModel)]="meter.actual" 
                       (ngModelChange)="calc(meter)"
@@ -55,7 +55,7 @@
         </tr>
         <tr>
           <th class="text-center">
-            <button *ngIf="indicator" class="btn btn-sm btn-primary" (click)="save()">Salvar</button>
+            <button *ngIf="indicator && !currentPeriod.closed" class="btn btn-sm btn-primary" (click)="save()">Salvar</button>
           </th>
           <th class="text-center">Ref.</th>
           <th class="text-center">Planejado</th>

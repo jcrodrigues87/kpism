@@ -1,4 +1,4 @@
-<div class="animated fadeIn">
+<div class="animated fadeIn" *ngIf="currentPeriod.id">
   <div class="row">
     <div class="col-sm-12">
       <div class="card" *ngIf="(sectionUser && (sectionUser.role == 'admin' || sectionUser.role == 'supervisor')) || showDepartmentUsers">
@@ -18,6 +18,21 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-14" *ngIf="selectedUser && !contract">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>{{ selectedUser.name }}</h1>
+            <h6 *ngIf="selectedUser.department">{{ selectedUser.department.name }} </h6>
+          </div>
+        </div>
+        <br>
+        <h3 align="center">Contrato inexistente</h3>
       </div>
     </div>
   </div>

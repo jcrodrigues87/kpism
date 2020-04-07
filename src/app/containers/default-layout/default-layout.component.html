@@ -4,7 +4,7 @@
   [navbarBrandMinimized]="{src: 'assets/img/brand/barras-30.png', width: 30, height: 30, alt: 'Logo'}"
   [sidebarToggler]="'lg'"
   [asideMenuToggler]=false>
-  <ul class="nav navbar-nav ml-auto">
+  <ul *ngIf='period' class="nav navbar-nav ml-auto">
     <li class="nav-item dropdown" dropdown placement="left" style="width:95px">
       <ng-select  [items]="periods"
                   bindLabel="year"
@@ -23,7 +23,6 @@
         <i *ngIf="period.closed" class="fa fa-lock fa-2x" style="margin-left: 20px;"></i>
       </span>
     </div>
-    
   </ul>
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item d-md-down-none">

@@ -38,27 +38,10 @@ export class PlrComponent implements OnInit, OnChanges {
         this.companyMultiplier = this.currentPeriod.companyMultiplier;
         this.sectionUser = this.authService.getCurrentUserProfile();
         this.selectedUser = this.sectionUser;
-        this.departmentService.get(this.sectionUser.department.id).subscribe(department => {
-          this.showDepartmentUsers = false;
-          if (department.manager.id == this.selectedUser.id) {
-            this.showDepartmentUsers = true;
-          }
-          this.profilesService.query().subscribe(users => {
-            this.users = users.filter(
-              e => {
-                let toReturn = true;
-                if (e.inactive && !this.currentPeriod.closed)
-                  return false;
-                if (this.sectionUser.role == 'user') {
-                  if (!e.department || e.department.id != department.id)
-                    return false;
-                }
-                return toReturn;
-            });
-            this.users.sort((a,b)=>a.name.localeCompare(b.name))
-          });
-        });
-        this.loadContract();
+        if (this.currentPeriod.id) {
+          this.loadUsers();
+          this.loadContract();
+        }
       });
   }
 
@@ -66,13 +49,45 @@ export class PlrComponent implements OnInit, OnChanges {
     this.calcResult();
   }
 
+  loadUsers(): void {
+    if (this.sectionUser.department) {
+      this.departmentService.get(this.sectionUser.department.id).subscribe(department => {
+        this.showDepartmentUsers = false;
+        if (department.manager && department.manager.id == this.selectedUser.id) {
+          this.showDepartmentUsers = true;
+        }
+        this.profilesService.query().subscribe(users => {
+          this.users = users.filter(
+            e => {
+              let toReturn = true;
+              if (e.inactive && !this.currentPeriod.closed)
+                return false;
+              if (this.sectionUser.role == 'user') {
+                if (!e.department || e.department.id != department.id)
+                  return false;
+              }    
+                return toReturn;
+          });
+          this.users.sort((a,b)=>a.name.localeCompare(b.name))
+        }); 
+      })
+    } else if (this.selectedUser.role == "admin") {
+      this.profilesService.query().subscribe(users => {
+        this.users = users;
+      });
+      this.users.sort((a,b)=>a.name.localeCompare(b.name))
+    }
+  }
+
   loadContract(): void {
     this.contractService.get(this.selectedUser.id).subscribe(contract => {
       this.contract = contract;
-      this.contractService.queryIndicators(this.contract.id).subscribe(data => {
-        this.contract.quantitative = Math.round(this.calcService.calcQuantitative(data)*100)/100;
-        this.calcResult();
-      })  
+      if (contract) {
+        this.contractService.queryIndicators(this.contract.id).subscribe(data => {
+          this.contract.quantitative = Math.round(this.calcService.calcQuantitative(data)*100)/100;
+          this.calcResult();
+        })  
+      }
     })
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormGroup, FormBuilder } from "@angular/forms";
 
-import { Indicator, IndicatorsService, DepartmentsService, Department } from "../../core";
+import { Indicator, IndicatorsService, DepartmentsService, Department, CurrentPeriodService, Period } from "../../core";
 
 @Component({
   templateUrl: './indicator-editor.component.html'
@@ -11,6 +11,7 @@ export class IndicatorEditorComponent implements OnInit {
   indicator: Indicator = {} as Indicator;
   indicatorForm: FormGroup;
   departments: Array<Department> = [];
+  currentPeriod: Period;
 
   public confirmModal: any;
 
@@ -22,6 +23,7 @@ export class IndicatorEditorComponent implements OnInit {
   constructor(
     private indicatorsService: IndicatorsService,
     private departmentsService: DepartmentsService,
+    private currentPeriodService: CurrentPeriodService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router
@@ -42,21 +44,21 @@ export class IndicatorEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.data.subscribe(
-      (data: { indicator: Indicator }) => {
-        this.indicator = data.indicator;
-
-        if (this.indicator.id)
-          this.new = false;
-
-        this.indicatorForm.patchValue(data.indicator);
-
-        this.departmentsService.query().subscribe(departments => {
-          this.departments = departments;
-          this.departments.sort((a,b)=>a.name.localeCompare(b.name))
-        });
-      }
-    );
+    this.currentPeriodService.currentPeriod.subscribe(data => {
+      this.currentPeriod = data;
+      this.route.data.subscribe(
+        (data: { indicator: Indicator }) => {
+          this.indicator = data.indicator;
+          if (this.indicator.id)
+            this.new = false;
+          this.indicatorForm.patchValue(data.indicator);
+          this.departmentsService.query().subscribe(departments => {
+            this.departments = departments;
+            this.departments.sort((a,b)=>a.name.localeCompare(b.name))
+          });
+        }
+      );
+    });
   }
 
   submitForm() {

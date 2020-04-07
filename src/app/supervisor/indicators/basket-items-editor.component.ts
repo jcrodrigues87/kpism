@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Indicator, IndicatorsService, BasketItemsService, Basket, BasketItem } from '../../core';
+import { Indicator, IndicatorsService, BasketItemsService, Basket, BasketItem, Period } from '../../core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class BasketItemsEditorComponent implements OnInit {
   @Input() indicator: Indicator;
+  @Input() currentPeriod: Period;
   errors: Object;
   isSubmitting = false;
   basket: Basket = {} as Basket;

@@ -17,6 +17,7 @@ export class MeteringsEditorComponent{
   @Input() showDelta: boolean;
   @Input() targetEdit: boolean;
   @Input() actualEditNumber: number = 0; // 0 means all can be edited, 1 means january cant be edited, ...
+  @Input() currentPeriod: Period;
 
   errors: Object;
   isSubmitting = false;
@@ -55,8 +56,15 @@ export class MeteringsEditorComponent{
     );
   }
 
-  actualEdit(index): boolean {
-    if (index + 1 > this.actualEditNumber)
+  targetReadonly(): boolean {
+    if (this.targetEdit && !this.currentPeriod.closed) {
+      return false
+    }
+    return true
+  }
+
+  actualReadonly(index): boolean {
+    if (index + 1 > this.actualEditNumber && !this.currentPeriod.closed)
       return false
     return true 
   }
