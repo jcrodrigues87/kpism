@@ -1,7 +1,11 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { Indicator, IndicatorsService, Metering, CalcService } from "../core";
+import { registerLocaleData } from '@angular/common';
+import localeBr from '@angular/common/locales/br';
+registerLocaleData(localeBr, 'br');
+
+import { Indicator, IndicatorsService, Metering, CalcService, Period } from "../core";
 
 @Component({
   selector: 'meterings-editor',
@@ -12,6 +16,7 @@ export class MeteringsEditorComponent{
   @Output() indicatorChange = new EventEmitter<Indicator>();
   @Input() showDelta: boolean;
   @Input() targetEdit: boolean;
+  @Input() actualEditNumber: number = 0; // 0 means all can be edited, 1 means january cant be edited, ...
 
   errors: Object;
   isSubmitting = false;
@@ -48,6 +53,12 @@ export class MeteringsEditorComponent{
         this.isSubmitting = false;
       }
     );
+  }
+
+  actualEdit(index): boolean {
+    if (index + 1 > this.actualEditNumber)
+      return false
+    return true 
   }
 
   calc(meter) {

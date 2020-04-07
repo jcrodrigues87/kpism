@@ -28,6 +28,7 @@ export class ContractsComponent implements OnInit {
       salary: '',
       proportionalPeriod: '',
       bonus: '',
+      dependent: '',
       qualitative: '',
       qualitativeWeight: '',
       quantitativeWeight: '',

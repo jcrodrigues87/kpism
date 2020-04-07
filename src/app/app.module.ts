@@ -1,10 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -42,6 +40,8 @@ import {
   AppSidebarModule,
 } from '@coreui/angular';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core';
 
@@ -56,6 +56,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SharedModule,
     CoreModule,
     AppAsideModule,
+    NgbModule,
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
     AppHeaderModule,

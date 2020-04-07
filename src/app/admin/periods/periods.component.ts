@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { PeriodsService, Period, CurrentPeriodService } from "../../core";
+import { PeriodsService, Period } from "../../core";
 import { Router } from "@angular/router";
 
 @Component({

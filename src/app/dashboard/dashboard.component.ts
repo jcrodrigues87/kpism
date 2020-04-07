@@ -1,6 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
+import { registerLocaleData } from '@angular/common';
+import localeBr from '@angular/common/locales/br';
+registerLocaleData(localeBr, 'br');
+
 import { 
   Indicator, 
   Period, 

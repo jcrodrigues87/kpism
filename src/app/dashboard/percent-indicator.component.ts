@@ -1,5 +1,8 @@
 import { Component, Input, OnInit, OnChanges } from "@angular/core";
-import { Metering } from "../core";
+
+import { registerLocaleData } from '@angular/common';
+import localeBr from '@angular/common/locales/br';
+registerLocaleData(localeBr, 'br');
 
 @Component({
   selector: 'percent-indicator',

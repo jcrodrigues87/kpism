@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let meter of indicator.metering">
+        <tr *ngFor="let meter of indicator.metering; let index = index">
           <td align="center">{{ indicator.measure }}</td>
           <td>{{ meter.refName }}</td>
           <td>
@@ -38,6 +38,7 @@
           <td>
             <div class="input-group">
               <input  class="form-control" 
+                      [readonly]="actualEdit(index)"
                       type="number" 
                       [(ngModel)]="meter.actual" 
                       (ngModelChange)="calc(meter)"
@@ -46,10 +47,10 @@
             </div>
           </td>
           <td *ngIf="showDelta" style="text-align: right;">
-            {{ meter.difference | number : '1.2-2' }}
+            {{ meter.difference | number: '1.2-2' : 'br' }}
           </td>
           <td style="text-align: right;">
-            {{ meter.percent | number : '1.2-2' }}
+            {{ meter.percent | number: '1.2-2' : 'br' }}
           </td>
         </tr>
         <tr>

@@ -7,6 +7,7 @@ export class Contract {
   salary: number;
   proportionalPeriod: number;
   bonus: number;
+  dependent: number;
   qualitative: number;
   qualitativeWeight: number;
   quantitative: number;

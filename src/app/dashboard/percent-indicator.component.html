@@ -1,6 +1,6 @@
 <div class="clearfix">
   <div class="float-left">
-    <strong>{{ (percent | number : '1.2-2') }}%</strong>
+    <strong>{{ (percent | number: '1.2-2' : 'br') }}%</strong>
   </div>
 </div>
 <progressbar class="progress progress-striped progress-animated" [max]="max" [value]="percent" [type]="type"></progressbar>

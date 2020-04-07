@@ -21,15 +21,16 @@
           <p></p>
           <dynamic-table *ngIf="periods[0]; else notShow"
             [rows]="periods" 
-            [columns]="['name','year','companyMultiplier','closed']" 
-            [titles]="['Nome','Ano','Multiplicador Canex','Encerrado']"
+            [columns]="['year','companyMultiplier','closedMonth','closed']" 
+            [titles]="['Ano','Multiplicador Canex','Mês Encerrado','Encerrado']"
             [viewButton]="true"
             [viewButtonRoute]="'admin/periods'"
-            [filterText]="searchText">
+            [filterText]="searchText"
+            [periodMonthCol]=2>
           </dynamic-table>
           <ng-template #notShow>
             <hr>
-              <h4 align="center">Nenhum departamento cadastrado!</h4>
+              <h4 align="center">Nenhum período cadastrado!</h4>
             <hr>
           </ng-template>
           <!-- <ul class="pagination">

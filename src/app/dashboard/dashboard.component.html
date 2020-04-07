@@ -54,12 +54,12 @@
             <tr>
               <th rowspan="2" class="text-center"></th>
               <th rowspan="2" >Indicador</th>
-              <th rowspan="2" >Peso %</th>
+              <th rowspan="2" class="text-center">Peso %</th>
               <th rowspan="2" class="text-center">Orientação</th>
               <th rowspan="2">Medida</th>
               <th class="text-center" colspan="4">{{ reference.refName }}</th>
               <th rowspan="2"></th>
-              <th class="text-center" colspan="4">Acumulado {{ currentPeriod.name }}</th>
+              <th class="text-center" colspan="4">Acumulado {{ currentPeriod.year }}</th>
             </tr>
             <tr>
                 <th class="text-center">Planejado</th>
@@ -89,18 +89,18 @@
                   {{ contractIndicator.indicator.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
               </td>
               <td class="text-center">{{ contractIndicator.indicator.measure }}</td>
-              <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].target | number : '1.2-2') : "..." }}</td>
-              <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].actual | number : '1.2-2') : "..." }}</td>
-              <td class="text-right">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].difference | number : '1.2-2') : "..." }}</td>
+              <td class="text-center">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].target | number: '1.2-2' : 'br') : "..." }}</td>
+              <td class="text-center">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].actual | number: '1.2-2' : 'br') : "..." }}</td>
+              <td class="text-center">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].difference | number: '1.2-2' : 'br') : "..." }}</td>
               <td>
                 <percent-indicator [percent]="contractIndicator.indicator.metering[reference.refOrder-1].percent"
                                    [refName]="contractIndicator.indicator.metering[reference.refOrder-1].refName.slice(0, 3)">
                 </percent-indicator>
               </td>
               <td></td>
-              <td class="text-right">{{ accumulated[index] ? (accumulated[index].target | number : '1.2-2') : "..." }}</td>
-              <td class="text-right">{{ accumulated[index] ? (accumulated[index].actual | number : '1.2-2') : "..." }}</td>
-              <td class="text-right">{{ accumulated[index] ? (accumulated[index].difference | number : '1.2-2') : "..." }}</td>
+              <td class="text-center">{{ accumulated[index] ? (accumulated[index].target | number: '1.2-2' : 'br') : "..." }}</td>
+              <td class="text-center">{{ accumulated[index] ? (accumulated[index].actual | number: '1.2-2' : 'br') : "..." }}</td>
+              <td class="text-center">{{ accumulated[index] ? (accumulated[index].difference | number: '1.2-2' : 'br') : "..." }}</td>
               <td>
                 <percent-indicator [percent]="accumulated[index].percent"
                                    [refName]="accumulated[index].refName.slice(0, 3)">
@@ -115,7 +115,8 @@
                   <meterings-editor (indicatorChange)="meteringChanged(index)"
                                     [(indicator)]="contractIndicator.indicator"
                                     [showDelta]="true"
-                                    [targetEdit]="false">
+                                    [targetEdit]="false"
+                                    [actualEditNumber]="currentPeriod.closedMonth">
                   </meterings-editor>
                 </td>
                 <td colspan="7" class="align-top">
@@ -143,7 +144,7 @@
               <ng-container *ngFor="let basketItem of basket.basketItems; let indexBasket = index">
                 <tr class="animated fadeIn" (click)="acordeonBasket(basketItem)">
                   <td class="text-center">
-                    
+                    <button class="btn btn-sm btn-success" (click)="openModal(chartModalTemplate, basketItem.indicator)" title="Gráfico"><i class="icon-chart"></i></button>
                   </td>   
                   <td>
                     <div>{{ basketItem.indicator.name }}</div>
@@ -155,18 +156,18 @@
                       {{ basketItem.indicator.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
                   </td>
                   <td class="text-center">{{ basketItem.indicator.measure }}</td>
-                  <td class="text-right">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].target | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].actual | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].difference | number : '1.2-2') : "..." }}</td>
+                  <td class="text-center">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].target | number: '1.2-2' : 'br') : "..." }}</td>
+                  <td class="text-center">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].actual | number: '1.2-2' : 'br') : "..." }}</td>
+                  <td class="text-center">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].difference | number: '1.2-2' : 'br') : "..." }}</td>
                   <td>
                     <percent-indicator [percent]="basketItem.indicator.metering[reference.refOrder-1].percent"
                                       [refName]="basketItem.indicator.metering[reference.refOrder-1].refName.slice(0, 3)">
                     </percent-indicator>
                   </td>
                   <td></td>
-                  <td class="text-right">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].target | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].actual | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].difference | number : '1.2-2') : "..." }}</td>
+                  <td class="text-center">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].target | number: '1.2-2' : 'br') : "..." }}</td>
+                  <td class="text-center">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].actual | number: '1.2-2' : 'br') : "..." }}</td>
+                  <td class="text-center">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].difference | number: '1.2-2' : 'br') : "..." }}</td>
                   <td>
                     <percent-indicator [percent]="basketAccumulated[indexBasket].percent"
                                        [refName]="basketAccumulated[indexBasket].refName.slice(0, 3)">
@@ -179,7 +180,8 @@
                       <meterings-editor (indicatorChange)="meteringChangedBasket(indexBasket)"
                                         [(indicator)]="basketItem.indicator"
                                         [showDelta]="true"
-                                        [targetEdit]="false">
+                                        [targetEdit]="false"
+                                        [actualEditNumber]="currentPeriod.closedMonth">
                       </meterings-editor>
                     </td>
                     <td colspan="8" class="align-top">
@@ -212,7 +214,7 @@
             <tr>
               <th></th>
               <th>Peso Total %</th>
-              <th>
+              <th class="text-center">
                 {{totalWeight}}
               </th>
               <th></th>
@@ -246,7 +248,7 @@
 
 <ng-template #chartModalTemplate>
   <div class="modal-header">
-    <h4 class="modal-title">{{ indicator ? indicator.name : "..." }} - {{ currentPeriod ? currentPeriod.name : "..." }}</h4>
+    <h4 class="modal-title">{{ indicator ? indicator.name : "..." }} - {{ currentPeriod ? currentPeriod.year : "..." }}</h4>
     <button type="button" class="close" (click)="chartModal.hide()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>

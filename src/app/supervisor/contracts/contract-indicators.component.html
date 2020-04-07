@@ -52,26 +52,27 @@
 
       <form [formGroup]="indicatorForm">
         <div class="row">
-          <label class="col-md-2 col-form-label" for="manager" style="text-align: right">Indicador</label>
-          <div class="col-md-6">
+          <fieldset class="form-group col-sm-9">
+            <label class="col-md-2 col-form-label" for="manager" style="text-align: right">Indicador</label>
             <ng-select  [items]="indicators"
                         bindLabel="name"
                         placeholder="Indicador"
                         formControlName="indicator">
             </ng-select>
-          </div>
-          <label class="col-md-1 col-form-label" for="manager" >Peso</label>
-          <div class="col-md-2">
+          </fieldset>
+          <fieldset class="form-group col-sm-2">
+            <label class="col-md-1 col-form-label" for="manager">Peso</label>
             <input  class="form-control"
                     type="number"
                     min="0"
                     step="1"
                     style="text-align: right;"
                     formControlName="weight"/>
-          </div>
-          <div class="col-md-1">
+          </fieldset>
+          <fieldset class="form-group col-sm-1">
+            <br><br>
             <button *ngIf="indicatorForm.value.indicator && indicatorForm.value.weight" class="btn btn-sm btn-primary" (click)="add()"><i class="fa fa-plus"></i></button>
-          </div> 
+          </fieldset>
         </div>
       </form>
       

@@ -9,9 +9,9 @@
   </thead>
   <tbody>
     <tr *ngFor="let r of rows | filter:filterText">
-      <td *ngFor="let c of columns">
+      <td *ngFor="let c of columns; let index = index">
         <!-- {{ r[c] }} -->
-        {{ getValue(r, c) }}
+        {{ getValue(r, c, index) }}
       </td>
       <td *ngIf="viewButton">
           <button type="button" class="btn btn-sm btn-primary" (click)="viewButtonAction(r[propertyId])"><i class="cui-note"></i></button>

@@ -1,5 +1,9 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 
+import { registerLocaleData } from '@angular/common';
+import localeBr from '@angular/common/locales/br';
+registerLocaleData(localeBr, 'br');
+
 import { Period, User, CurrentPeriodService, ProfilesService, AuthUserService, ContractsService, Contract, CalcService, DepartmentsService } from '../core';
 
 @Component({
@@ -16,6 +20,7 @@ export class PlrComponent implements OnInit, OnChanges {
   remunerationSalary = 0;
   companyMultiplier = 0
   showDepartmentUsers: boolean = false;
+  role: string;
 
   constructor(
     private currentPeriodService: CurrentPeriodService,
@@ -72,9 +77,35 @@ export class PlrComponent implements OnInit, OnChanges {
   }
 
   calcResult(): void {
+    if (this.contract.bonus == 1) 
+      this.role = "Colaborador";
+    else if (this.contract.bonus == 1.25)
+      this.role = "Assistente";
+    else if (this.contract.bonus == 1.5)
+      this.role = "Analista";
+    else if (this.contract.bonus == 1.75)
+      this.role = "Coordenador";
+    else if (this.contract.bonus == 2)
+      this.role = "Gerente";
+    else if (this.contract.bonus == 2.2)
+      this.role = "Diretor";
+    else
+      this.role = "Cargo Inexistente";
     this.contract.resultContract = ((this.contract.qualitative * this.contract.qualitativeWeight) + (this.contract.quantitative * this.contract.quantitativeWeight)) / (this.contract.qualitativeWeight + this.contract.quantitativeWeight)
     this.remunerationSalary = ((this.contract.resultContract * this.contract.bonus * this.companyMultiplier * 0.01) / 12) * this.contract.proportionalPeriod;
     this.plr = this.remunerationSalary * this.contract.salary;
+    for (var i = 0; i < this.currentPeriod.tax.length; i++) {
+      if (this.plr <= this.currentPeriod.tax[i].ceiling) {
+        //
+        // COLOCAR AQUI O NUMERO DE DEPENDENTES
+        //
+        this.contract.tax = (this.plr * this.currentPeriod.tax[i].percent * 0.01) - (this.currentPeriod.tax[i].deduction * this.contract.dependent);
+        if (this.contract.tax < 0)
+          this.contract.tax = 0
+        break;
+      }
+    }
+    this.contract.finalPlr = this.plr - this.contract.tax;
   }
 
 }

@@ -1,31 +1,32 @@
 
 Front-End:
 
+	Mensagens de erro: Traduzir no front ou no back;
+	Como pegar statusCode;
+	
 	TODO:
 
-	trocar ponto por virgula;
-	Centralizar;
+
+
 	Fechar periodo mensal;
-	nivel de bonus em função do cargo;
 
 	Adicionar mensagem quando receber um acesso negado;
 
 	Periodo - Tratar quando não existe nenhum periodo cadastrado / selecionado;
 	Erro - Fazer tratamento de erros, mensagens aparecem em ingles, não mostra nada em 403 e 500;
-	Indicadores - Fazer filtro para indicadores Cesta e Normal. Talvez um novo tipo (faz parte de cesta)?
-	Indicadores - Fazer filtro por departamento;
-	Contrato - Fazer filtro por departamento;
-
 
 	Frontend Commit atual:
 
-	Corrigido problema ao se alterar item da cesta com periodo fechado;
-	Adicionado filtro de busca em usuario;
-	Adicionado filtro de busca em departamento;
-	Adicionado filtro de busca em periodo;
-	Adicionado filtro de busca em indicador;
-	Removido menções a indicator-filter;
-
+	Adicionado grafico a itens da cesta;
+	Adicionado tax em periodo para gerenciar imposto de renda na plr;
+	Definido nome de cargos em bônus da P.L.R.;
+	Adicionado número de dependentes a contrato;
+	Adicionado calculo do imposto de renda na P.L.R;
+	Alterado padrão de decimais para 'br' em pipes;
+	Aumentado input de indicadores em contrato;
+	Adicionado mês encerrado em periodos;
+	Adicionado icone de periodo encerrado no header;
+	Campos em metering-editor de meses encerrados desabilitados;
 
 	Concluido:
 
@@ -104,3 +105,9 @@ Front-End:
 	Adicionado ordem alfabetica no select de inidcadores a basket-items-editor;
 	Adicionado ordem alfabetica no select de usuarios a contracts;
 	Adicionado ordem alfabetica no select de indicadores a contract-indicators;
+	Corrigido problema ao se alterar item da cesta com periodo fechado;
+	Adicionado filtro de busca em usuario;
+	Adicionado filtro de busca em departamento;
+	Adicionado filtro de busca em periodo;
+	Adicionado filtro de busca em indicador;
+	Removido menções a indicator-filter;

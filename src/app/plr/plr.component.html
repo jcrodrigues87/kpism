@@ -48,7 +48,7 @@
                   <th bgcolor="#f2f2f2" colspan="3">Multiplicador Canex</th>
                   <td>
                     <input style="text-align:center;"
-                           type="text" 
+                           type="number" 
                            size="1" 
                            id="companyMultiplier" 
                            [(ngModel)]="companyMultiplier" 
@@ -58,7 +58,7 @@
                   <th bgcolor="#f2f2f2" colspan="3">(A) {{ contract.qualitativeWeight }}% - Avaliação de Desempenho </th>
                   <td>
                     <input style="text-align:center;" 
-                           type="text" 
+                           type="number" 
                            size="1"
                            id="qualitative" 
                            [(ngModel)]="contract.qualitative" 
@@ -71,7 +71,7 @@
                   <th bgcolor="#f2f2f2" colspan="3">Salário</th>
                   <td>
                     <input style="text-align:center;"
-                           type="text" 
+                           type="number" 
                            size="1" 
                            id="salary" 
                            [(ngModel)]="contract.salary" 
@@ -81,20 +81,20 @@
                   <th bgcolor="#f2f2f2" colspan="3">(B) {{ contract.quantitativeWeight }}% - Contrato de resultados </th>
                   <td>
                     <input style="text-align:center;"
-                           type="text" 
+                           type="number" 
                            size="1" 
                            id="contract.quantitative" 
                            [(ngModel)]="contract.quantitative" 
                            (ngModelChange)="calcResult()" 
                            class="form-control">
                   </td>
-                  <th bgcolor="#ffffb3" colspan="4" rowspan="3"><div style="margin-top: 65px;">{{ plr ? (plr | number: '1.2-2') : "..." }}</div></th>
+                  <th bgcolor="#ffffb3" colspan="4" rowspan="3"><div style="margin-top: 65px;">{{ plr ? (plr | number: '1.2-2' : 'br') : "..." }}</div></th>
                 </tr>
                 <tr>
                   <th bgcolor="#f2f2f2" colspan="3">Período proporcional</th>
                   <td>
                     <input style="text-align:center;"
-                           type="text" 
+                           type="number" 
                            size="1" 
                            id="proportionalPeriod" 
                            [(ngModel)]="contract.proportionalPeriod" 
@@ -102,31 +102,42 @@
                            class="form-control">
                   </td>
                   <th bgcolor="#f2f2f2" colspan="3">( A + B )</th>
-                  <td>{{ contract.resultContract ? (contract.resultContract | number: '1.2-2') : "..." }}</td>
+                  <td>{{ contract.resultContract != undefined ? (contract.resultContract | number: '1.2-2' : 'br') : "..." }}</td>
                 </tr>
                 <tr>
-                  <th bgcolor="#f2f2f2" colspan="3">Nível de Bônus</th>
+                  <th bgcolor="#f2f2f2" colspan="3">Nível de Bônus <br/> ({{role}})</th>
                   <td>
                     <input style="text-align:center;" 
-                           type="text" 
-                           size="1" 
+                           type="number" 
+                           size="1"
+                           step="0.25" 
                            id="bonus" 
                            [(ngModel)]="contract.bonus" 
                            (ngModelChange)="calcResult()" 
                            class="form-control">
                   </td>
                   <th bgcolor="#f2f2f2" colspan="3">Remuneração em salários</th>
-                  <td>{{ remunerationSalary ? (remunerationSalary | number: '1.2-2') : "..."}}</td>
+                  <td>{{ remunerationSalary != undefined ? (remunerationSalary | number: '1.2-2' : 'br') : "..."}}</td>
                 </tr>
                 <tr>
-                  <td bgcolor="#f2f2f2" colspan="7"></td>
+                  <th bgcolor="#f2f2f2" colspan="3">N. Dependentes</th>
+                  <td>
+                    <input style="text-align:center;" 
+                      type="number" 
+                      size="1" 
+                      id="dependent" 
+                      [(ngModel)]="contract.dependent" 
+                      (ngModelChange)="calcResult()" 
+                      class="form-control">
+                  </td>
+                  <td bgcolor="#f2f2f2" colspan="3"></td>
                   <th bgcolor="#f2f2f2">Imposto de Renda</th>
-                  <td colspan="4">{{ contract.tax }}</td>
+                  <td colspan="4">{{ contract.tax != undefined ? (contract.tax | number: '1.2-2' : 'br') : "..."}}</td>
                 </tr>
                 <tr>
                   <td bgcolor="#f2f2f2"colspan="7"></td>
                   <th bgcolor="#f2f2f2">Remuneração em salários líquida</th>
-                  <td bgcolor="#ffffb3" colspan="4">{{ contract.finalPlr }}</td>
+                  <td bgcolor="#ffffb3" colspan="4">{{ contract.finalPlr != undefined ? (contract.finalPlr | number: '1.2-2' : 'br') : "..."}}</td>
                 </tr>
               </tbody>
             </table>
