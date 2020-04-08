@@ -53,6 +53,7 @@ export class ContractsComponent implements OnInit {
   }
 
   loadContract() {
+    this.contract = undefined;
     if (this.selectedUser) {
       this.contractService.get(this.selectedUser.id).subscribe(
         data => {

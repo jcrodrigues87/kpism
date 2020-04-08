@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Reference } from '../../core';
@@ -7,7 +7,7 @@ import { Reference } from '../../core';
   selector: 'dynamic-table',
   templateUrl: './dynamic-table.component.html'
 })
-export class DynamicTableComponent {
+export class DynamicTableComponent implements OnInit {
   @Input() columns: string[];
   @Input() titles: string[];
   @Input() rows: any;
@@ -37,6 +37,13 @@ export class DynamicTableComponent {
       {refName: 'Novembro', refOrder: 11},
       {refName: 'Dezembro', refOrder: 12},
     ]   
+  }
+
+  ngOnInit(): void {
+    if (this.columns[0] == 'name')
+      this.rows.sort((a,b)=>a.name.localeCompare(b.name));
+    else if (this.columns[0] == 'year')
+      this.rows.sort((a,b)=>a.year.localeCompare(b.year));
   }
 
   viewButtonAction(propertyIdValue) {

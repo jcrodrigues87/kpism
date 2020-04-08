@@ -111,7 +111,6 @@ export class DashboardComponent implements OnInit {
           this.showDepartmentUsers = true;
         }
         this.profilesService.query().subscribe(users => {
-          console.log(users)
           this.users = users.filter(
             e => {
               let toReturn = true;
@@ -126,7 +125,7 @@ export class DashboardComponent implements OnInit {
           this.users.sort((a,b)=>a.name.localeCompare(b.name))
         }); 
       })
-    } else if (this.selectedUser.role == "admin") {
+    } else if (this.selectedUser.role == "admin" || this.selectedUser.role == "supervisor") {
       this.profilesService.query().subscribe(users => {
         this.users = users;
       });

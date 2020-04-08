@@ -3,25 +3,20 @@ Front-End:
 	
 	TODO:
 
-	Não deixar usuario inativo usar "Esqueceu sua senha";
-	grafico não começa de 0, fazendo as vezes com que algum indicador não apareça;
-	Ordenar dynamic table;
-	usuario não consegue dar update metering;
 	Mes sem meta;
 	Tokens expirou a cada 1 dia?????    CONFERIR
-	Supervisor não abre todos os usuarios no dashboard;
+	Reduzir token de recuperação de senha;
+	Template de e-mail;
+	Controle de acesso está ok???
+	FCA enviar como PDF;
 
 	Frontend Commit atual:
 
-	Corrigido problema que gerava erro ao se atualizar a página;
-	Corrigido problema de acesso ao Id de departamento em dashboard e PLR;
-	Adicionado card de contrato inexistente quando periodo está fechado em Dashboard, PLR e contratos;
-	Adicionado alerta em period-editor. Alterações em periodo devem ser feitas somente com o sistema sem usuarios;
-	Corrigido problema quando não existe período. Agora Dashboard, PLR, Indicador e Contrato não mostram nada;
-	Removido opções de alteração de contratos em periodos encerrados;
-	Removido opções de alteração de indicadores em periodos encerrados;
-	Removido opções de alteração do dashboard em periodos encerrados;
-
+	Corrigido problema que fazia com que contrato não alterasse ao mudar de usuario caso o usuario selecionado não tivesse indicadores no contrato;
+	Corrigido texto para quando não existe usuarios cadastrados;
+	Adicionado ordenação em dynamic-table;
+	Corrigido gráfico do dashboard. Agora o eixo Y sempre começa em 0;
+	Adicionado trava para cadastro de indicador do tipo cesta. Orientação, medida e acumulado terão um valor padrão que não pode ser alterado;
 
 	Concluido:
 
@@ -116,3 +111,11 @@ Front-End:
 	Adicionado mês encerrado em periodos;
 	Adicionado icone de periodo encerrado no header;
 	Campos em metering-editor de meses encerrados desabilitados;
+	Corrigido problema que gerava erro ao se atualizar a página;
+	Corrigido problema de acesso ao Id de departamento em dashboard e PLR;
+	Adicionado card de contrato inexistente quando periodo está fechado em Dashboard, PLR e contratos;
+	Adicionado alerta em period-editor. Alterações em periodo devem ser feitas somente com o sistema sem usuarios;
+	Corrigido problema quando não existe período. Agora Dashboard, PLR, Indicador e Contrato não mostram nada;
+	Removido opções de alteração de contratos em periodos encerrados;
+	Removido opções de alteração de indicadores em periodos encerrados;
+	Removido opções de alteração do dashboard em periodos encerrados;

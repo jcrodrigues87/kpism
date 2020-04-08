@@ -13,7 +13,16 @@ export class IndicatorChartComponent {
 
   barChartOptions: any = {
     scaleShowVerticalLines: false,
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true
+          }
+        }
+      ]
+    }
   };
   barChartType = 'bar';
   barChartLegend = true;
