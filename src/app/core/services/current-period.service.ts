@@ -27,8 +27,8 @@ export class CurrentPeriodService {
     }
     
     updateCurrentPeriod(period: Period): void {
-        this.router.navigateByUrl('dashboard');
         this.currentPeriodSubject.next(period);
+        this.router.navigateByUrl('dashboard');
     }
     
     updatePeriods(): void {

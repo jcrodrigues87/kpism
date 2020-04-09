@@ -6,6 +6,5 @@ export class Metering {
   actual: number;
   difference: number;
   percent: number;
-  createdAt: Date;
-  updatedAt: Date;
+  inactive: boolean;
 }

@@ -1,22 +1,18 @@
 
 Front-End:
 	
-	TODO:
+	TODO:					
 
-	Mes sem meta;
-	Tokens expirou a cada 1 dia?????    CONFERIR
-	Reduzir token de recuperação de senha;
-	Template de e-mail;
-	Controle de acesso está ok???
+	Tokens expirou a cada 1 dia?????;
 	FCA enviar como PDF;
 
 	Frontend Commit atual:
 
-	Corrigido problema que fazia com que contrato não alterasse ao mudar de usuario caso o usuario selecionado não tivesse indicadores no contrato;
-	Corrigido texto para quando não existe usuarios cadastrados;
-	Adicionado ordenação em dynamic-table;
-	Corrigido gráfico do dashboard. Agora o eixo Y sempre começa em 0;
-	Adicionado trava para cadastro de indicador do tipo cesta. Orientação, medida e acumulado terão um valor padrão que não pode ser alterado;
+	Alterado submitForm para botão em vez de form em forgot-password;
+	Adicionado a propriendade Inativo a Metering. Um metering inativo não irá fazer parte do calculo do contrato de resultados;
+	Meses inativos tem seus campos desabilitados;
+	Corrigido problema que fazia com que periodo não atualizasse após edição.
+
 
 	Concluido:
 
@@ -119,3 +115,8 @@ Front-End:
 	Removido opções de alteração de contratos em periodos encerrados;
 	Removido opções de alteração de indicadores em periodos encerrados;
 	Removido opções de alteração do dashboard em periodos encerrados;
+	Corrigido problema que fazia com que contrato não alterasse ao mudar de usuario caso o usuario selecionado não tivesse indicadores no contrato;
+	Corrigido texto para quando não existe usuarios cadastrados;
+	Adicionado ordenação em dynamic-table;
+	Corrigido gráfico do dashboard. Agora o eixo Y sempre começa em 0;
+	Adicionado trava para cadastro de indicador do tipo cesta. Orientação, medida e acumulado terão um valor padrão que não pode ser alterado;

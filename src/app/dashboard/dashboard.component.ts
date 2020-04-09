@@ -179,10 +179,17 @@ export class DashboardComponent implements OnInit {
   }
 
   calcTotalReference(): void { // calc total percent of indicators
-    this.refResult = 0
+    this.refResult = 0;
+    var summation = 0;
+    var weight = 0;
     for (var i = 0; i < this.contractIndicators.length; i++) {
-      this.refResult += (this.contractIndicators[i].indicator.metering[this.reference.refOrder-1].percent * this.contractIndicators[i].weight * 0.01)
+      if (!this.contractIndicators[i].indicator.metering[this.reference.refOrder-1].inactive) {
+        summation += this.contractIndicators[i].indicator.metering[this.reference.refOrder-1].percent * this.contractIndicators[i].weight;
+        weight += this.contractIndicators[i].weight;
+      }
     } 
+    this.refResult = weight ? (summation / weight) : 0;
+    
   }
 
   //
@@ -196,9 +203,15 @@ export class DashboardComponent implements OnInit {
 
   calcTotalAccumulated(): void { // calc total percent of accumulated
     this.accumulatedResult = 0;
+    var summation = 0;
+    var weight = 0;
     for (var j = 0; j < this.accumulated.length; j++) {
-      this.accumulatedResult += (this.accumulated[j].percent * this.contractIndicators[j].weight * 0.01)
+      if (!this.accumulated[j].inactive) {
+        summation += this.accumulated[j].percent * this.contractIndicators[j].weight;
+        weight += this.contractIndicators[j].weight;
+      }
     }
+    this.accumulatedResult = weight ? (summation / weight) : 0;
   }
 
   //

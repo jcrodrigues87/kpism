@@ -17,7 +17,6 @@ export class PercentInicatorComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.max = this.percent > 100 ? this.percent : 100;
-
     if (this.percent >= 120) {
       this.type = 'primary';
     } else if (this.percent >= 100) {

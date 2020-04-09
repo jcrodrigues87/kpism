@@ -15,6 +15,7 @@ export class MeteringsEditorComponent{
   @Input() indicator: Indicator;
   @Output() indicatorChange = new EventEmitter<Indicator>();
   @Input() showDelta: boolean;
+  @Input() showInactive: boolean = false;
   @Input() targetEdit: boolean;
   @Input() actualEditNumber: number = 0; // 0 means all can be edited, 1 means january cant be edited, ...
   @Input() currentPeriod: Period;
@@ -70,7 +71,14 @@ export class MeteringsEditorComponent{
   }
 
   calc(meter) {
-    meter = this.calcService.calcPercentDifference(meter, this.indicator.orientation, this.indicator.limit);
+    if (meter.inactive) {
+      meter.target = 0;
+      meter.actual = 0;
+      meter.difference = 0;
+      meter.percent = 100;
+    } else {
+      meter = this.calcService.calcPercentDifference(meter, this.indicator.orientation, this.indicator.limit);
+    }
     this.message = undefined;
     this.warning = "Modificações ainda não foram salvas!"
   }

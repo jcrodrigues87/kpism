@@ -17,6 +17,7 @@ export class DefaultLayoutComponent implements OnInit {
   periodForm: FormGroup;
 
   period: Period;
+  periodT: Period;
   periodId: String = "";
   user: AuthUser;
 
@@ -43,12 +44,17 @@ export class DefaultLayoutComponent implements OnInit {
         
         if (this.period == undefined && this.periods && this.periods[0]) {
           var year = new Date().getFullYear();
-          this.period = this.periods[this.periods.length-1];
+          this.currentPeriodService.updateCurrentPeriod(
+            this.periods[this.periods.length-1]
+          );
           for (var i = 0; i < this.periods.length; i++) {
             if (year == +this.periods[i].year) {
-              this.period = this.periods[i];
+              this.currentPeriodService.updateCurrentPeriod(
+                this.periods[i]
+              );
             }
           }
+          this.currentPeriodService.currentPeriod.subscribe(data => this.period = data)
           this.changePeriod();
         }
       }

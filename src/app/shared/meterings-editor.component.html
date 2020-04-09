@@ -18,6 +18,7 @@
           <th class="text-center">Realizado</th>
           <th *ngIf="showDelta" class="text-center">Desvio</th>
           <th class="text-center">Percentual</th>
+          <th *ngIf="showInactive" class="text-center">Inativo</th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +28,7 @@
           <td>
             <div class="input-group">
               <input  class="form-control" 
-                      [readonly]="targetReadonly()"
+                      [readonly]="targetReadonly() || meter.inactive"
                       type="number" 
                       [(ngModel)]="meter.target" 
                       (ngModelChange)="calc(meter)"
@@ -38,7 +39,7 @@
           <td>
             <div class="input-group">
               <input  class="form-control" 
-                      [readonly]="actualReadonly(index)"
+                      [readonly]="actualReadonly(index) || meter.inactive"
                       type="number" 
                       [(ngModel)]="meter.actual" 
                       (ngModelChange)="calc(meter)"
@@ -52,6 +53,13 @@
           <td style="text-align: right;">
             {{ meter.percent | number: '1.2-2' : 'br' }}
           </td>
+          <td *ngIf="showInactive" style="text-align: right;">
+              <input  class="form-control" 
+                      type="checkbox"                       
+                      [(ngModel)]="meter.inactive"
+                      (ngModelChange)="calc(meter)"
+                      >
+          </td>
         </tr>
         <tr>
           <th class="text-center">
@@ -62,6 +70,7 @@
           <th class="text-center">Realizado</th>
           <th *ngIf="showDelta" class="text-center">Desvio</th>
           <th class="text-center">Percentual</th>
+          <th *ngIf="showInactive" class="text-center">Inativo</th>
         </tr>
       </tbody>
     </table>

@@ -82,6 +82,7 @@ export class PeriodEditorComponent implements OnInit {
         this.period = period;
         this.isSubmitting = false;
         this.currentPeriodService.reloadPeriods();
+        this.currentPeriodService.updateCurrentPeriod(this.period);
         this.back();
       },
       err => {
