@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { DateValueAccessorModule } from 'angular-date-value-accessor';
 
 import { SharedModule } from '../../shared';
 import { PeriodsRouting } from './periods-routing.module';
@@ -15,7 +16,9 @@ import { PeriodResolver } from './period-resolver.service';
   imports: [
     CommonModule,
     FormsModule,
+    NgbModule,
     SharedModule,
+    NgSelectModule,
     PeriodsRouting,
     ModalModule.forRoot()
   ],

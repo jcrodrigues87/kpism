@@ -1,36 +1,90 @@
 <div class="animated fadeIn">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="text-center">Alerta! Modificações em período só devem ser feitas quando não houver nenhum usuário no sistema</h4>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <!--/.col-->
     <div class="col-sm-12">
       <div class="card">
-        <!-- <div class="card-header">
-          <strong>Company</strong>
-          <small>Form</small>
-        </div> -->
         <div class="card-body">
           <div class="form-group">
             <button type="button" class="btn btn-sm btn-dark" (click)="back()"><i class="fa fa-angle-left"></i> Voltar</button>
           </div>
           <list-errors [errors]="errors"></list-errors>
-
-          <form [formGroup]="periodForm">
-            <fieldset [disabled]="isSubmitting">
-              <fieldset class="form-group">
-                <label for="name">Nome</label>
-                <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name">
+            <form [formGroup]="periodForm" >
+              <fieldset [disabled]="isSubmitting">
+                <div class="row">
+                  <fieldset class="form-group col-sm-3">
+                    <label for="year">Ano</label>
+                    <input type="number" placeholder="aaaa" min="1900" max="2099" step="1" class="form-control" id="year" formControlName="year">
+                  </fieldset>
+                  <fieldset class="form-group col-sm-3">
+                    <label for="companyMultiplier">Multiplicador Canex</label>
+                    <input type="number" step="1" placeholder="0" class="form-control" id="companyMultiplier" formControlName="companyMultiplier">
+                  </fieldset>
+                </div>
+                <div class="row">
+                  <fieldset class="form-group col-sm-3" *ngIf="!isNew">
+                    <label for="closedMonth">Mês Encerrado</label>
+                    <ng-select  [items]="references"
+                                [bindValue]="'refOrder'"
+                                bindLabel="refName"
+                                placeholder="Referência"
+                                [clearable]="false"
+                                formControlName="closedMonth">
+                    </ng-select>
+                  </fieldset>
+                  <fieldset class="form-group col-sm-3" *ngIf="!isNew">
+                    <label for="closed">Período Encerrado</label>
+                    <select class="form-control" id="closed" formControlName="closed">
+                      <option [ngValue]=false>Não</option>
+                      <option [ngValue]=true>Sim</option>
+                    </select>
+                  </fieldset>
+                </div>
               </fieldset>
-              <div class="row">
-                <fieldset class="form-group col-sm-3">
-                  <label for="begin">Início</label>
-                  <input type="text" class="form-control" id="begin" type="date" formControlName="begin">
-                </fieldset>
-                <fieldset class="form-group col-sm-3">
-                  <label for="end">Fim</label>
-                  <input type="text" class="form-control" id="end" type="date" formControlName="end">
-                </fieldset>
-              </div>
-            </fieldset>
-          </form>
+            </form>
+
+            <table class="table table-responsive-sm table-hover table-outline mb-0 col-sm-5">
+              <tr>
+                <th colspan="4" class="text-center">Imposto de Renda</th>
+              </tr>
+              <tr class="text-center">
+                <th>Até</th>
+                <th>%</th>
+                <th>Deduzir</th>
+                <th>
+                  <button class="btn btn-sm btn-danger" (click)="removeTax()"><i class="fa fa-trash-o"></i></button>
+                </th>              
+              </tr>
+              <ng-container *ngFor="let values of taxes; let index = index">
+                <tr class="text-center">
+                  <td>{{ taxes[index].ceiling }}</td>
+                  <td>{{ taxes[index].percent }}</td>
+                  <td>{{ taxes[index].deduction }}</td>
+                  <td></td>
+                </tr>
+              </ng-container>
+              <tr>
+                <td>
+                  <input type="number" [(ngModel)]="ceiling"  min=0 class="form-control" style="text-align:center;"  id="ceiling" placeholder="Até">
+                </td>
+                <td>
+                  <input type="number" [(ngModel)]="percent" min=0 class="form-control" style="text-align:center;" id="percent" placeholder="%">
+                </td>
+                <td>
+                  <input type="number" [(ngModel)]="deduction" min=0 class="form-control" style="text-align:center;" id="deduction" placeholder="Deduzir">
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-primary" (click)="addTax()"><i class="fa fa-plus"></i></button>
+                </td>
+              </tr>
+            </table>
+
         </div>
         <div class="card-footer">
           <button class="btn btn-sm btn-primary" (click)="submitForm()"><i class="fa fa-dot-circle-o"></i> Salvar</button>

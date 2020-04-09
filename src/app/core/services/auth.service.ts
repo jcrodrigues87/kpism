@@ -48,35 +48,51 @@ export class AuthUserService {
           url: '/dashboard'
         },
         {
+          name: 'P.L.R.',
+          icon: 'icon-badge',
+          url: '/plr'
+        },
+        {
           title: true,
           name: 'Cadastros'
         },
         {
-          name: 'Usuarios',
+          name: 'Usuários',
           url: '/admin/users',
-          icon: 'icon-puzzle'
+          icon: 'icon-user'
         },
         {
           name: 'Departamentos',
           url: '/admin/departments',
-          icon: 'icon-puzzle'
+          icon: 'icon-briefcase'
         },
         {
           name: 'Períodos',
           url: '/admin/periods',
-          icon: 'icon-puzzle'
+          icon: 'icon-calendar'
         },
         {
           name: 'Indicadores',
           url: '/supervisor/indicators',
-          icon: 'icon-puzzle'
-        }]);
+          icon: 'icon-list'
+        },
+        {
+          name: 'Contratos',
+          url: '/supervisor/contracts',
+          icon: 'icon-note'
+        }
+        ]);
       else if (user.role === 'supervisor') {
         this.navItensSubject.next([
           {
             name: 'Dashboard',
-            icon: 'icon-speedometer',
-            url: '/dashboard'
+            url: '/dashboard',
+            icon: 'icon-speedometer'
+          },
+          {
+            name: 'P.L.R',
+            icon: 'icon-badge',
+            url: '/plr'
           },
           {
             title: true,
@@ -84,16 +100,28 @@ export class AuthUserService {
           },
           {
             name: 'Indicadores',
-            url: '/supervisor/indicators',
-            icon: 'icon-puzzle'
-          }]);
+            icon: 'icon-list',
+            url: '/supervisor/indicators'            
+          },
+          {
+            name: 'Contratos',
+            url: '/supervisor/contracts',
+            icon: 'icon-note'
+          }
+        ]);
       } else {
         this.navItensSubject.next([
           {
             name: 'Dashboard',
-            icon: 'icon-speedometer',
-            url: '/dashboard'
-          }]);
+            url: '/dashboard',
+            icon: 'icon-speedometer'
+          },
+          {
+            name: 'P.L.R',
+            icon: 'icon-badge',
+            url: '/plr'
+          }
+        ]);
       }
   }
 
@@ -112,11 +140,10 @@ export class AuthUserService {
 
   getCurrentUserProfile(): User {
     let toReturn: User = new User();
-
     toReturn.id = this.getCurrentAuthUser().id;
     toReturn.name = this.getCurrentAuthUser().name;
-    toReturn.department = { name: this.getCurrentAuthUser().department } as Department;
-
+    toReturn.department = this.getCurrentAuthUser().department;
+    toReturn.role = this.getCurrentAuthUser().role;
     return toReturn;
   }
 

@@ -12,6 +12,10 @@ const routes: Routes = [
     canActivate: [ SupervisorGuard ],
     children: [
       {
+        path: 'contracts',
+        loadChildren: './contracts/contracts.module#ContractsModule'
+      },
+      {
         path: 'indicators',
         loadChildren: './indicators/indicators.module#IndicatorsModule'
       }

@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   user: AuthUser;
   return: string;
 
+  public confirmModal: any;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -46,4 +48,9 @@ export class LoginComponent implements OnInit {
         }
       )
   }
+
+  forgotPassword() {
+    this.router.navigateByUrl('forgotpassword');
+  }
+
 }

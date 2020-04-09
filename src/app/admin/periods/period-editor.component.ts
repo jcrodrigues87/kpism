@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormGroup, FormBuilder } from "@angular/forms";
 
-import { Period, PeriodsService } from "../../core";
+import { Period, PeriodsService, CurrentPeriodService, Tax, Reference } from "../../core";
 
 @Component({
   templateUrl: './period-editor.component.html'
@@ -10,29 +10,59 @@ import { Period, PeriodsService } from "../../core";
 export class PeriodEditorComponent implements OnInit {
   period: Period = {} as Period;
   periodForm: FormGroup;
+  taxForm: FormGroup;
   errors: Object = {};
   isSubmitting = false;
+  isNew: Boolean = true;
+  taxes: Array<Tax> = [];
+  ceiling: number;
+  percent: number;
+  deduction: number;
+  references: Array<Reference>;
+  reference: Reference;
 
   public confirmModal: any;
 
   constructor(
     private periodsService: PeriodsService,
+    private currentPeriodService: CurrentPeriodService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router
   ) {
+    this.references = [
+      {refName: 'Nenhum', refOrder: 0},
+      {refName: 'Janeiro', refOrder: 1},
+      {refName: 'Fevereiro', refOrder: 2},
+      {refName: 'Março', refOrder: 3},
+      {refName: 'Abril', refOrder: 4},
+      {refName: 'Maio', refOrder: 5},
+      {refName: 'Junho', refOrder: 6},
+      {refName: 'Julho', refOrder: 7},
+      {refName: 'Agosto', refOrder: 8},
+      {refName: 'Setembro', refOrder: 9},
+      {refName: 'Outubro', refOrder: 10},
+      {refName: 'Novembro', refOrder: 11},
+      {refName: 'Dezembro', refOrder: 12},
+    ]
     this.periodForm = this.fb.group({
-      name: '',
-      begin: '',
-      end: ''
+      year: '',
+      companyMultiplier: 0,
+      closedMonth: '',
+      closed: false
     });
   }
 
   ngOnInit(): void {
     this.route.data.subscribe(
       (data: { period: Period }) => {
+        this.isNew = data.period.year == undefined ? true : false;
         this.period = data.period;
         this.periodForm.patchValue(data.period);
+        if (!this.isNew) {
+          this.taxes = this.period.tax;
+          this.reference = this.references[0];
+        }
       }
     );
   }
@@ -40,16 +70,20 @@ export class PeriodEditorComponent implements OnInit {
   submitForm() {
     this.isSubmitting = true;
     this.errors = {};
-
     this.update(this.periodForm.value);
-
-    console.log({ period: this.period });
+    this.period.tax = this.taxes;
+    if (this.isNew) {
+      this.period.closedMonth = 0;
+      this.period.closed = false;
+    }
 
     this.periodsService.save(this.period).subscribe(
       period => {
         this.period = period;
         this.isSubmitting = false;
-        //this.router.navigateByUrl(`admin/periods/${period.id}`)
+        this.currentPeriodService.reloadPeriods();
+        this.currentPeriodService.updateCurrentPeriod(this.period);
+        this.back();
       },
       err => {
         this.errors = err;
@@ -58,26 +92,24 @@ export class PeriodEditorComponent implements OnInit {
     );
   }
 
-  back() {
-    this.router.navigateByUrl('admin/periods');
+  addTax() {
+    if (this.ceiling != undefined && this.percent != undefined && this.deduction != undefined) {
+      this.taxes.push({ ceiling: this.ceiling, percent: this.percent, deduction: this.deduction }); 
+      this.ceiling = undefined;
+      this.percent = undefined;
+      this.deduction = undefined;
+    }
   }
 
-  modified(a, b): any {
-    const aProps = Object.getOwnPropertyNames(a);
+  removeTax() {
+    this.taxes = [];
+    this.ceiling = undefined;
+    this.percent = undefined;
+    this.deduction = undefined;
+  }
 
-    let toReturn: any = {}
-
-    for (var i = 0; i < aProps.length; i++) {
-        var propName = aProps[i];
-
-        // If values of same property are not equal,
-        // objects are not equivalent
-        if (a[propName] !== b[propName]) {
-            toReturn[propName] = a[propName];
-        }
-    }
-
-    return toReturn;
+  back() {
+    this.router.navigateByUrl('admin/periods');
   }
 
   update(values: Object) {
@@ -89,7 +121,10 @@ export class PeriodEditorComponent implements OnInit {
     this.errors = {};
 
     this.periodsService.destroy(this.period.id).subscribe(
-      data => this.back(),
+      data => {
+        this.currentPeriodService.reloadPeriods();
+        this.back();
+      },
       err => {
         this.errors = err;
         this.isSubmitting = false;

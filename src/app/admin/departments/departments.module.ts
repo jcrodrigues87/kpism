@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../../shared';
 import { DepartmentsRouting } from './departments-routing.module';
@@ -17,6 +18,7 @@ import { DepartmentResolver } from './department-resolver.service';
     FormsModule,
     NgSelectModule,
     SharedModule,
+    NgbModule,
     DepartmentsRouting,
     ModalModule.forRoot()
   ],

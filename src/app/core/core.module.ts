@@ -13,13 +13,14 @@ import {
   JwtService, 
   DepartmentsService, 
   IndicatorsService, 
+  ContractsService,
   PeriodsService, 
-  ResponsablesService, 
   ProfilesService,
-  MeteringsService,
-  ChartDataService,
+  ResetPasswordService,
   ReferencesService,
-  BasketItemsService
+  BasketItemsService,
+  CurrentPeriodService,
+  CalcService
 } from "./services";
 
 @NgModule({
@@ -31,19 +32,20 @@ import {
     ApiService,
     JwtService,
     UsersService,
-    ChartDataService,
     DepartmentsService,
     IndicatorsService,
-    MeteringsService,
+    ContractsService,
     PeriodsService,
     ProfilesService,
     ReferencesService,
-    ResponsablesService,
     BasketItemsService,
     AuthUserService,
+    CurrentPeriodService,
+    ResetPasswordService,
     AuthGuard,
     NoAuthGuard,
-    AdminGuard
+    AdminGuard,
+    CalcService
   ]
 })
 export class CoreModule { }

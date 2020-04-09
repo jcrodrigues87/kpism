@@ -28,7 +28,6 @@ export class UserEditorComponent implements OnInit {
       email: '',
       department: '',
       role: '',
-      inactive: ''
     });
   }
 
@@ -42,6 +41,7 @@ export class UserEditorComponent implements OnInit {
 
     this.departmentsService.query().subscribe(departments => {
       this.departments = departments;
+      this.departments.sort((a,b)=>a.name.localeCompare(b.name))
     });
   }
 
@@ -55,7 +55,7 @@ export class UserEditorComponent implements OnInit {
       user => {
         this.user = user;
         this.isSubmitting = false;
-        //this.router.navigateByUrl(`admin/users/${user.id}`)
+        this.back();
       },
       err => {
         this.errors = err;

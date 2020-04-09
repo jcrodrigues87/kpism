@@ -1,0 +1,122 @@
+
+Front-End:
+	
+	TODO:					
+
+	Tokens expirou a cada 1 dia?????;
+	FCA enviar como PDF;
+
+	Frontend Commit atual:
+
+	Alterado submitForm para botão em vez de form em forgot-password;
+	Adicionado a propriendade Inativo a Metering. Um metering inativo não irá fazer parte do calculo do contrato de resultados;
+	Meses inativos tem seus campos desabilitados;
+	Corrigido problema que fazia com que periodo não atualizasse após edição.
+
+
+	Concluido:
+
+	Período agora é definido no cabeçalho da página, estando disponível para todos os componentes através do serviço currentPeriodService;
+	Adicionado campo Encerrado em Período. Esse campo impossibilita a modificação de campos onde o período se encerrou;
+	Removido Inicio e Fim de Período, estando disponivel o campo Ano;
+	Adicionado campo Multiplicador Canex em Período;
+	Adicionado mensagem quando não existe nenhum período cadastrado;
+	Alterado comportamento de Periodo atual, quando Periodo atual mudar, pagina é encaminhada para dashboard;
+	Adicionado campos Limite Indicador e Classificação em Indicadores;
+	Removido inclusão de responsaveis de Indicadores;
+	Adicionado mensagem quando não existe nenhum indicador cadastrado;
+	Removido Usuários de Indicadores;
+	Corrigido aba de Previsto/Realizado em Indicadores;
+	Estabelecido limite superior para Previsto/Realizado;
+	Adicionado campo Tipo Cesta na listagem de Indicadores;
+	Corrigido exibição de indicadores da cesta;
+	Corrigido remoção de indicadores da cesta;
+	Corrigido inclusão de cesta;
+	Corrigido seleção de indicador na cesta;
+	Corrigido atualização de peso de indicador da cesta;
+	Corrigido atualização das metricas de indicadorda cesta;
+	Adicionado mensagem de salvo com sucesso;
+	Adicionado mensagens a cesta quando vazia;
+	Removido campo Inativo de Usuários;
+	Adicionado nome do usuário no cabeçalho;
+	Adicionado mensagem quando não existe nenhum usuário cadastrado;
+	Adicionado componente Esqueceu sua senha;
+	Adicionado componente Redefinição de senha;
+	Adicionado mensagem quando não existe nenhum departamento cadastrado;
+	Adicionado menu Contratos;
+	Adicionado modelo de Contrato;
+	Adicionado serviço de Contrato;
+	Adicionado valores da PLR em Contrato;
+	Adicionado componente para adicionar indicadores;
+	Adicionado menu da PLR;
+	Corrigido dashboard para determinado mês;
+	Adicionado um rodapé com peso total e resultado da média ponderada dos indicadores;
+	Alterado comportamento da barra de porcentagem do dashboard;
+	Corrigido Previsto/Realizado de acumulado no dashboard;
+	Adicionado botão de expansão em cada indicador no dashboard;
+	Adicionado Previsto/Realizado no botão de expansão;
+	Alterado diretorio de meterings-editor.component para a pasta shared;
+	Alterado menções de Previsto/Realizado para Planejado/Realizado;
+	Adicionado serviço CalcService, responsavel por calculos;
+	Adicionado calcPercentDifference, para calcular porcentagem e desvio dos indicadores;
+	Substituido calc() de meterings para o CalcService;
+	Adicionado lembrete em meterings para quando uma modificação não ter sido salva;
+	Atualizado formula de Planejado/Realizado;
+	Corrigido problema que mostrava periodos inativos;
+	Adicionado Equação (equation) e Metodo de Aferição (evaluation) em indicadores;
+	Adicionado ao dashboard Descrição, Equação e Aferição;
+	Calculo de acumulado movido para CalcService;
+	Bloqueado inserção de cestas dentro de cesta;
+	Adicionado filtro em dashboard para não mostrar usuarios inativos em periodos abertos;
+	Adicionado filtro em contrato para não mostrar usuarios inativos em periodos abertos;
+	Corrigido Graficos em dashboard;
+	Removido chartService;
+	Adicionado tabela da P.L.R.;
+	Adicionado inputs para alteração dos campos da P.L.R.;
+	Dashboard abre no ultimo período cadastrado;
+	Adicionado mensagem ao se deixar um campo vazio em meterings;
+	Adicionado mensagem em contratos ao tentar adicionar/alterar indicador cuja soma do peso ultrapasse 100;
+	Adicionado mensagem em cesta ao tentar adicionar/alterar indicador cuja soma do peso ultrapasse 100;
+	Corrigido problema que fazia com que departamento do usuario não aparecece no dashboard;
+	Removido menções a responsaveis (Responsables-Editor, ResponsablesService);
+	Removido menções a Serviço de metas (MeteringsService)
+	Chefe de departamento consegue ver o dashboard de todos os usuarios de seu departamento;
+	Dashboard inicia no ano corrente;
+	Referencia do dashboard inicia em dezembro para anos passados, mês atual no ano corrente e janeiro para anos futuros;
+	Adicionado ordem alfabetica no select de usuarios a dashboard;
+	Adicionado ordem alfabetica no select de usuarios a plr;
+	Adicionado ordem alfabetica no select de departamentos a users-editor;
+	Adicionado ordem alfabetica no select de gerente e filho a departments-editor;
+	Adicionado ordem alfabetica no select de departamentos a indicators-editor;
+	Adicionado ordem alfabetica no select de inidcadores a basket-items-editor;
+	Adicionado ordem alfabetica no select de usuarios a contracts;
+	Adicionado ordem alfabetica no select de indicadores a contract-indicators;
+	Corrigido problema ao se alterar item da cesta com periodo fechado;
+	Adicionado filtro de busca em usuario;
+	Adicionado filtro de busca em departamento;
+	Adicionado filtro de busca em periodo;
+	Adicionado filtro de busca em indicador;
+	Removido menções a indicator-filter;
+	Adicionado grafico a itens da cesta;
+	Adicionado tax em periodo para gerenciar imposto de renda na plr;
+	Definido nome de cargos em bônus da P.L.R.;
+	Adicionado número de dependentes a contrato;
+	Adicionado calculo do imposto de renda na P.L.R;
+	Alterado padrão de decimais para 'br' em pipes;
+	Aumentado input de indicadores em contrato;
+	Adicionado mês encerrado em periodos;
+	Adicionado icone de periodo encerrado no header;
+	Campos em metering-editor de meses encerrados desabilitados;
+	Corrigido problema que gerava erro ao se atualizar a página;
+	Corrigido problema de acesso ao Id de departamento em dashboard e PLR;
+	Adicionado card de contrato inexistente quando periodo está fechado em Dashboard, PLR e contratos;
+	Adicionado alerta em period-editor. Alterações em periodo devem ser feitas somente com o sistema sem usuarios;
+	Corrigido problema quando não existe período. Agora Dashboard, PLR, Indicador e Contrato não mostram nada;
+	Removido opções de alteração de contratos em periodos encerrados;
+	Removido opções de alteração de indicadores em periodos encerrados;
+	Removido opções de alteração do dashboard em periodos encerrados;
+	Corrigido problema que fazia com que contrato não alterasse ao mudar de usuario caso o usuario selecionado não tivesse indicadores no contrato;
+	Corrigido texto para quando não existe usuarios cadastrados;
+	Adicionado ordenação em dynamic-table;
+	Corrigido gráfico do dashboard. Agora o eixo Y sempre começa em 0;
+	Adicionado trava para cadastro de indicador do tipo cesta. Orientação, medida e acumulado terão um valor padrão que não pode ser alterado;

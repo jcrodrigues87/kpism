@@ -1,49 +1,31 @@
-<div class="animated fadeIn">
+<div class="animated fadeIn" *ngIf="currentPeriod.id">
   <div class="row">
     <div class="col-sm-12">
       <div class="card">
         <div class="card-body">
-          <!-- <list-errors [errors]="errors"></list-errors> -->
           <div class="row">
-            <!-- <fieldset [disabled]="isSubmitting"> -->
-              <label class="col-md-1 col-form-label" style="text-align: right">Período</label>
-              <div class="col-md-2">
-                <ng-select  [items]="periods"
-                            bindLabel="name"
-                            placeholder="Período"
-                            [(ngModel)]="period"
-                            (change)="loadReferences()" >
-                </ng-select>
-              </div>
-              <label class="col-md-1 col-form-label" style="text-align: right">Ref</label>
-              <div class="col-md-2">
-                <ng-select  [items]="references"
-                            bindLabel="refName"
-                            placeholder="Referência"
-                            [(ngModel)]="reference"
-                            (change)="loadMeterings()" >
-                </ng-select>
-              </div>
-              <!-- <label class="col-md-1 col-form-label" style="text-align: right">Usuário</label>
-              <div class="col-md-2">
+            <label class="col-md-2 col-form-label" style="text-align: right">Referência</label>
+            <div class="col-md-2">
+              <ng-select  [items]="references"
+                          bindLabel="refName"
+                          placeholder="Referência"
+                          [clearable]="false"
+                          [(ngModel)]="reference"
+                          (change)="loadMeterings()" >
+              </ng-select>
+            </div>
+            <div class='row col-md-8' *ngIf="(sectionUser && (sectionUser.role == 'admin' || sectionUser.role == 'supervisor')) || showDepartmentUsers">
+              <label class="col-md-3 col-form-label"  style="text-align: right">Usuário</label>
+              <div class="col-md-6">
                 <ng-select  [items]="users"
                             bindLabel="name"
                             placeholder="Usuário"
-                            [(ngModel)]="user"
-                            (change)="loadIndicators()" > 
-                </ng-select>
-              </div> -->
-              <label class="col-md-2 col-form-label" style="text-align: right">Usuário/Departamento</label>
-              <div class="col-md-2">
-                <ng-select  [items]="indicatorsFilter"
-                            bindLabel="name"
-                            placeholder="Usuário/Departamento"
-                            groupBy="type"
-                            [(ngModel)]="indicatorFilter"
-                            (change)="loadIndicators()" >
+                            [clearable]="false"
+                            [(ngModel)]="selectedUser"
+                            (change)="loadContract()" >
                 </ng-select>
               </div>
-            <!-- </fieldset> -->
+            </div>
           </div>
         </div>
       </div>
@@ -51,100 +33,263 @@
     <!--/.col-->
   </div>
   <!--/.row-->
-    <div class="col-sm-12" *ngIf="indicatorFilter && period && indicators && reference">
-      <div class="card">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-12">
-                <h1>{{ indicatorFilter.type === "Departamentos" ? "Departamento "  : "" }}{{ indicatorFilter.name }}</h1>
-                <h6>{{ indicatorFilter.departmentName }} </h6>
-              </div>
-            </div>
-            <br>
-            <table class="table table-responsive-sm table-hover table-outline mb-0">
-              <thead class="thead-light">
-                <tr>
-                  <th rowspan="2" class="text-center"></th>
-                  <th rowspan="2" >Indicador</th>
-                  <th rowspan="2" class="text-center">Orientação</th>
-                  <th rowspan="2">Medida</th>
-                  <th class="text-center" colspan="4">{{ reference.refName }}</th>
-                  <th rowspan="2"></th>
-                  <th class="text-center" colspan="4">Acumulado {{ period.name }}</th>
-                  <th rowspan="2"></th>
-                </tr>
-                <tr>
-                    <th class="text-center">Planejado</th>
-                    <th class="text-center">Realizado</th>
-                    <th class="text-center">Desvio</th>
-                    <th class="text-center"></th>
-                    <th class="text-center">Planejado</th>
-                    <th class="text-center">Realizado</th>
-                    <th class="text-center">Desvio</th>
-                    <th class="text-center"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let ind of indicators">
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-primary" (click)="openModal(responsableModalTemplate, ind)" title="Responsáveis"><i class="icon-people"></i></button>
-                  </td>
-                  <td>
-                    <div>{{ ind.name }}</div>
-                    <div class="small text-muted">
-                      {{ ind.description }}
-                    </div>
-                  </td>
-                  <td class="text-center">
-                      <i *ngIf="ind.orientation === 'higher'" class="fa fa-arrow-up fa-lg mt-4"></i>
-                      <i *ngIf="ind.orientation !== 'higher'" class="fa fa-arrow-down fa-lg mt-4"></i>
-                      {{ ind.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
-                  </td>
-                  <td class="text-center">{{ ind.measure }}</td>
-                  <td class="text-right">{{ refValues[ind.id] ? (refValues[ind.id].target | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ refValues[ind.id] ? (refValues[ind.id].actual | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ refValues[ind.id] ? (refValues[ind.id].difference | number : '1.2-2') : "..." }}</td>
-                  <td>
-                      <percent-indicator [metering]="refValues[ind.id]"></percent-indicator>
-                  <td></td>
-                  <td class="text-right">{{ accValues[ind.id] ? (accValues[ind.id].target | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ accValues[ind.id] ? (accValues[ind.id].actual | number : '1.2-2') : "..." }}</td>
-                  <td class="text-right">{{ accValues[ind.id] ? (accValues[ind.id].difference | number : '1.2-2') : "..." }}</td>
-                  <td>
-                      <percent-indicator [metering]="accValues[ind.id]"></percent-indicator>
-                  </td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, ind)" title="Gráfico"><i class="icon-chart"></i></button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  <div class="col-sm-14" *ngIf="selectedUser && reference && !contract">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>{{ selectedUser.name }}</h1>
+            <h6 *ngIf="selectedUser.department">{{ selectedUser.department.name }} </h6>
           </div>
+        </div>
+        <br>
+        <h3 align="center">Contrato inexistente</h3>
       </div>
+    </div>
+  </div>
+  <div class="col-sm-14" *ngIf="selectedUser && reference && contract">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>{{ selectedUser.name }}</h1>
+            <h6 *ngIf="selectedUser.department">{{ selectedUser.department.name }} </h6>
+          </div>
+        </div>
+        <br>
+        <div *ngIf="(contractIndicators.length == 0)">
+          <h3 align="center">Nenhum indicador cadastrado</h3>
+        </div>
+        {{teste}}
+        <table class="table table-responsive-sm table-hover table-outline mb-0" *ngIf="(contractIndicators.length != 0)">
+        
+          <!-- Header -->
+          <thead class="thead-light">
+            <tr>
+              <th rowspan="2" class="text-center"></th>
+              <th rowspan="2" >Indicador</th>
+              <th rowspan="2" class="text-center">Peso %</th>
+              <th rowspan="2" class="text-center">Orientação</th>
+              <th rowspan="2">Medida</th>
+              <th class="text-center" colspan="4">{{ reference.refName }}</th>
+              <th rowspan="2"></th>
+              <th class="text-center" colspan="4">Acumulado {{ currentPeriod.year }}</th>
+            </tr>
+            <tr>
+                <th class="text-center">Planejado</th>
+                <th class="text-center">Realizado</th>
+                <th class="text-center">Desvio</th>
+                <th class="text-center"></th>
+                <th class="text-center">Planejado</th>
+                <th class="text-center">Realizado</th>
+                <th class="text-center">Desvio</th>
+                <th class="text-center"></th>
+            </tr>
+          </thead>
+
+          <!-- Body -->
+          <tbody *ngFor="let contractIndicator of contractIndicators; let index = index">
+            <tr (click)="acordeon(contractIndicator)">
+              <td class="text-center">
+                <button class="btn btn-sm btn-primary" (click)="openModal(chartModalTemplate, contractIndicator.indicator)" title="Gráfico"><i class="icon-chart"></i></button>
+              </td>   
+              <td>
+                <div>{{ contractIndicator.indicator.name }}</div>
+              </td>
+              <td class="text-center">{{ contractIndicator.weight }}</td>
+              <td class="text-center">
+                  <i *ngIf="contractIndicator.indicator.orientation === 'higher'" class="fa fa-arrow-up fa-lg"></i>
+                  <i *ngIf="contractIndicator.indicator.orientation !== 'higher'" class="fa fa-arrow-down fa-lg"></i>
+                  {{ contractIndicator.indicator.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
+              </td>
+              <td class="text-center">{{ contractIndicator.indicator.measure }}</td>
+              <ng-container *ngIf="contractIndicator.indicator.metering[reference.refOrder-1] && !contractIndicator.indicator.metering[reference.refOrder-1].inactive">
+                <td class="text-center">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].target | number: '1.2-2' : 'br') : "..." }}</td>
+                <td class="text-center">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].actual | number: '1.2-2' : 'br') : "..." }}</td>
+                <td class="text-center">{{ contractIndicator.indicator.metering[reference.refOrder-1] ? (contractIndicator.indicator.metering[reference.refOrder-1].difference | number: '1.2-2' : 'br') : "..." }}</td>
+                <td>
+                  <percent-indicator [percent]="contractIndicator.indicator.metering[reference.refOrder-1].percent"
+                                    [refName]="contractIndicator.indicator.metering[reference.refOrder-1].refName.slice(0, 3)">
+                  </percent-indicator>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="contractIndicator.indicator.metering[reference.refOrder-1] && contractIndicator.indicator.metering[reference.refOrder-1].inactive">
+                <td class="text-center" colspan="4"><h4>Mês inativo</h4></td>
+              </ng-container>
+              <td></td>
+              <ng-container *ngIf="accumulated[index] && !accumulated[index].inactive">
+                <td class="text-center">{{ accumulated[index] ? (accumulated[index].target | number: '1.2-2' : 'br') : "..." }}</td>
+                <td class="text-center">{{ accumulated[index] ? (accumulated[index].actual | number: '1.2-2' : 'br') : "..." }}</td>
+                <td class="text-center">{{ accumulated[index] ? (accumulated[index].difference | number: '1.2-2' : 'br') : "..." }}</td>
+                <td>
+                  <percent-indicator [percent]="accumulated[index].percent"
+                                    [refName]="accumulated[index].refName.slice(0, 3)">
+                  </percent-indicator>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="accumulated[index] && accumulated[index].inactive">
+                <td class="text-center" colspan="4"><h4>Não possui</h4></td>
+              </ng-container>
+            </tr>
+            
+            <!-- acordeon -->
+            <ng-container *ngIf="contractIndicator == acordeonSelected && !contractIndicator.indicator.basket">
+              <tr class="animated fadeIn">
+                <td colspan="7">
+                  <meterings-editor (indicatorChange)="meteringChanged(index)"
+                                    [(indicator)]="contractIndicator.indicator"
+                                    [showDelta]="true"
+                                    [targetEdit]="false"
+                                    [actualEditNumber]="currentPeriod.closedMonth"
+                                    [currentPeriod]="currentPeriod">
+                  </meterings-editor>
+                </td>
+                <td colspan="7" class="align-top">
+                  <table class="table table-responsive-sm table-hover table-outline mb-0">
+                    <tr>
+                      <td>Descrição</td>
+                      <td>{{ contractIndicator.indicator.description }}</td>
+                    </tr>
+                    <tr>
+                      <td>Equação</td>
+                      <td>{{ contractIndicator.indicator.equation }}</td>
+                    </tr>
+                    <tr>
+                      <td>Instrumento de Aferição</td>
+                      <td>{{ contractIndicator.indicator.evaluation }}</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </ng-container>
+
+            <!-- Basket -->
+            <ng-container *ngIf="contractIndicator == acordeonSelected && contractIndicator.indicator.basket">
+              <tr class="animated fadeIn" bgcolor="#d9d9d9"><td colspan="15"></td></tr>
+              <ng-container *ngFor="let basketItem of basket.basketItems; let indexBasket = index">
+                <tr class="animated fadeIn" (click)="acordeonBasket(basketItem)">
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-success" (click)="openModal(chartModalTemplate, basketItem.indicator)" title="Gráfico"><i class="icon-chart"></i></button>
+                  </td>   
+                  <td>
+                    <div>{{ basketItem.indicator.name }}</div>
+                  </td>
+                  <td class="text-center">{{ basketItem.weight }}</td>
+                  <td class="text-center">
+                      <i *ngIf="basketItem.indicator.orientation === 'higher'" class="fa fa-arrow-up fa-lg"></i>
+                      <i *ngIf="basketItem.indicator.orientation !== 'higher'" class="fa fa-arrow-down fa-lg"></i>
+                      {{ basketItem.indicator.orientation === 'higher' ? 'Maior Melhor' : 'Menor Melhor' }} 
+                  </td>
+                  <td class="text-center">{{ basketItem.indicator.measure }}</td>
+                  <ng-container *ngIf="basketItem.indicator.metering[reference.refOrder-1] && !basketItem.indicator.metering[reference.refOrder-1].inactive">
+                    <td class="text-center">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].target | number: '1.2-2' : 'br') : "..." }}</td>
+                    <td class="text-center">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].actual | number: '1.2-2' : 'br') : "..." }}</td>
+                    <td class="text-center">{{ basketItem.indicator.metering[reference.refOrder-1] ? (basketItem.indicator.metering[reference.refOrder-1].difference | number: '1.2-2' : 'br') : "..." }}</td>
+                    <td>
+                      <percent-indicator [percent]="basketItem.indicator.metering[reference.refOrder-1].percent"
+                                        [refName]="basketItem.indicator.metering[reference.refOrder-1].refName.slice(0, 3)">
+                      </percent-indicator>
+                    </td>
+                  </ng-container>
+                  <ng-container *ngIf="basketItem.indicator.metering[reference.refOrder-1] && basketItem.indicator.metering[reference.refOrder-1].inactive">
+                    <td class="text-center" colspan="4"><h4>Mês inativo</h4></td>
+                  </ng-container>
+                  <td></td>
+                  <ng-container *ngIf="basketAccumulated[indexBasket] && !basketAccumulated[indexBasket].inactive">
+                    <td class="text-center">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].target | number: '1.2-2' : 'br') : "..." }}</td>
+                    <td class="text-center">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].actual | number: '1.2-2' : 'br') : "..." }}</td>
+                    <td class="text-center">{{ basketAccumulated[indexBasket] ? (basketAccumulated[indexBasket].difference | number: '1.2-2' : 'br') : "..." }}</td>
+                    <td>
+                      <percent-indicator [percent]="basketAccumulated[indexBasket].percent"
+                                        [refName]="basketAccumulated[indexBasket].refName.slice(0, 3)">
+                      </percent-indicator>
+                    </td>
+                  </ng-container>
+                  <ng-container *ngIf="basketAccumulated[indexBasket] && basketAccumulated[indexBasket].inactive">
+                    <td class="text-center" colspan="4"><h4>Não possui</h4></td>
+                  </ng-container>
+                </tr>
+                <ng-container *ngIf="basketItem == acordeonBasketSelected">
+                  <tr class="animated fadeIn">
+                    <td colspan="7">
+                      <meterings-editor (indicatorChange)="meteringChangedBasket(indexBasket)"
+                                        [(indicator)]="basketItem.indicator"
+                                        [showDelta]="true"
+                                        [targetEdit]="false"
+                                        [actualEditNumber]="currentPeriod.closedMonth"
+                                        [currentPeriod]="currentPeriod">
+                      </meterings-editor>
+                    </td>
+                    <td colspan="8" class="align-top">
+                      <table class="table table-responsive-sm table-hover table-outline mb-0">
+                        <tr>
+                          <td>Descrição</td>
+                          <td>{{ basketItem.indicator.description }}</td>
+                        </tr>
+                        <tr>
+                          <td>Equação</td>
+                          <td>{{ basketItem.indicator.equation }}</td>
+                        </tr>
+                        <tr>
+                          <td>Instrumento de Aferição</td>
+                          <td>{{ basketItem.indicator.evaluation }}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </ng-container>
+
+              </ng-container>
+              <tr class="animated fadeIn" bgcolor="#d9d9d9"><td colspan="15"></td></tr>
+            </ng-container>
+
+          </tbody>
+          
+          <!-- Footer -->
+          <thead class="thead-light">
+            <tr>
+              <th></th>
+              <th>Peso Total %</th>
+              <th class="text-center">
+                {{totalWeight}}
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>Total</th>
+              <th>
+                <!-- {{ refResult }} -->
+                <percent-indicator [percent]="refResult"
+                                    [refName]="reference.refName.slice(0, 3)">
+                </percent-indicator>
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>Total</th>
+              <th>
+                <!-- {{ accumulatedResult }} -->
+                <percent-indicator [percent]="accumulatedResult"
+                                    [refName]="reference.refName.slice(0, 3)">
+                </percent-indicator></th>
+            </tr>
+            
+          </thead>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 
 <ng-template #chartModalTemplate>
   <div class="modal-header">
-    <h4 class="modal-title">{{ indicator ? indicator.name : "..." }} - {{ period ? period.name : "..." }}</h4>
+    <h4 class="modal-title">{{ indicator ? indicator.name : "..." }} - {{ currentPeriod ? currentPeriod.year : "..." }}</h4>
     <button type="button" class="close" (click)="chartModal.hide()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <indicator-chart [indicator]="indicator" [period]="period"></indicator-chart>
-  </div>
-</ng-template>
-
-
-<ng-template #responsableModalTemplate>
-  <div class="modal-header">
-    <h4 class="modal-title">Responsáveis {{ indicator ? indicator.name : "..." }} - {{ period ? period.name : "..." }}</h4>
-    <button type="button" class="close" (click)="chartModal.hide()" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <responsables-table [indicator]="indicator" [period]="period"></responsables-table>
+    <indicator-chart [indicator]="indicator"></indicator-chart>
   </div>
 </ng-template>

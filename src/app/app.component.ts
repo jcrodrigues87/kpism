@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('app starts');
 
     this.authService.populate();
 

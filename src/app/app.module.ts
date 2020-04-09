@@ -1,10 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -18,12 +16,16 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import { AppComponent } from './app.component';
 
+import { NgSelectModule } from '@ng-select/ng-select'
+
 // Import containers
 import { DefaultLayoutComponent, MenuTogglerComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './login/forgot-password.component';
+import { ResetPasswordComponent } from './login/reset-password.component';
 import { RegisterComponent } from './views/register/register.component';
 
 const APP_CONTAINERS = [
@@ -38,11 +40,14 @@ import {
   AppSidebarModule,
 } from '@coreui/angular';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core';
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -51,6 +56,7 @@ import { AppRoutingModule } from './app.routing';
     SharedModule,
     CoreModule,
     AppAsideModule,
+    NgbModule,
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
     AppHeaderModule,
@@ -58,7 +64,9 @@ import { AppRoutingModule } from './app.routing';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    NgSelectModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     AppComponent,
@@ -67,6 +75,8 @@ import { AppRoutingModule } from './app.routing';
     P404Component,
     P500Component,
     LoginComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
     RegisterComponent
   ],
   providers: [

@@ -1,191 +1,242 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { 
-  IndicatorsService, 
-  Indicator, 
-  Period, 
-  PeriodsService,
-  User,
-  Reference,
-  UsersService,
-  AuthUserService,
-  ProfilesService,
-  ReferencesService,
-  MeteringsService,
-  IndicatorFilter,
-  DepartmentsService
-} from '../core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
+import { registerLocaleData } from '@angular/common';
+import localeBr from '@angular/common/locales/br';
+registerLocaleData(localeBr, 'br');
+
+import { 
+  Indicator, 
+  Period, 
+  Reference,
+  AuthUserService,
+  ProfilesService,
+  CurrentPeriodService,
+  User,
+  ContractsService,
+  Contract,
+  ContractIndicator,
+  Metering,
+  CalcService,
+  BasketItemsService,
+  Basket,
+  BasketItem,
+  DepartmentsService
+} from '../core';
+
 @Component({
-  templateUrl: 'dashboard.component.html'
+  templateUrl: 'dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-
-  indicators: Array<Indicator> = [];
-  periods: Array<Period> = [];
-  references: Array<Reference> = [];
-  //users: Array<User> = [];
-  //departments: Array<User> = [];
-
-  //user: User;
   indicator: Indicator;
-  period: Period;
+  currentPeriod: Period;
+  sectionUser: User;
+  selectedUser: User;
+  users: Array<User> = [];
+  contract: Contract;
+  contractIndicators: Array<ContractIndicator> = [];
+  references: Array<Reference> = [];
   reference: Reference;
-
-  refValues = {};
-  accValues = {};
-
-  meteringsLoaded: boolean = false;
-  
+  acordeonSelected: ContractIndicator;
   chartModal: BsModalRef | null;
+  showDepartmentUsers: boolean = false;
 
-  indicatorsFilter: Array<IndicatorFilter> = [];
-  indicatorFilter: IndicatorFilter;
+  accumulated: Array<Metering> = [];
+  accumulatedResult: number;
+  totalWeight: number;
+  refResult: number;
 
+  basket: Basket = {} as Basket;
+  acordeonBasketSelected: BasketItem;
+  basketAccumulated: Array<Metering> = [];
+  
   constructor(
-    private indicatorsService: IndicatorsService,
-    private meteringsService: MeteringsService,
-    private periodsService: PeriodsService,
-    private referencesService: ReferencesService,
+    private contractService: ContractsService,
+    private currentPeriodService: CurrentPeriodService,
     private profilesService: ProfilesService,
     private modalService: BsModalService,
     private authService: AuthUserService,
-    private departmentsService: DepartmentsService
-  ) {}
+    private basketItemsService: BasketItemsService,
+    private calcService: CalcService,
+    private departmentService: DepartmentsService
+  ) {
+    this.references = [
+      {refName: 'Janeiro', refOrder: 1},
+      {refName: 'Fevereiro', refOrder: 2},
+      {refName: 'Março', refOrder: 3},
+      {refName: 'Abril', refOrder: 4},
+      {refName: 'Maio', refOrder: 5},
+      {refName: 'Junho', refOrder: 6},
+      {refName: 'Julho', refOrder: 7},
+      {refName: 'Agosto', refOrder: 8},
+      {refName: 'Setembro', refOrder: 9},
+      {refName: 'Outubro', refOrder: 10},
+      {refName: 'Novembro', refOrder: 11},
+      {refName: 'Dezembro', refOrder: 12},
+    ]
+  }
 
   ngOnInit(): void {
-    this.periodsService.query().subscribe(periods => {
-      this.periods = periods;
-      
-      if (periods.length > 0) {
-        this.period = this.periods[this.periods.length -1];
-
-        this.loadReferences();
-      }
-    });
-
-    this.profilesService.query().subscribe(users => {
-      //this.users = users;
-
-      let user = this.authService.getCurrentUserProfile();
-
-      this.loadFilters();
-
-      let toSet: IndicatorFilter = new IndicatorFilter();
-
-      toSet.id = user.id;
-      toSet.name = user.name;
-      toSet.departmentName = user.department ? user.department.name : undefined;
-      toSet.type = 'Usuários';
-
-      this.indicatorFilter = toSet;
-
-      console.log({u: user});
-      console.log({i: this.indicatorFilter});
-
-      if (user && this.period) 
-        this.indicatorsService.getByResponable(user.id,this.period.id).subscribe(indicators => {
-        this.indicators = indicators;
-
-        this.loadMeterings();
+    var date = new Date();
+    this.currentPeriodService.currentPeriod.subscribe(
+      data => {
+        this.currentPeriod = data;
+        this.sectionUser = this.authService.getCurrentUserProfile();
+        this.selectedUser = this.sectionUser;
+        if (+this.currentPeriod.year == date.getFullYear()) {
+          this.reference = this.references[date.getMonth()]
+        } else if (this.currentPeriod.closed || +this.currentPeriod.year < date.getFullYear()) {
+          this.reference = this.references[11];
+        } else {
+          this.reference = this.references[0];
+        }
+        if (this.currentPeriod.id) {
+          this.loadUsers();
+          this.loadContract();
+        }
       });
-    });
-  }
-
-  loadFilters(): void {
-    let temp: Array<IndicatorFilter> = [];
-
-    this.profilesService.query().subscribe(users => {
-      users.forEach(user => {
-        const filter: IndicatorFilter = new IndicatorFilter();
-  
-        filter.id = user.id;
-        filter.name = user.name;
-        filter.departmentName = user.department ? user.department.name : undefined;
-        filter.type = 'Usuários';
-  
-        temp.push(filter);
-      });
-
-      this.departmentsService.query().subscribe(department => {
-        department.forEach(department => {
-          const filter: IndicatorFilter = new IndicatorFilter();
-    
-          filter.id = department.id;
-          filter.name = department.name;
-          filter.type = 'Departamentos'
-    
-          temp.push(filter);
-        });
-
-        this.indicatorsFilter = temp;
-      });
-    });
-  }
-
-  loadIndicators(): void {
-    // if (this.user && this.period) 
-    //   this.indicatorsService.getByResponable(this.user.id,this.period.id).subscribe(indicators => {
-    //     this.indicators = indicators;
-
-    //     this.loadMeterings();
-    //   });
-    if (this.indicatorFilter) {
-      if (this.indicatorFilter.type === 'Usuários') {
-        if (this.period)
-          this.indicatorsService.getByResponable(this.indicatorFilter.id, this.period.id).subscribe(indicators => {
-            this.indicators = indicators;
-
-            this.loadMeterings();
-          });
-      }
-
-      if (this.indicatorFilter.type === 'Departamentos') {
-        if (this.period)
-          this.indicatorsService.getByDepartment(this.indicatorFilter.id).subscribe(indicators => {
-            this.indicators = indicators;
-
-            this.loadMeterings();
-          });
-      }
-    }
-  }
-
-  loadMeterings(): void {
-    if (this.indicatorFilter && this.period && this.reference) {
-      this.refValues = {};
-      this.accValues = {};
-
-      this.indicators.forEach(indicator => {
-        this.meteringsService.get(indicator.id, this.period.id, this.reference.refOrder).subscribe(m => {
-          this.refValues[indicator.id] = m;
-        });
-      });
-
-      this.indicators.forEach(indicator => {
-        this.meteringsService.getAccumulated(indicator.id, this.period.id, this.reference.refOrder).subscribe(m => {
-          this.accValues[indicator.id] = m;
-        });
-      });
-    }
-  }
-
-  loadReferences(): void {
-    if (this.period) {
-      this.referencesService.get(this.period.id).subscribe(references => {
-        this.references = references;
-
-        if (references.length > 0)
-          this.reference = references[references.length - 1];
-      });
-    }
   }
 
   openModal(template: TemplateRef<any>, indicator) {
     this.indicator = indicator;
-
-    const initialState = { indicator: indicator, period: this.period };
-
+    const initialState = { indicator: indicator };
     this.chartModal = this.modalService.show(template, { class: 'modal-lg', initialState });
   }
+
+  loadUsers(): void {
+    if (this.sectionUser.department) {
+      this.departmentService.get(this.sectionUser.department.id).subscribe(department => {
+        this.showDepartmentUsers = false;
+        if (department.manager && department.manager.id == this.selectedUser.id) {
+          this.showDepartmentUsers = true;
+        }
+        this.profilesService.query().subscribe(users => {
+          this.users = users.filter(
+            e => {
+              let toReturn = true;
+              if (e.inactive && !this.currentPeriod.closed)
+                return false;
+              if (this.sectionUser.role == 'user') {
+                if (!e.department || e.department.id != department.id)
+                  return false;
+              }    
+                return toReturn;
+          });
+          this.users.sort((a,b)=>a.name.localeCompare(b.name))
+        }); 
+      })
+    } else if (this.selectedUser.role == "admin" || this.selectedUser.role == "supervisor") {
+      this.profilesService.query().subscribe(users => {
+        this.users = users;
+      });
+      this.users.sort((a,b)=>a.name.localeCompare(b.name))
+    }
+  }
+
+  loadContract(): void {
+    this.contractService.get(this.selectedUser.id).subscribe(contract => {
+      this.contract = contract;
+      if (contract) {
+        this.contractService.queryIndicators(this.contract.id).subscribe(contractIndicators => {
+          this.contractIndicators = contractIndicators;
+          this.loadMeterings();
+        })  
+      }
+    })
+  }
+
+  loadMeterings(): void {
+    this.totalWeight = 0;
+    this.refResult = 0;
+    for (var i = 0; i < this.contractIndicators.length; i++) {
+      this.totalWeight += this.contractIndicators[i].weight
+    }
+    this.calcTotalReference();
+    this.calcAccumulated();
+    this.acordeonSelected = undefined;
+    this.acordeonBasketSelected = undefined;
+  }
+
+  acordeon(contractIndicator): void {
+    if (this.acordeonSelected == contractIndicator) {
+      this.acordeonSelected = undefined;
+    } else {
+      this.acordeonSelected = contractIndicator;
+      if (this.acordeonSelected.indicator.basket) {
+        this.basketItemsService.get(this.acordeonSelected.indicator.id).subscribe(data => {
+          this.basket = data;
+          this.calcBasketAccumulated();
+        });
+      }
+    }
+  }
+
+  meteringChanged() {
+    this.calcTotalReference();
+    this.calcAccumulated();
+    this.calcTotalAccumulated();
+    this.acordeonSelected = undefined;
+  }
+
+  calcTotalReference(): void { // calc total percent of indicators
+    this.refResult = 0;
+    var summation = 0;
+    var weight = 0;
+    for (var i = 0; i < this.contractIndicators.length; i++) {
+      if (!this.contractIndicators[i].indicator.metering[this.reference.refOrder-1].inactive) {
+        summation += this.contractIndicators[i].indicator.metering[this.reference.refOrder-1].percent * this.contractIndicators[i].weight;
+        weight += this.contractIndicators[i].weight;
+      }
+    } 
+    this.refResult = weight ? (summation / weight) : 0;
+    
+  }
+
+  //
+  // Accumulated
+  //
+
+  calcAccumulated(): void {
+    this.accumulated = this.calcService.calcAccumulated(this.contractIndicators, this.reference);
+    this.calcTotalAccumulated();
+  }
+
+  calcTotalAccumulated(): void { // calc total percent of accumulated
+    this.accumulatedResult = 0;
+    var summation = 0;
+    var weight = 0;
+    for (var j = 0; j < this.accumulated.length; j++) {
+      if (!this.accumulated[j].inactive) {
+        summation += this.accumulated[j].percent * this.contractIndicators[j].weight;
+        weight += this.contractIndicators[j].weight;
+      }
+    }
+    this.accumulatedResult = weight ? (summation / weight) : 0;
+  }
+
+  //
+  // Basket Functions
+  //
+
+  acordeonBasket(basketItem): void {
+    if (this.acordeonBasketSelected == basketItem) {
+      this.acordeonBasketSelected = undefined;
+    } else {
+      this.acordeonBasketSelected = basketItem;
+    }
+  }
+
+  meteringChangedBasket() {
+    this.loadContract();
+    this.calcBasketAccumulated();
+    this.calcAccumulated();
+    this.calcTotalReference();
+    this.calcTotalAccumulated();
+    this.acordeonBasketSelected = undefined;
+  }
+
+  calcBasketAccumulated(): void {
+    this.basketAccumulated = this.calcService.calcAccumulated(this.basket.basketItems, this.reference);
+  }
+
 }

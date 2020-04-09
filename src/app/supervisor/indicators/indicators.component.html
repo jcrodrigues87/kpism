@@ -1,24 +1,37 @@
-<div class="animated fadeIn">
+<div class="animated fadeIn" *ngIf="currentPeriod.id">
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
-        <!-- <div class="card-header">
-          <i class="fa fa-align-justify"></i> Striped Table
-        </div> -->
         <div class="card-body">
           <div class="row align-items-left">
             <div class="col-6 col-sm-4 col-md mb-3 mb-xl-0 text-left">
-              <button class="btn btn-sm btn-primary" (click)="addNew()"><i class="fa fa-dot-circle-o"></i> Novo</button>
+              <button *ngIf="!currentPeriod.closed" class="btn btn-sm btn-primary" (click)="addNew()"><i class="fa fa-dot-circle-o"></i> Novo</button>
+            </div>
+            <div class="input-group col-6 col-sm-4 col-md mb-3 mb-xl-0 text-left" 
+                 ngbPopover="Busque por qualquer campo do indicador. Cesta (Sim: true / Não: false)" 
+                 placement="bottom"
+                 triggers="mouseenter:mouseleave"
+                 container="body">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-magnifier"></i></span>
+              </div>
+              <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Pesquisar Indicador">
             </div>
           </div>
           <p></p>
-          <dynamic-table 
+          <dynamic-table *ngIf="indicators[0]; else notShow"
             [rows]="indicators" 
-            [columns]="['name','description','measure']" 
-            [titles]="['Nome','Descrição','Medida']"
+            [columns]="['name','department.name','basket']" 
+            [titles]="['Nome','Departamento','Cesta']"
             [viewButton]="true"
-            [viewButtonRoute]="'supervisor/indicators'">
+            [viewButtonRoute]="'supervisor/indicators'"
+            [filterText]="searchText">
           </dynamic-table>
+          <ng-template #notShow>
+            <hr>
+              <h4 align="center">Nenhum indicador cadastrado!</h4>
+            <hr>
+          </ng-template>
           <!-- <ul class="pagination">
             <li class="page-item"><a class="page-link" href="#">Prev</a></li>
             <li class="page-item active">

@@ -8,8 +8,8 @@ import { Router } from "@angular/router";
 })
 export class DepartmentsComponent implements OnInit {
 
-  // departments: Array<Department> = [];
   departments: Department[] = [];
+  searchText: String;
 
   constructor(
     private departmentsService: DepartmentsService,

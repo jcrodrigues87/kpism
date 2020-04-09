@@ -13,6 +13,7 @@ export class MenuTogglerComponent {
     private authService: AuthUserService,
     private router: Router
   ) { }
+  
   logout(): void {
     this.authService.purgeAuth();
     this.router.navigateByUrl('login');

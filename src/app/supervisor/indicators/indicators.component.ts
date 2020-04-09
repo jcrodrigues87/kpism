@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { IndicatorsService, Indicator } from "../../core";
+import { IndicatorsService, Indicator, CurrentPeriodService, Period } from "../../core";
 import { Router } from "@angular/router";
 
 @Component({
@@ -9,18 +9,30 @@ import { Router } from "@angular/router";
 export class IndicatorsComponent implements OnInit {
 
   indicators: Array<Indicator> = [];
+  currentPeriod: Period;
+  searchText: String;
 
   constructor(
     private indicatorsService: IndicatorsService,
+    private currentPeriodService: CurrentPeriodService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.indicatorsService.query().subscribe(
+    this.currentPeriodService.currentPeriod.subscribe(
       data => {
-        this.indicators = data;
-      }
-    );
+        this.reloadList(data);
+        if (this.currentPeriod.id) {
+          this.indicatorsService.query().subscribe(
+            data_two => {
+              this.indicators = data_two;
+          });
+        }
+    });
+  }
+
+  reloadList(data: Period): void {
+    this.currentPeriod = data;
   }
   
   addNew(): void {

@@ -5,6 +5,11 @@ export const navItems = [
     url: '/dashboard'
   },
   {
+    name: 'P.L.R',
+    url: '/plr',
+    icon: 'icon-list'
+  },
+  {
     title: true,
     name: 'Cadastros'
   },
@@ -21,12 +26,17 @@ export const navItems = [
   {
     name: 'Períodos',
     url: '/admin/periods',
-    icon: 'icon-puzzle'
+    icon: 'icon-calendar'
   },
   {
     name: 'Indicadores',
     url: '/supervisor/indicators',
-    icon: 'icon-puzzle'
+    icon: 'icon-list'
+  },
+  {
+    name: 'Contratos',
+    url: '/supervisor/contracts',
+    icon: 'icon-list'
   },
 
   // {

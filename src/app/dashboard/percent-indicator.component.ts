@@ -1,31 +1,31 @@
-import { Component, Input } from "@angular/core";
-import { Metering } from "../core";
+import { Component, Input, OnInit, OnChanges } from "@angular/core";
+
+import { registerLocaleData } from '@angular/common';
+import localeBr from '@angular/common/locales/br';
+registerLocaleData(localeBr, 'br');
 
 @Component({
   selector: 'percent-indicator',
   templateUrl: './percent-indicator.component.html'
 })
-export class PercentInicatorComponent {
+export class PercentInicatorComponent implements OnChanges {
+  @Input() percent: number;
+  @Input() refName: string;
 
-  otherMetering: Metering;
   type: string = 'success';
-  value: Number = 0;
   max: Number = 100;
 
-  @Input() set metering(metering: Metering) {
-    if (metering && metering !== undefined) {
-      this.otherMetering = metering;
-      
-      this.max = metering.percent > 100 ? metering.percent : 100;
-      this.value = metering.percent;
-
-      if (this.value > 90) {
-        this.type = 'success';
-      } else if (this.value > 70) {
-        this.type = 'warning';
-      } else {
-        this.type = 'danger';
-      }
+  ngOnChanges(): void {
+    this.max = this.percent > 100 ? this.percent : 100;
+    if (this.percent >= 120) {
+      this.type = 'primary';
+    } else if (this.percent >= 100) {
+      this.type = 'success';
+    } else if (this.percent >= 95) {
+      this.type = 'warning';
+    } else {
+      this.type = 'danger';
     }
   }
+
 }

@@ -5,9 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { ListErrorsComponent } from "./list-errors.component";
-import { DynamicTableComponent, ResponsablesTableComponent } from './tables';
+import { MessageAlertComponent } from "./message-alert.component";
+import { MeteringsEditorComponent } from "./meterings-editor.component";
+import { DynamicTableComponent } from './tables';
 import { IndicatorChartComponent } from './charts';
 
 
@@ -18,13 +21,15 @@ import { IndicatorChartComponent } from './charts';
     ChartsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    Ng2SearchPipeModule
   ],
   declarations: [
     ListErrorsComponent,
+    MessageAlertComponent,
     DynamicTableComponent,
     IndicatorChartComponent,
-    ResponsablesTableComponent
+    MeteringsEditorComponent
   ],
   exports: [
     CommonModule,
@@ -33,9 +38,10 @@ import { IndicatorChartComponent } from './charts';
     HttpClientModule,
     RouterModule,
     ListErrorsComponent,
+    MessageAlertComponent,
     DynamicTableComponent,
     IndicatorChartComponent,
-    ResponsablesTableComponent
+    MeteringsEditorComponent
   ]
 })
 export class SharedModule {

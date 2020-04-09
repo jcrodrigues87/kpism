@@ -3,16 +3,11 @@
     <!--/.col-->
     <div class="col-sm-12">
       <div class="card">
-        <!-- <div class="card-header">
-          <strong>Company</strong>
-          <small>Form</small>
-        </div> -->
         <div class="card-body">
           <div class="form-group">
             <button type="button" class="btn btn-sm btn-dark" (click)="back()"><i class="fa fa-angle-left"></i> Voltar</button>
           </div>
           <list-errors [errors]="errors"></list-errors>
-
           <form [formGroup]="userForm">
             <fieldset [disabled]="isSubmitting">
               <fieldset class="form-group">
@@ -20,11 +15,11 @@
                 <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name">
               </fieldset>
               <fieldset class="form-group">
-                <label for="email">E-Mail</label>
+                <label for="email">E-mail</label>
                 <input type="text" class="form-control" id="email" placeholder="E-mail" formControlName="email">
               </fieldset>
               <div class="row">
-                <fieldset class="form-group col-sm-2">
+                <fieldset class="form-group col-sm-3">
                   <label for="childOf">Departamento</label>
                   <ng-select  [items]="departments"
                               bindLabel="name"
@@ -32,23 +27,12 @@
                               formControlName="department" >
                   </ng-select>
                 </fieldset>
-              </div>
-              <div class="row">
                 <fieldset class="form-group col-sm-3">
                   <label for="role">Perfil</label>
                   <select class="form-control" id="role" formControlName="role">
                     <option value="user">Usuário</option>
                     <option value="supervisor">Supervisor</option>
                     <option value="admin">Administrador</option>
-                  </select>
-                </fieldset>
-              </div>
-              <div class="row">
-                <fieldset class="form-group col-sm-2">
-                  <label for="inactive">Inativo</label>
-                  <select class="form-control" id="inactive" formControlName="inactive">
-                    <option value="false">Não</option>
-                    <option value="true">Sim</option>
                   </select>
                 </fieldset>
               </div>

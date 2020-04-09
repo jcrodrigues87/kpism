@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="card-body">
+    <div class="form-horizontal">
+      <div *ngIf="errors" class="form-group row">
+          <list-errors [errors]="errors"></list-errors>
+      </div>
+      <div *ngIf="message" class="alert alert-success" role="alert" ><button class="btn btn-sm" (click)="closeMessage()"><i class="fa fa-times"></i></button>{{ message }}</div>
+      <div *ngIf="warning" class="alert alert-danger" role="alert" ><button class="btn btn-sm" (click)="closeMessage()"><i class="fa fa-times"></i></button>{{ warning }}</div>
+    </div>
+    <table class="table table-striped col-md-12">
+      <thead>
+        <tr>
+          <th class="text-center">
+            <button *ngIf="indicator && !currentPeriod.closed" class="btn btn-sm btn-primary" (click)="save()">Salvar</button>
+          </th>
+          <th class="text-center">Ref.</th>
+          <th class="text-center">Planejado</th>
+          <th class="text-center">Realizado</th>
+          <th *ngIf="showDelta" class="text-center">Desvio</th>
+          <th class="text-center">Percentual</th>
+          <th *ngIf="showInactive" class="text-center">Inativo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let meter of indicator.metering; let index = index">
+          <td align="center">{{ indicator.measure }}</td>
+          <td>{{ meter.refName }}</td>
+          <td>
+            <div class="input-group">
+              <input  class="form-control" 
+                      [readonly]="targetReadonly() || meter.inactive"
+                      type="number" 
+                      [(ngModel)]="meter.target" 
+                      (ngModelChange)="calc(meter)"
+                      step="0.01" 
+                      style="text-align: right;">
+            </div>
+          </td>
+          <td>
+            <div class="input-group">
+              <input  class="form-control" 
+                      [readonly]="actualReadonly(index) || meter.inactive"
+                      type="number" 
+                      [(ngModel)]="meter.actual" 
+                      (ngModelChange)="calc(meter)"
+                      step="0.01" 
+                      style="text-align: right;">
+            </div>
+          </td>
+          <td *ngIf="showDelta" style="text-align: right;">
+            {{ meter.difference | number: '1.2-2' : 'br' }}
+          </td>
+          <td style="text-align: right;">
+            {{ meter.percent | number: '1.2-2' : 'br' }}
+          </td>
+          <td *ngIf="showInactive" style="text-align: right;">
+              <input  class="form-control" 
+                      type="checkbox"                       
+                      [(ngModel)]="meter.inactive"
+                      (ngModelChange)="calc(meter)"
+                      >
+          </td>
+        </tr>
+        <tr>
+          <th class="text-center">
+            <button *ngIf="indicator && !currentPeriod.closed" class="btn btn-sm btn-primary" (click)="save()">Salvar</button>
+          </th>
+          <th class="text-center">Ref.</th>
+          <th class="text-center">Planejado</th>
+          <th class="text-center">Realizado</th>
+          <th *ngIf="showDelta" class="text-center">Desvio</th>
+          <th class="text-center">Percentual</th>
+          <th *ngIf="showInactive" class="text-center">Inativo</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

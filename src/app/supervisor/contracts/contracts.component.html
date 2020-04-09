@@ -1,0 +1,95 @@
+<div class="animated fadeIn" *ngIf="currentPeriod.id">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <label class="col-md-1 col-form-label" style="text-align: right">Usuário</label>
+        <div class="col-md-4">
+          <ng-select  [items]="users"
+                      bindLabel="name"
+                      placeholder="Usuário"
+                      groupBy="type"
+                      [(ngModel)]="selectedUser"
+                      (change)="loadContract()" >
+          </ng-select>
+        </div>
+        <div class="col-md-2">
+        </div>
+        <h3 *ngIf="!selectedUser" align="center">Selecione um usuário</h3>
+        <h3 *ngIf="selectedUser" align="center">{{ selectedUser.name }}</h3>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-14" *ngIf="selectedUser && !contract">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>{{ selectedUser.name }}</h1>
+            <h6 *ngIf="selectedUser.department">{{ selectedUser.department.name }} </h6>
+          </div>
+        </div>
+        <br>
+        <h3 align="center">Contrato inexistente</h3>
+      </div>
+    </div>
+  </div>
+  
+  <tabset *ngIf="selectedUser && contract">
+    <tab>
+      <ng-template tabHeading><i class="icon-chart"></i> Indicadores</ng-template>
+      <contract-indicator [contract]="contract"
+                          [user]="selectedUser"
+                          [currentPeriod]="currentPeriod">
+      </contract-indicator>
+    </tab>
+
+    <tab>
+      <ng-template tabHeading><i class="icon-badge"></i> Informações PLR</ng-template>
+      <list-errors [errors]="errors"></list-errors>
+      <div *ngIf="message" class="alert alert-success" role="alert" ><button class="btn btn-sm" (click)="closeMessage()"><i class="fa fa-times"></i></button>{{ message }}</div>    
+      <form [formGroup]="plrForm">
+        <div class="row">
+          <fieldset class="form-group col-sm-2">
+            <label for="salary">Salário</label>
+            <input type="number" step="1" class="form-control" id="salary" formControlName="salary">
+          </fieldset>
+          <fieldset class="form-group col-sm-5">
+            <label for="qualitative">Avaliação de desempenho</label>
+            <input type="number" step="1" class="form-control col-sm-6" id="qualitative" formControlName="qualitative">
+          </fieldset> 
+        </div>
+        <div class="row">
+          <fieldset class="form-group col-sm-2">
+            <label for="proportionalPeriod">Período proporcional</label>
+            <input type="number" step="1" class="form-control" id="proportionalPeriod" formControlName="proportionalPeriod">
+          </fieldset>
+          <fieldset class="form-group col-sm-5">
+            <label for="qualitativeWeight">Peso avaliação de desempenho</label>
+            <input type="number" step="1" class="form-control col-sm-6" id="qualitativeWeight" formControlName="qualitativeWeight">
+          </fieldset> 
+        </div> 
+        <div class="row">
+          <fieldset class="form-group col-sm-2">
+            <label for="bonus">Nível de Bônus</label>
+            <input type="number" step="1" class="form-control" id="bonus" formControlName="bonus">
+          </fieldset>
+          <fieldset class="form-group col-sm-5">
+            <label for="quantitativeWeight">Peso contrato de resultados</label>
+            <input type="number" step="1" class="form-control col-sm-6" id="quantitativeWeight" formControlName="quantitativeWeight">
+          </fieldset>  
+        </div>
+        <div class="row">
+          <fieldset class="form-group col-sm-2">
+            <label for="dependent">N. Dependentes</label>
+            <input type="number" step="1" class="form-control" id="dependent" formControlName="dependent">
+          </fieldset>
+        </div>
+      </form>
+      <div class="card-footer" *ngIf="!currentPeriod.closed">
+        <button class="btn btn-sm btn-primary" (click)="submitForm()"><i class="fa fa-dot-circle-o"></i> Salvar</button>
+      </div>
+    </tab>
+  </tabset>
+
+</div>
